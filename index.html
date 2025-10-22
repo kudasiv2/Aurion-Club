@@ -180,15 +180,16 @@
             gap: var(--spacing-sm);
         }
 
+        /* Logo diperkecil */
         .logo {
-            width: 45px;
-            height: 45px;
+            width: 30px; /* Diperkecil lagi untuk mobile */
+            height: 30px;
             filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
         }
 
         .logo__text {
             font-family: var(--font-heading);
-            font-size: var(--font-size-xl);
+            font-size: var(--font-size-base); /* Diperkecil untuk mobile */
             font-weight: 700;
             background: var(--gradient-gold);
             -webkit-background-clip: text;
@@ -238,7 +239,7 @@
 
         .nav__toggle {
             display: none;
-            font-size: var(--font-size-xl);
+            font-size: var(--font-size-lg); /* Diperkecil untuk mobile */
             cursor: pointer;
             color: var(--primary-gold);
         }
@@ -596,6 +597,80 @@
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-3xl);
             flex-wrap: wrap;
+        }
+
+        /* NEW: Active Investment Plans Section */
+        .active-plans-section {
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .active-plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .active-plan-card {
+            background: var(--gradient-elegant);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-xl);
+            transition: all var(--transition-normal);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-elegant);
+        }
+
+        .active-plan-card:hover {
+            border-color: var(--primary-gold);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-gold-lg);
+        }
+
+        .active-plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .active-plan-name {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .active-plan-status {
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .active-plan-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+
+        .active-plan-detail {
+            text-align: center;
+        }
+
+        .active-plan-label {
+            font-size: var(--font-size-sm);
+            color: var(--gray-400);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .active-plan-value {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--primary-gold);
         }
 
         .investments-table {
@@ -961,50 +1036,72 @@
             font-size: var(--font-size-lg);
         }
 
+        /* Enhanced Investment Success Popup - DIPERKECIL */
+        .investment-success-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .investment-success-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .investment-success {
-            text-align: center;
-            padding: var(--spacing-4xl);
             background: var(--gradient-elegant);
             border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: var(--radius-2xl);
-            display: none;
+            padding: var(--spacing-xl); /* DIPERKECIL */
+            text-align: center;
+            max-width: 400px; /* DIPERKECIL */
+            width: 90%;
             backdrop-filter: blur(10px);
             box-shadow: var(--shadow-elegant);
+            transform: scale(0.9);
+            transition: transform var(--transition-normal);
         }
 
-        .investment-success.active {
-            display: block;
+        .investment-success-popup.active .investment-success {
+            transform: scale(1);
         }
 
         .success-icon {
-            width: 120px;
-            height: 120px;
+            width: 80px; /* DIPERKECIL */
+            height: 80px; /* DIPERKECIL */
             background: var(--gradient-gold);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: var(--font-size-4xl);
+            font-size: var(--font-size-2xl); /* DIPERKECIL */
             color: var(--primary-black);
-            margin: 0 auto var(--spacing-xl);
+            margin: 0 auto var(--spacing-lg);
             box-shadow: var(--shadow-gold);
         }
 
         .investment-success h2 {
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
             color: var(--white);
             font-family: var(--font-heading);
-            font-size: var(--font-size-3xl);
+            font-size: var(--font-size-xl); /* DIPERKECIL */
         }
 
         .investment-success p {
             color: var(--gray-400);
-            margin-bottom: var(--spacing-2xl);
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-bottom: var(--spacing-xl);
             line-height: 1.6;
-            font-size: var(--font-size-lg);
+            font-size: var(--font-size-base); /* DIPERKECIL */
         }
 
         .success-actions {
@@ -1788,7 +1885,7 @@
             color: var(--gray-500);
         }
 
-        /* Responsive Design */
+        /* Responsive Design - DIPERBAIKI untuk mobile */
         @media (max-width: 1024px) {
             .hero__container {
                 grid-template-columns: 1fr;
@@ -1813,15 +1910,15 @@
         @media (max-width: 768px) {
             .nav__menu {
                 position: fixed;
-                top: 70px;
+                top: 60px; /* DIPERKECIL untuk mobile */
                 left: -100%;
                 width: 80%;
-                height: calc(100vh - 70px);
+                height: calc(100vh - 60px); /* DIPERKECIL untuk mobile */
                 background: var(--secondary-black);
                 flex-direction: column;
                 justify-content: flex-start;
                 align-items: flex-start;
-                padding: var(--spacing-2xl);
+                padding: var(--spacing-xl); /* DIPERKECIL */
                 transition: left var(--transition-normal);
                 border-right: 1px solid rgba(212, 175, 55, 0.1);
                 backdrop-filter: blur(20px);
@@ -1961,6 +2058,28 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: var(--spacing-sm);
+            }
+
+            /* Header lebih kecil di mobile */
+            .header {
+                padding: 0;
+            }
+            
+            .nav {
+                padding: var(--spacing-sm) 0; /* DIPERKECIL */
+            }
+            
+            .logo {
+                width: 25px; /* DIPERKECIL lagi untuk mobile kecil */
+                height: 25px;
+            }
+            
+            .logo__text {
+                font-size: var(--font-size-sm); /* DIPERKECIL lagi untuk mobile kecil */
+            }
+            
+            .nav__toggle {
+                font-size: var(--font-size-base); /* DIPERKECIL lagi untuk mobile kecil */
             }
         }
     </style>
@@ -2170,6 +2289,14 @@
                     </button>
                 </div>
 
+                <!-- NEW: Active Investment Plans Section -->
+                <div class="active-plans-section" id="activePlansSection" style="display: none;">
+                    <h3 style="margin-bottom: var(--spacing-xl); color: var(--white); font-family: var(--font-heading);">Active Investment Plans</h3>
+                    <div class="active-plans-grid" id="activePlansGrid">
+                        <!-- Active plans will be populated by JavaScript -->
+                    </div>
+                </div>
+
                 <!-- Active Investments -->
                 <div class="investments-table" id="investmentsSection" style="display: none;">
                     <table>
@@ -2280,28 +2407,30 @@
                     </div>
                 </div>
 
-                <!-- Investment Success -->
-                <div class="investment-success" id="investmentSuccess">
-                    <div class="success-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h2>Investment Successful!</h2>
-                    <p>Your investment has been processed successfully. You can now monitor your earnings in the dashboard.</p>
-                    <div class="success-actions">
-                        <button class="btn btn--primary" data-section="dashboard">
-                            <i class="fas fa-tachometer-alt"></i>
-                            Go to Dashboard
-                        </button>
-                        <button class="btn btn--outline" id="newInvestment">
-                            <i class="fas fa-plus"></i>
-                            New Investment
-                        </button>
+                <!-- Investment Success Popup - DIPERKECIL -->
+                <div class="investment-success-popup" id="investmentSuccessPopup">
+                    <div class="investment-success">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h2>Investment Successful!</h2>
+                        <p>Your investment has been processed successfully. You can now monitor your earnings in the dashboard.</p>
+                        <div class="success-actions">
+                            <button class="btn btn--primary" data-section="dashboard">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Go to Dashboard
+                            </button>
+                            <button class="btn btn--outline" id="newInvestment">
+                                <i class="fas fa-plus"></i>
+                                New Investment
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Referral Section -->
+        <!-- Referral Section - LINK REFERRAL DITAMBAHKAN -->
         <section class="referral-section section" id="referral" style="display: none;">
             <div class="container">
                 <div class="section__header">
@@ -2355,7 +2484,7 @@
                     </div>
                 </div>
 
-                <!-- Referral Link Section -->
+                <!-- Referral Link Section - DITAMBAHKAN -->
                 <div class="referral-link-container" id="referralLinkSection" style="display: none;">
                     <div class="section-header">
                         <h2>Your Exclusive Referral Link</h2>
@@ -2473,21 +2602,6 @@
                                 <span id="level4Count">0</span>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Bonus Claim Section -->
-                <div class="bonus-claim-section" id="bonusClaimSection" style="display: none;">
-                    <div class="claim-card">
-                        <div class="claim-info">
-                            <h3>Available Referral Bonus</h3>
-                            <p>You have unclaimed referral commissions ready for withdrawal</p>
-                            <div class="bonus-amount" id="claimableBonus">0 USDT</div>
-                        </div>
-                        <button class="btn btn--primary" id="claimBonus">
-                            <i class="fas fa-gift"></i>
-                            Claim Bonus
-                        </button>
                     </div>
                 </div>
 
@@ -2807,93 +2921,6 @@
                                     </div>
                                 </div>
 
-                                <div class="audit-finding">
-                                    <div class="finding-header">
-                                        <div class="finding-title">Access Control</div>
-                                        <div class="finding-severity severity-low">PASSED</div>
-                                    </div>
-                                    <div class="finding-description">
-                                        Proper access control mechanisms are in place. Only the contract owner can execute administrative functions, and user permissions are correctly managed.
-                                    </div>
-                                </div>
-
-                                <div class="audit-finding">
-                                    <div class="finding-header">
-                                        <div class="finding-title">Integer Overflow/Underflow</div>
-                                        <div class="finding-severity severity-low">PASSED</div>
-                                    </div>
-                                    <div class="finding-description">
-                                        All mathematical operations are protected against overflow and underflow vulnerabilities through SafeMath implementation.
-                                    </div>
-                                </div>
-
-                                <div class="audit-finding">
-                                    <div class="finding-header">
-                                        <div class="finding-title">Token Approval Race Condition</div>
-                                        <div class="finding-severity severity-medium">MEDIUM</div>
-                                    </div>
-                                    <div class="finding-description">
-                                        The contract uses the standard ERC20 approval method which is susceptible to front-running. Users should be aware to only approve the exact amount needed.
-                                    </div>
-                                </div>
-
-                                <div class="audit-finding">
-                                    <div class="finding-header">
-                                        <div class="finding-title">Withdrawal Limit Implementation</div>
-                                        <div class="finding-severity severity-medium">MEDIUM</div>
-                                    </div>
-                                    <div class="finding-description">
-                                        Daily withdrawal limits are properly enforced, but users should be made aware of this limitation in the UI to prevent confusion.
-                                    </div>
-                                </div>
-
-                                <div class="audit-finding">
-                                    <div class="finding-header">
-                                        <div class="finding-title">Event Emission</div>
-                                        <div class="finding-severity severity-low">LOW</div>
-                                    </div>
-                                    <div class="finding-description">
-                                        All critical state changes emit appropriate events, allowing for proper off-chain monitoring and transparency.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="whitepaper-chapter">
-                            <h3 class="chapter-title"><i class="fas fa-tasks"></i> Code Quality Assessment</h3>
-                            <div class="chapter-content">
-                                <div class="audit-finding">
-                                    <div class="finding-header">
-                                        <div class="finding-title">Code Readability</div>
-                                        <div class="finding-severity severity-low">EXCELLENT</div>
-                                    </div>
-                                    <div class="finding-description">
-                                        The contract code is well-documented with comprehensive NatSpec comments, making it easy to understand and audit.
-                                    </div>
-                                </div>
-
-                                <div class="audit-finding">
-                                    <div class="finding-header">
-                                        <div class="finding-title">Gas Optimization</div>
-                                        <div class="finding-severity severity-low">GOOD</div>
-                                    </div>
-                                    <div class="finding-description">
-                                        The contract implements gas-efficient patterns where possible, though some optimizations could further reduce transaction costs.
-                                    </div>
-                                </div>
-
-                                <div class="audit-finding">
-                                    <div class="finding-header">
-                                        <div class="finding-title">Error Handling</div>
-                                        <div class="finding-severity severity-low">GOOD</div>
-                                    </div>
-                                    <div class="finding-description">
-                                        Proper error messages and require statements are used throughout the contract to prevent invalid state changes.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="whitepaper-chapter">
                             <h3 class="chapter-title"><i class="fas fa-award"></i> Final Verdict</h3>
                             <div class="chapter-content">
@@ -3119,6 +3146,7 @@
         const navToggle = document.getElementById('nav-toggle');
         const connectWalletBtn = document.getElementById('connectWallet');
         const notification = document.getElementById('notification');
+        const investmentSuccessPopup = document.getElementById('investmentSuccessPopup');
 
         // Section Elements
         const sections = {
@@ -3252,7 +3280,6 @@
             document.getElementById('shareTelegram').addEventListener('click', () => shareOnSocial('telegram'));
             document.getElementById('shareTwitter').addEventListener('click', () => shareOnSocial('twitter'));
             document.getElementById('shareWhatsapp').addEventListener('click', () => shareOnSocial('whatsapp'));
-            document.getElementById('claimBonus').addEventListener('click', claimReferralBonus);
 
             // Wallet account changes
             if (window.ethereum) {
@@ -3385,7 +3412,6 @@
             document.getElementById('actionButtons').style.display = 'none';
             document.getElementById('referralStats').style.display = 'none';
             document.getElementById('referralLinkSection').style.display = 'none';
-            document.getElementById('bonusClaimSection').style.display = 'none';
         }
 
         function hideWalletAlerts() {
@@ -3397,7 +3423,6 @@
             document.getElementById('actionButtons').style.display = 'flex';
             document.getElementById('referralStats').style.display = 'grid';
             document.getElementById('referralLinkSection').style.display = 'block';
-            document.getElementById('bonusClaimSection').style.display = 'block';
         }
 
         // Contract Data Functions
@@ -3439,8 +3464,8 @@
                 // Update referral section
                 document.getElementById('totalTeam').textContent = userInfo.directReferrals;
                 document.getElementById('referralDirectReferrals').textContent = userInfo.directReferrals;
+                document.getElementById('totalBonus').textContent = `${web3.utils.fromWei(userInfo.referralBonus, 'ether')} USDT`;
                 document.getElementById('availableBonus').textContent = `${web3.utils.fromWei(userInfo.referralBonus, 'ether')} USDT`;
-                document.getElementById('claimableBonus').textContent = `${web3.utils.fromWei(userInfo.referralBonus, 'ether')} USDT`;
 
                 // Update level counts
                 updateLevelCounts(userInfo.directReferrals);
@@ -3464,18 +3489,27 @@
                 const tableBody = document.getElementById('investmentsTableBody');
                 const noInvestmentsMessage = document.getElementById('noInvestmentsMessage');
                 const investmentsSection = document.getElementById('investmentsSection');
+                const activePlansSection = document.getElementById('activePlansSection');
+                const activePlansGrid = document.getElementById('activePlansGrid');
 
                 if (investments.length === 0) {
                     noInvestmentsMessage.style.display = 'block';
                     investmentsSection.style.display = 'none';
+                    activePlansSection.style.display = 'none';
                     return;
                 }
 
                 noInvestmentsMessage.style.display = 'none';
                 investmentsSection.style.display = 'block';
+                activePlansSection.style.display = 'block';
 
                 tableBody.innerHTML = '';
+                activePlansGrid.innerHTML = '';
+                
                 const planNames = ['Starter Plan', 'Advanced Plan', 'Professional Plan', 'Premium Plan', 'VIP Plan'];
+                const planROIs = [1.00, 1.20, 1.50, 1.80, 2.00];
+                const planDurations = [150, 150, 150, 150, 150];
+                const planTotalROIs = [150, 180, 225, 270, 300];
 
                 for (let i = 0; i < investments.length; i++) {
                     const investment = investments[i];
@@ -3485,28 +3519,56 @@
                     const totalWithdrawn = web3.utils.fromWei(investment.totalWithdrawn, 'ether');
                     const isActive = investment.active;
 
+                    // Add to investments table
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${planNames[planId] || `Plan ${planId}`}</td>
                         <td>${parseFloat(amount).toFixed(2)} USDT</td>
                         <td>${startTime.toLocaleDateString()}</td>
-                        <td>${getDailyROIForPlan(planId)}%</td>
+                        <td>${planROIs[planId] || 1.00}%</td>
                         <td>${parseFloat(totalWithdrawn).toFixed(2)} USDT</td>
                         <td><span class="status-badge ${isActive ? 'status-active' : 'status-completed'}">${isActive ? 'Active' : 'Completed'}</span></td>
                     `;
                     tableBody.appendChild(row);
+
+                    // Add to active plans grid if active
+                    if (isActive) {
+                        const planCard = document.createElement('div');
+                        planCard.className = 'active-plan-card';
+                        planCard.innerHTML = `
+                            <div class="active-plan-header">
+                                <div class="active-plan-name">${planNames[planId] || `Plan ${planId}`}</div>
+                                <div class="active-plan-status">Active</div>
+                            </div>
+                            <div class="active-plan-details">
+                                <div class="active-plan-detail">
+                                    <div class="active-plan-label">Daily ROI</div>
+                                    <div class="active-plan-value">${planROIs[planId] || 1.00}%</div>
+                                </div>
+                                <div class="active-plan-detail">
+                                    <div class="active-plan-label">Days Duration</div>
+                                    <div class="active-plan-value">${planDurations[planId] || 150}</div>
+                                </div>
+                                <div class="active-plan-detail">
+                                    <div class="active-plan-label">Total Returns</div>
+                                    <div class="active-plan-value">${planTotalROIs[planId] || 150}%</div>
+                                </div>
+                                <div class="active-plan-detail">
+                                    <div class="active-plan-label">Invested</div>
+                                    <div class="active-plan-value">${parseFloat(amount).toFixed(2)} USDT</div>
+                                </div>
+                            </div>
+                        `;
+                        activePlansGrid.appendChild(planCard);
+                    }
                 }
 
             } catch (error) {
                 console.error('Error loading user investments:', error);
                 document.getElementById('noInvestmentsMessage').style.display = 'block';
                 document.getElementById('investmentsSection').style.display = 'none';
+                document.getElementById('activePlansSection').style.display = 'none';
             }
-        }
-
-        function getDailyROIForPlan(planId) {
-            const planROIs = [1.00, 1.20, 1.50, 1.80, 2.00];
-            return planROIs[planId] || 1.00;
         }
 
         function updateLevelCounts(directReferrals) {
@@ -3675,14 +3737,12 @@
         function showPlans() {
             document.getElementById('investmentPlans').style.display = 'grid';
             document.getElementById('investmentForm').classList.remove('active');
-            document.getElementById('investmentSuccess').classList.remove('active');
+            investmentSuccessPopup.classList.remove('active');
             selectedPlan = null;
         }
 
-        function showSuccess() {
-            document.getElementById('investmentPlans').style.display = 'none';
-            document.getElementById('investmentForm').classList.remove('active');
-            document.getElementById('investmentSuccess').classList.add('active');
+        function showSuccessPopup() {
+            investmentSuccessPopup.classList.add('active');
         }
 
         function updatePlanSummary() {
@@ -3812,7 +3872,7 @@
                 });
 
                 showNotification('Investment successful! 🎉', 'success');
-                showSuccess();
+                showSuccessPopup();
                 
                 // Reload user data
                 await loadUserData();
@@ -3878,11 +3938,6 @@
                 withdrawBtn.innerHTML = '<i class="fas fa-download"></i> Withdraw Earnings';
                 withdrawBtn.disabled = false;
             }
-        }
-
-        async function claimReferralBonus() {
-            // For now, use the same withdraw function since bonuses are included in available earnings
-            await withdrawEarnings();
         }
 
         // Referral Functions
