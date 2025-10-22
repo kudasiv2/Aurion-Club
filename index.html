@@ -2308,7 +2308,7 @@
                     </button>
                 </div>
 
-                <!-- PERBAIKAN: Active Investment Plans Section DITAMBAHKAN -->
+                <!-- Active Investment Plans Section -->
                 <div class="active-plans-section" id="activePlansSection" style="display: none;">
                     <h3 style="margin-bottom: var(--spacing-xl); color: var(--white); font-family: var(--font-heading); font-size: var(--font-size-2xl);">Active Investment Plans</h3>
                     <div class="active-plans-grid" id="activePlansGrid">
@@ -2508,7 +2508,7 @@
                     </div>
                 </div>
 
-                <!-- PERBAIKAN: Referral Link Section DITAMBAHKAN -->
+                <!-- Referral Link Section -->
                 <div class="referral-link-container" id="referralLinkSection" style="display: none;">
                     <h2>Your Exclusive Referral Link</h2>
                     <p>Share this link with your network and earn premium commissions from their investments</p>
@@ -3484,7 +3484,10 @@
                 console.error('Error loading user data:', error);
             }
         }
-
+        
+        // =================================================================
+        // == START PERBAIKAN / FIX ==
+        // =================================================================
         async function loadUserInvestments() {
             if (!contract || !userAccount) return;
 
@@ -3499,7 +3502,7 @@
                 if (investments.length === 0) {
                     noInvestmentsMessage.style.display = 'block';
                     investmentsSectionWrapper.style.display = 'none';
-                    activePlansSection.style.display = 'none';
+                    activePlansSection.style.display = 'none'; // Pastikan disembunyikan jika tidak ada investasi
                     return;
                 }
 
@@ -3514,7 +3517,7 @@
                 const planDurations = [150, 150, 150, 150, 150];
                 const planTotalROIs = [150, 180, 225, 270, 300];
 
-                let hasActivePlan = false;
+                let hasActivePlan = false; // Variabel untuk melacak plan aktif
 
                 for (let i = 0; i < investments.length; i++) {
                     const investment = investments[i];
@@ -3524,7 +3527,7 @@
                     const totalWithdrawn = web3.utils.fromWei(investment.totalWithdrawn, 'ether');
                     const isActive = investment.active;
 
-                    // Add to investments table
+                    // Tambahkan ke tabel riwayat investasi
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${planNames[planId] || `Plan ${planId}`}</td>
@@ -3536,9 +3539,9 @@
                     `;
                     tableBody.appendChild(row);
 
-                    // Add to active plans grid if active
+                    // Jika aktif, tambahkan ke grid plan aktif
                     if (isActive) {
-                        hasActivePlan = true;
+                        hasActivePlan = true; // Set flag menjadi true
                         const planCard = document.createElement('div');
                         planCard.className = 'active-plan-card';
                         planCard.innerHTML = `
@@ -3569,15 +3572,19 @@
                     }
                 }
                 
+                // BARIS YANG DIPERBAIKI: Tampilkan atau sembunyikan kontainer berdasarkan flag
                 activePlansSection.style.display = hasActivePlan ? 'block' : 'none';
 
             } catch (error) {
                 console.error('Error loading user investments:', error);
                 document.getElementById('noInvestmentsMessage').style.display = 'block';
                 document.getElementById('investmentsSectionWrapper').style.display = 'none';
-                document.getElementById('activePlansSection').style.display = 'none';
+                document.getElementById('activePlansSection').style.display = 'none'; // Sembunyikan jika error
             }
         }
+        // =================================================================
+        // == END PERBAIKAN / FIX ==
+        // =================================================================
 
         function updateLevelCounts(directReferrals) {
             document.getElementById('level1Count').textContent = directReferrals;
