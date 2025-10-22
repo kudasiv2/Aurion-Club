@@ -599,80 +599,6 @@
             flex-wrap: wrap;
         }
 
-        /* NEW: Active Investment Plans Section */
-        .active-plans-section {
-            margin-bottom: var(--spacing-3xl);
-        }
-
-        .active-plans-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--spacing-lg);
-        }
-
-        .active-plan-card {
-            background: var(--gradient-elegant);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-2xl);
-            padding: var(--spacing-xl);
-            transition: all var(--transition-normal);
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-elegant);
-        }
-
-        .active-plan-card:hover {
-            border-color: var(--primary-gold);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-gold-lg);
-        }
-
-        .active-plan-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-lg);
-            padding-bottom: var(--spacing-md);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .active-plan-name {
-            font-size: var(--font-size-lg);
-            font-weight: 600;
-            color: var(--white);
-        }
-
-        .active-plan-status {
-            padding: var(--spacing-xs) var(--spacing-md);
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-            background: rgba(16, 185, 129, 0.1);
-            color: #10B981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .active-plan-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-md);
-        }
-
-        .active-plan-detail {
-            text-align: center;
-        }
-
-        .active-plan-label {
-            font-size: var(--font-size-sm);
-            color: var(--gray-400);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .active-plan-value {
-            font-size: var(--font-size-lg);
-            font-weight: 600;
-            color: var(--primary-gold);
-        }
-
         .investments-table {
             background: var(--gradient-elegant);
             border: 1px solid rgba(212, 175, 55, 0.2);
@@ -2252,7 +2178,7 @@
                     <span>Please connect your wallet to view your dashboard</span>
                 </div>
 
-                <!-- Quick Stats -->
+                <!-- Quick Stats (REVISED) -->
                 <div class="quick-stats" id="quickStats" style="display: none;">
                     <div class="stat-card">
                         <div class="stat-icon">
@@ -2274,20 +2200,20 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="totalWithdrawn">0 USDT</div>
+                            <div class="stat-label">Total Withdrawn</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
                             <i class="fas fa-gift"></i>
                         </div>
                         <div class="stat-info">
                             <div class="stat-value" id="referralBonus">0 USDT</div>
                             <div class="stat-label">Referral Bonus</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="directReferrals">0</div>
-                            <div class="stat-label">Direct Referrals</div>
                         </div>
                     </div>
                 </div>
@@ -2307,26 +2233,8 @@
                         Referral Program
                     </button>
                 </div>
-
-                <!-- Active Investment Plans Section -->
-                <div class="active-plans-section" id="activePlansSection" style="display: none;">
-                    <h3 style="margin-bottom: var(--spacing-xl); color: var(--white); font-family: var(--font-heading); font-size: var(--font-size-2xl);">Active Investment Plans</h3>
-                    <div class="active-plans-grid" id="activePlansGrid">
-                        <!-- Kartu plan aktif akan diisi oleh JavaScript -->
-                    </div>
-                </div>
                 
-                <!-- NEW: Message for users with history but no active plans -->
-                <div class="empty-state" id="noActiveInvestmentsMessage" style="display: none; padding: var(--spacing-2xl);">
-                    <div class="empty-icon" style="width: 60px; height: 60px; font-size: var(--font-size-2xl);">
-                        <i class="fas fa-history"></i>
-                    </div>
-                    <h3>No Active Plans</h3>
-                    <p style="margin-bottom: 0;">You don't have any currently active investment plans. Your full investment history is available below.</p>
-                </div>
-
-
-                <!-- Active Investments Table -->
+                <!-- Investment History Table -->
                  <div id="investmentsSectionWrapper" style="display: none;">
                     <h3 style="margin-bottom: var(--spacing-xl); color: var(--white); font-family: var(--font-heading); font-size: var(--font-size-2xl);">Investment History</h3>
                     <div class="investments-table" id="investmentsSection">
@@ -3183,14 +3091,11 @@
                 const question = item.querySelector('.faq-question');
                 
                 question.addEventListener('click', () => {
-                    // Close all other FAQ items
                     faqItems.forEach(otherItem => {
                         if (otherItem !== item) {
                             otherItem.classList.remove('active');
                         }
                     });
-                    
-                    // Toggle current item
                     item.classList.toggle('active');
                 });
             });
@@ -3213,14 +3118,9 @@
             if (typeof window.ethereum !== 'undefined') {
                 try {
                     web3 = new Web3(window.ethereum);
-                    
-                    // Initialize contracts
                     contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                     usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-                    
                     console.log('Web3 and contracts initialized successfully');
-
-                    // Check if wallet is already connected
                     const accounts = await web3.eth.getAccounts();
                     if (accounts.length > 0) {
                         userAccount = accounts[0];
@@ -3238,46 +3138,24 @@
 
         // Setup Event Listeners
         function setupEventListeners() {
-            // Navigation
             navToggle.addEventListener('click', toggleNavMenu);
-            
             document.addEventListener('click', (e) => {
                 if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
                     navMenu.classList.remove('active');
                 }
             });
-            
-            document.querySelectorAll('.nav__link').forEach(link => {
-                link.addEventListener('click', (e) => {
+            document.querySelectorAll('.nav__link, .footer-link, button[data-section]').forEach(el => {
+                el.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const section = e.target.getAttribute('data-section');
-                    showSection(section);
-                    navMenu.classList.remove('active');
-                });
-            });
-
-            document.querySelectorAll('.footer-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const section = e.target.getAttribute('data-section');
-                    showSection(section);
-                });
-            });
-
-            document.querySelectorAll('button[data-section]').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const targetButton = e.target.closest('button');
-                    if(targetButton){
-                        const section = targetButton.getAttribute('data-section');
+                    const targetElement = e.target.closest('[data-section]');
+                    if (targetElement) {
+                        const section = targetElement.getAttribute('data-section');
                         showSection(section);
+                        navMenu.classList.remove('active');
                     }
                 });
             });
-
-            // Wallet connection
             connectWalletBtn.addEventListener('click', connectWallet);
-
-            // Investment related
             document.getElementById('backToPlans').addEventListener('click', showPlans);
             document.getElementById('confirmInvestment').addEventListener('click', confirmInvestment);
             document.getElementById('newInvestment').addEventListener('click', () => {
@@ -3285,40 +3163,25 @@
                 showPlans();
             });
             document.getElementById('investmentAmount').addEventListener('input', updateInvestmentSummary);
-            
             investmentSuccessPopup.addEventListener('click', (e) => {
                 if (e.target === investmentSuccessPopup) {
                     investmentSuccessPopup.classList.remove('active');
                 }
             });
-
-
-            // Withdraw earnings
             document.getElementById('withdrawEarnings').addEventListener('click', withdrawEarnings);
-
-            // Referral related
             document.getElementById('copyLink').addEventListener('click', copyReferralLink);
             document.getElementById('shareTelegram').addEventListener('click', () => shareOnSocial('telegram'));
             document.getElementById('shareTwitter').addEventListener('click', () => shareOnSocial('twitter'));
             document.getElementById('shareWhatsapp').addEventListener('click', () => shareOnSocial('whatsapp'));
 
-            // Wallet account changes
             if (window.ethereum) {
                 window.ethereum.on('accountsChanged', (accounts) => {
-                    if (accounts.length === 0) {
-                        userAccount = null;
-                        updateWalletUI();
-                        showWalletAlerts();
-                    } else {
-                        userAccount = accounts[0];
-                        updateWalletUI();
-                        loadContractData();
-                    }
+                    userAccount = accounts.length > 0 ? accounts[0] : null;
+                    updateWalletUI();
+                    if(userAccount) loadContractData();
+                    else showWalletAlerts();
                 });
-
-                window.ethereum.on('chainChanged', () => {
-                    window.location.reload();
-                });
+                window.ethereum.on('chainChanged', () => window.location.reload());
             }
         }
 
@@ -3331,22 +3194,14 @@
             Object.values(sections).forEach(section => {
                 if (section) section.style.display = 'none';
             });
-
-            document.querySelectorAll('.nav__link').forEach(link => {
-                link.classList.remove('active');
-            });
-
+            document.querySelectorAll('.nav__link').forEach(link => link.classList.remove('active'));
             if (sections[sectionName]) {
                 sections[sectionName].style.display = 'block';
-                window.scrollTo(0, 0); 
-                
+                window.scrollTo(0, 0);
                 const navLink = document.querySelector(`.nav__link[data-section="${sectionName}"]`);
                 if (navLink) navLink.classList.add('active');
-                
-                if (sectionName === 'dashboard' && userAccount) {
-                    loadDashboardData();
-                } else if (sectionName === 'referral' && userAccount) {
-                    loadReferralData();
+                if ((sectionName === 'dashboard' || sectionName === 'referral') && userAccount) {
+                    loadUserData();
                 }
             }
         }
@@ -3354,38 +3209,20 @@
         // Wallet Functions
         async function connectWallet() {
             if (typeof window.ethereum === 'undefined') {
-                showNotification('Please install MetaMask!', 'error');
-                return;
+                return showNotification('Please install MetaMask!', 'error');
             }
-
             try {
                 const chainId = await window.ethereum.request({ method: 'eth_chainId' });
                 if (chainId !== '0x38') { // BSC Mainnet
                     try {
-                        await window.ethereum.request({
-                            method: 'wallet_switchEthereumChain',
-                            params: [{ chainId: '0x38' }],
-                        });
+                        await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
                     } catch (switchError) {
                         if (switchError.code === 4902) {
-                            await window.ethereum.request({
-                                method: 'wallet_addEthereumChain',
-                                params: [{
-                                    chainId: '0x38',
-                                    chainName: 'Binance Smart Chain',
-                                    nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
-                                    rpcUrls: ['https://bsc-dataseed.binance.org/'],
-                                    blockExplorerUrls: ['https://bscscan.com/']
-                                }]
-                            });
-                        } else {
-                           throw switchError;
-                        }
+                            await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{ chainId: '0x38', chainName: 'Binance Smart Chain', nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }, rpcUrls: ['https://bsc-dataseed.binance.org/'], blockExplorerUrls: ['https://bscscan.com/'] }] });
+                        } else { throw switchError; }
                     }
                 }
-
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
                 if (accounts.length > 0) {
                     userAccount = accounts[0];
                     updateWalletUI();
@@ -3409,45 +3246,25 @@
         }
 
         function showWalletAlerts() {
-            document.getElementById('dashboardWalletAlert').style.display = 'flex';
-            document.getElementById('investWalletAlert').style.display = 'flex';
-            document.getElementById('referralWalletAlert').style.display = 'flex';
-            
-            document.getElementById('quickStats').style.display = 'none';
-            document.getElementById('actionButtons').style.display = 'none';
-            document.getElementById('activePlansSection').style.display = 'none';
-            document.getElementById('investmentsSectionWrapper').style.display = 'none';
-            document.getElementById('noInvestmentsMessage').style.display = 'none';
-            document.getElementById('noActiveInvestmentsMessage').style.display = 'none';
-            document.getElementById('referralStats').style.display = 'none';
-            document.getElementById('referralLinkSection').style.display = 'none';
+            ['dashboardWalletAlert', 'investWalletAlert', 'referralWalletAlert'].forEach(id => document.getElementById(id).style.display = 'flex');
+            ['quickStats', 'actionButtons', 'investmentsSectionWrapper', 'noInvestmentsMessage', 'referralStats', 'referralLinkSection'].forEach(id => document.getElementById(id).style.display = 'none');
         }
 
         function hideWalletAlerts() {
-            document.getElementById('dashboardWalletAlert').style.display = 'none';
-            document.getElementById('investWalletAlert').style.display = 'none';
-            document.getElementById('referralWalletAlert').style.display = 'none';
-            
-            document.getElementById('quickStats').style.display = 'grid';
+            ['dashboardWalletAlert', 'investWalletAlert', 'referralWalletAlert'].forEach(id => document.getElementById(id).style.display = 'none');
+            ['quickStats', 'actionButtons', 'referralStats', 'referralLinkSection'].forEach(id => document.getElementById(id).style.display = 'grid');
             document.getElementById('actionButtons').style.display = 'flex';
-            document.getElementById('referralStats').style.display = 'grid';
-            document.getElementById('referralLinkSection').style.display = 'block';
         }
 
         // Contract Data Functions
         async function loadContractData() {
             if (!contract) return;
-
             try {
-                const contractBalance = await contract.methods.getContractBalance().call();
-                const contractBalanceFormatted = web3.utils.fromWei(contractBalance, 'ether');
-                document.getElementById('contractBalance').textContent = `${parseFloat(contractBalanceFormatted).toFixed(2)} USDT`;
-                document.getElementById('totalTVL').textContent = `$${parseFloat(contractBalanceFormatted).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-
-                if (userAccount) {
-                    await loadUserData();
-                }
-
+                const balance = await contract.methods.getContractBalance().call();
+                const formattedBalance = parseFloat(web3.utils.fromWei(balance, 'ether')).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('contractBalance').textContent = `${formattedBalance} USDT`;
+                document.getElementById('totalTVL').textContent = `$${formattedBalance}`;
+                if (userAccount) await loadUserData();
             } catch (error) {
                 console.error('Error loading contract data:', error);
             }
@@ -3455,16 +3272,15 @@
 
         async function loadUserData() {
             if (!contract || !userAccount) return;
-
             try {
                 const userInfo = await contract.methods.getUserInfo(userAccount).call();
                 const availableEarnings = await contract.methods.calculateAvailableEarnings(userAccount).call();
-
+                
                 document.getElementById('totalDeposits').textContent = `${parseFloat(web3.utils.fromWei(userInfo.totalDeposits, 'ether')).toFixed(2)} USDT`;
                 document.getElementById('availableEarnings').textContent = `${parseFloat(web3.utils.fromWei(availableEarnings, 'ether')).toFixed(2)} USDT`;
+                document.getElementById('totalWithdrawn').textContent = `${parseFloat(web3.utils.fromWei(userInfo.totalWithdrawn, 'ether')).toFixed(2)} USDT`;
                 document.getElementById('referralBonus').textContent = `${parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2)} USDT`;
-                document.getElementById('directReferrals').textContent = userInfo.directReferrals;
-
+                
                 document.getElementById('totalTeam').textContent = userInfo.directReferrals;
                 document.getElementById('referralDirectReferrals').textContent = userInfo.directReferrals;
                 document.getElementById('totalBonus').textContent = `${parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2)} USDT`;
@@ -3473,141 +3289,72 @@
                 updateLevelCounts(userInfo.directReferrals);
                 await loadUserInvestments();
                 generateReferralLink();
-
             } catch (error) {
                 console.error('Error loading user data:', error);
             }
         }
         
         // =================================================================
-        // == START PERBAIKAN / FIX v2.0 ==
+        // == START REVISED JAVASCRIPT LOGIC ==
         // =================================================================
         async function loadUserInvestments() {
             if (!contract || !userAccount) return;
 
-            // DOM elements
             const tableBody = document.getElementById('investmentsTableBody');
             const investmentsSectionWrapper = document.getElementById('investmentsSectionWrapper');
-            const activePlansSection = document.getElementById('activePlansSection');
-            const activePlansGrid = document.getElementById('activePlansGrid');
             const noInvestmentsMessage = document.getElementById('noInvestmentsMessage');
-            const noActiveInvestmentsMessage = document.getElementById('noActiveInvestmentsMessage');
 
-            // Reset UI state
             tableBody.innerHTML = '';
-            activePlansGrid.innerHTML = '';
             investmentsSectionWrapper.style.display = 'none';
-            activePlansSection.style.display = 'none';
             noInvestmentsMessage.style.display = 'none';
-            noActiveInvestmentsMessage.style.display = 'none';
 
             try {
-                console.log('Fetching user investments for account:', userAccount);
                 const investments = await contract.methods.getUserInvestments(userAccount).call();
-                // PENTING: Lihat data mentah dari smart contract di konsol browser (F12)
-                console.log('Data received from smart contract:', investments);
 
                 if (investments.length === 0) {
                     noInvestmentsMessage.style.display = 'block';
                     return;
                 }
 
-                // Jika ada riwayat, tampilkan tabelnya
                 investmentsSectionWrapper.style.display = 'block';
                 
                 const planNames = ['Starter Plan', 'Advanced Plan', 'Professional Plan', 'Premium Plan', 'VIP Plan'];
                 const planROIs = [1.00, 1.20, 1.50, 1.80, 2.00];
-                const planDurations = [150, 150, 150, 150, 150];
-                const planTotalROIs = [150, 180, 225, 270, 300];
-                let hasActivePlan = false;
 
                 for (const investment of investments) {
-                    const isActive = investment.active;
-                    
-                    // Isi tabel riwayat
-                    const amount = web3.utils.fromWei(investment.amount, 'ether');
-                    const planId = investment.planId;
-                    const startTime = new Date(investment.startTime * 1000);
-                    const totalWithdrawn = web3.utils.fromWei(investment.totalWithdrawn, 'ether');
-                    
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${planNames[planId] || `Plan ${planId}`}</td>
-                        <td>${parseFloat(amount).toFixed(2)} USDT</td>
-                        <td>${startTime.toLocaleDateString()}</td>
-                        <td>${planROIs[planId] || 1.00}%</td>
-                        <td>${parseFloat(totalWithdrawn).toFixed(2)} USDT</td>
-                        <td><span class="status-badge ${isActive ? 'status-active' : 'status-completed'}">${isActive ? 'Active' : 'Completed'}</span></td>
+                        <td>${planNames[investment.planId] || `Plan ${investment.planId}`}</td>
+                        <td>${parseFloat(web3.utils.fromWei(investment.amount, 'ether')).toFixed(2)} USDT</td>
+                        <td>${new Date(investment.startTime * 1000).toLocaleDateString()}</td>
+                        <td>${planROIs[investment.planId] || 1.00}%</td>
+                        <td>${parseFloat(web3.utils.fromWei(investment.totalWithdrawn, 'ether')).toFixed(2)} USDT</td>
+                        <td><span class="status-badge ${investment.active ? 'status-active' : 'status-completed'}">${investment.active ? 'Active' : 'Completed'}</span></td>
                     `;
                     tableBody.appendChild(row);
-
-                    // Jika aktif, isi grid plan aktif
-                    if (isActive) {
-                        hasActivePlan = true;
-                        const planCard = document.createElement('div');
-                        planCard.className = 'active-plan-card';
-                        planCard.innerHTML = `
-                            <div class="active-plan-header">
-                                <div class="active-plan-name">${planNames[planId] || `Plan ${planId}`}</div>
-                                <div class="active-plan-status">Active</div>
-                            </div>
-                            <div class="active-plan-details">
-                                <div class="active-plan-detail">
-                                    <div class="active-plan-label">Daily ROI</div>
-                                    <div class="active-plan-value">${planROIs[planId] || 1.00}%</div>
-                                </div>
-                                <div class="active-plan-detail">
-                                    <div class="active-plan-label">Duration</div>
-                                    <div class="active-plan-value">${planDurations[planId] || 150} Days</div>
-                                </div>
-                                <div class="active-plan-detail">
-                                    <div class="active-plan-label">Total Returns</div>
-                                    <div class="active-plan-value">${planTotalROIs[planId] || 150}%</div>
-                                </div>
-                                <div class="active-plan-detail">
-                                    <div class="active-plan-label">Invested</div>
-                                    <div class="active-plan-value">${parseFloat(amount).toFixed(2)} USDT</div>
-                                </div>
-                            </div>
-                        `;
-                        activePlansGrid.appendChild(planCard);
-                    }
-                }
-                
-                // Logika Tampilan Final
-                if (hasActivePlan) {
-                    activePlansSection.style.display = 'block';
-                    noActiveInvestmentsMessage.style.display = 'none';
-                } else {
-                    activePlansSection.style.display = 'none';
-                    noActiveInvestmentsMessage.style.display = 'block'; // Tampilkan pesan "tidak ada yang aktif"
                 }
 
             } catch (error) {
                 console.error('Failed to fetch user investments:', error);
-                // Jika terjadi error, sembunyikan semuanya kecuali pesan error (jika ada)
                 noInvestmentsMessage.style.display = 'block';
                 noInvestmentsMessage.querySelector('h3').textContent = 'Error Loading Data';
-                noInvestmentsMessage.querySelector('p').textContent = 'Could not fetch investment data from the blockchain. Please refresh and try again.';
+                noInvestmentsMessage.querySelector('p').textContent = 'Could not fetch investment data from the blockchain.';
             }
         }
         // =================================================================
-        // == END PERBAIKAN / FIX v2.0 ==
+        // == END REVISED JAVASCRIPT LOGIC ==
         // =================================================================
 
         function updateLevelCounts(directReferrals) {
-            document.getElementById('level1Count').textContent = directReferrals;
-            document.getElementById('level2Count').textContent = directReferrals;
-            document.getElementById('level3Count').textContent = directReferrals;
-            document.getElementById('level4Count').textContent = directReferrals;
+            ['level1Count', 'level2Count', 'level3Count', 'level4Count'].forEach(id => {
+                document.getElementById(id).textContent = directReferrals;
+            });
         }
 
         function generateReferralLink() {
-            const referralLinkInput = document.getElementById('referralLink');
-            if (referralLinkInput && userAccount) {
-                const baseUrl = window.location.origin + window.location.pathname;
-                const link = `${baseUrl}?ref=${userAccount}`;
-                referralLinkInput.value = link;
+            const linkInput = document.getElementById('referralLink');
+            if (linkInput && userAccount) {
+                linkInput.value = `${window.location.origin}${window.location.pathname}?ref=${userAccount}`;
             }
         }
 
@@ -3622,7 +3369,6 @@
                 {id: 3, name: 'Premium Plan', roi: '1.8% Daily', range: '5,000 - 9,999 USDT', duration: '150 Days', total: '270% Total ROI', features: ['1.8% Daily ROI', '150 Days Duration', '270% Total Returns', '4-Level Referral'], featured: false},
                 {id: 4, name: 'VIP Plan', roi: '2% Daily', range: '10,000+ USDT', duration: '150 Days', total: '300% Total ROI', features: ['2% Daily ROI', '150 Days Duration', '300% Total Returns', '4-Level Referral'], featured: false}
             ];
-
             plansContainer.innerHTML = plans.map(plan => `
                 <div class="plan-card ${plan.featured ? 'featured' : ''}" data-plan-id="${plan.id}">
                     ${plan.featured ? '<div class="plan-badge">Popular</div>' : ''}
@@ -3631,47 +3377,38 @@
                     <div class="plan-range">${plan.range}</div>
                     <div class="plan-duration">${plan.duration}</div>
                     <div class="plan-total">${plan.total}</div>
-                    <ul class="plan-features">
-                        ${plan.features.map(feature => `<li><i class="fas fa-check"></i> ${feature}</li>`).join('')}
-                    </ul>
-                    <button class="btn btn--primary">
-                        <i class="fas fa-arrow-right"></i>
-                        Select Plan
-                    </button>
+                    <ul class="plan-features">${plan.features.map(f => `<li><i class="fas fa-check"></i> ${f}</li>`).join('')}</ul>
+                    <button class="btn btn--primary"><i class="fas fa-arrow-right"></i> Select Plan</button>
                 </div>
             `).join('');
-
             document.querySelectorAll('.plan-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    const planId = parseInt(e.currentTarget.getAttribute('data-plan-id'));
-                    selectPlan(planId);
-                });
+                card.addEventListener('click', (e) => selectPlan(parseInt(e.currentTarget.getAttribute('data-plan-id'))));
             });
         }
 
         function selectPlan(planId) {
-            if (!userAccount) {
-                showNotification('Please connect your wallet first', 'error');
-                return;
-            }
-            const plans = [
-                { id: 0, name: 'Starter Plan', roi: '1% Daily', minAmount: 20, maxAmount: 499 },
-                { id: 1, name: 'Advanced Plan', roi: '1.2% Daily', minAmount: 500, maxAmount: 1999 },
-                { id: 2, name: 'Professional Plan', roi: '1.5% Daily', minAmount: 2000, maxAmount: 4999 },
-                { id: 3, name: 'Premium Plan', roi: '1.8% Daily', minAmount: 5000, maxAmount: 9999 },
-                { id: 4, name: 'VIP Plan', roi: '2% Daily', minAmount: 10000, maxAmount: 999999 }
+            if (!userAccount) return showNotification('Please connect your wallet first', 'error');
+            const plansData = [
+                { id: 0, name: 'Starter Plan', roi: '1% Daily', min: 20, max: 499 },
+                { id: 1, name: 'Advanced Plan', roi: '1.2% Daily', min: 500, max: 1999 },
+                { id: 2, name: 'Professional Plan', roi: '1.5% Daily', min: 2000, max: 4999 },
+                { id: 3, name: 'Premium Plan', roi: '1.8% Daily', min: 5000, max: 9999 },
+                { id: 4, name: 'VIP Plan', roi: '2% Daily', min: 10000, max: Infinity }
             ];
-            selectedPlan = plans.find(plan => plan.id === planId);
-            if (selectedPlan) {
-                showInvestmentForm();
-            }
+            selectedPlan = plansData.find(p => p.id === planId);
+            if (selectedPlan) showInvestmentForm();
         }
 
         function showInvestmentForm() {
             document.getElementById('investmentPlans').style.display = 'none';
             document.getElementById('investmentForm').classList.add('active');
-            updatePlanSummary();
-            updateAmountRange();
+            document.getElementById('selectedPlanSummary').innerHTML = `<div class="plan-name">${selectedPlan.name}</div><div class="plan-roi">${selectedPlan.roi}</div>`;
+            const maxText = selectedPlan.max === Infinity ? 'Unlimited' : selectedPlan.max;
+            document.getElementById('amountRange').textContent = `Minimum: ${selectedPlan.min} USDT, Maximum: ${maxText} USDT`;
+            const amountInput = document.getElementById('investmentAmount');
+            amountInput.min = selectedPlan.min;
+            amountInput.max = selectedPlan.max === Infinity ? '' : selectedPlan.max;
+            amountInput.value = selectedPlan.min;
             updateInvestmentSummary();
         }
 
@@ -3681,80 +3418,48 @@
             selectedPlan = null;
         }
 
-        function updatePlanSummary() {
-            const summaryElement = document.getElementById('selectedPlanSummary');
-            if (!summaryElement || !selectedPlan) return;
-            summaryElement.innerHTML = `
-                <div class="plan-name">${selectedPlan.name}</div>
-                <div class="plan-roi">${selectedPlan.roi}</div>
-            `;
-        }
-
-        function updateAmountRange() {
-            const rangeElement = document.getElementById('amountRange');
-            const amountInput = document.getElementById('investmentAmount');
-            if (!rangeElement || !amountInput || !selectedPlan) return;
-            const maxText = selectedPlan.maxAmount === 999999 ? 'Unlimited' : selectedPlan.maxAmount;
-            rangeElement.textContent = `Minimum: ${selectedPlan.minAmount} USDT, Maximum: ${maxText} USDT`;
-            amountInput.min = selectedPlan.minAmount;
-            amountInput.max = selectedPlan.maxAmount === 999999 ? '' : selectedPlan.maxAmount;
-            amountInput.value = selectedPlan.minAmount;
-        }
-
         function updateInvestmentSummary() {
-            const amountInput = document.getElementById('investmentAmount');
-            if (!amountInput || !selectedPlan) return;
-            const amount = parseFloat(amountInput.value) || 0;
-            const platformFee = amount * 0.10; // 10%
+            const amount = parseFloat(document.getElementById('investmentAmount').value) || 0;
+            const fee = amount * 0.10;
             document.getElementById('summaryAmount').textContent = `${amount.toFixed(2)} USDT`;
-            document.getElementById('summaryFee').textContent = `${platformFee.toFixed(2)} USDT`;
+            document.getElementById('summaryFee').textContent = `${fee.toFixed(2)} USDT`;
             document.getElementById('summaryTotal').textContent = `${amount.toFixed(2)} USDT`;
         }
         
         async function confirmInvestment() {
-            if (!contract || !userAccount) { showNotification('Please connect wallet', 'error'); return; }
-            if (!selectedPlan) { showNotification('Please select a plan', 'error'); return; }
-
-            const amountInput = document.getElementById('investmentAmount');
-            const amount = parseFloat(amountInput.value) || 0;
-
-            if (amount < selectedPlan.minAmount) { showNotification(`Minimum is ${selectedPlan.minAmount} USDT`, 'error'); return; }
-            if (selectedPlan.maxAmount !== 999999 && amount > selectedPlan.maxAmount) { showNotification(`Maximum is ${selectedPlan.maxAmount} USDT`, 'error'); return; }
-
-            let refAddr = document.getElementById('referrerAddress').value.trim();
-            refAddr = refAddr || referralAddress || '0x0000000000000000000000000000000000000000';
-            if (!web3.utils.isAddress(refAddr)) { showNotification('Invalid referrer address', 'error'); return; }
+            if (!contract || !userAccount) return showNotification('Please connect wallet', 'error');
+            if (!selectedPlan) return showNotification('Please select a plan', 'error');
+            const amount = parseFloat(document.getElementById('investmentAmount').value) || 0;
+            if (amount < selectedPlan.min || (selectedPlan.max !== Infinity && amount > selectedPlan.max)) {
+                return showNotification(`Amount must be between ${selectedPlan.min} and ${selectedPlan.max === Infinity ? '∞' : selectedPlan.max} USDT`, 'error');
+            }
+            let refAddr = document.getElementById('referrerAddress').value.trim() || referralAddress || '0x0000000000000000000000000000000000000000';
+            if (!web3.utils.isAddress(refAddr)) return showNotification('Invalid referrer address', 'error');
             
             const confirmBtn = document.getElementById('confirmInvestment');
+            confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            confirmBtn.disabled = true;
+
             try {
-                confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-                confirmBtn.disabled = true;
-
                 const amountWei = web3.utils.toWei(amount.toString(), 'ether');
-                const usdtBalance = await usdtContract.methods.balanceOf(userAccount).call();
-                if (new BigNumber(usdtBalance).isLessThan(new BigNumber(amountWei))) {
-                    throw new Error(`Insufficient USDT balance. You have ${web3.utils.fromWei(usdtBalance, 'ether')} USDT`);
+                const balance = await usdtContract.methods.balanceOf(userAccount).call();
+                if (new BigNumber(balance).isLessThan(new BigNumber(amountWei))) {
+                    throw new Error(`Insufficient USDT. You have ${web3.utils.fromWei(balance, 'ether')} USDT`);
                 }
-
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (new BigNumber(allowance).isLessThan(new BigNumber(amountWei))) {
                     showNotification('Approving USDT...', 'info');
-                    const maxApproval = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
-                    await usdtContract.methods.approve(CONTRACT_ADDRESS, maxApproval).send({ from: userAccount });
+                    await usdtContract.methods.approve(CONTRACT_ADDRESS, '115792089237316195423570985008687907853269984665640564039457584007913129639935').send({ from: userAccount });
                     showNotification('Approval successful!', 'success');
                 }
-
                 showNotification('Depositing...', 'info');
                 await contract.methods.deposit(amountWei, selectedPlan.id, refAddr).send({ from: userAccount });
-
                 showNotification('Investment successful! 🎉', 'success');
                 investmentSuccessPopup.classList.add('active');
                 await loadUserData();
-                
             } catch (error) {
                 console.error('Investment error:', error);
-                const msg = error.message.includes("rejected") ? 'Transaction rejected' : 'Investment failed';
-                showNotification(msg, 'error');
+                showNotification(error.message.includes("rejected") ? 'Transaction rejected' : 'Investment failed', 'error');
             } finally {
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> Confirm Investment';
                 confirmBtn.disabled = false;
@@ -3762,65 +3467,48 @@
         }
 
         async function withdrawEarnings() {
-            if (!contract || !userAccount) { showNotification('Please connect wallet', 'error'); return; }
-
-            const withdrawBtn = document.getElementById('withdrawEarnings');
+            if (!contract || !userAccount) return showNotification('Please connect wallet', 'error');
+            const btn = document.getElementById('withdrawEarnings');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Withdrawing...';
+            btn.disabled = true;
             try {
-                withdrawBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Withdrawing...';
-                withdrawBtn.disabled = true;
-                
                 await contract.methods.withdraw().send({ from: userAccount });
-
                 showNotification('Withdrawal successful!', 'success');
                 await loadUserData();
-
             } catch (error) {
                 console.error('Withdrawal error:', error);
-                const msg = error.message.includes("rejected") ? 'Transaction rejected' : 'Withdrawal failed';
-                showNotification(msg, 'error');
+                showNotification(error.message.includes("rejected") ? 'Transaction rejected' : 'Withdrawal failed', 'error');
             } finally {
-                withdrawBtn.innerHTML = '<i class="fas fa-download"></i> Withdraw Earnings';
-                withdrawBtn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-download"></i> Withdraw Earnings';
+                btn.disabled = false;
             }
         }
 
-        // Referral Functions
+        // Referral & Utility Functions
         function copyReferralLink() {
             const linkInput = document.getElementById('referralLink');
-            navigator.clipboard.writeText(linkInput.value).then(() => {
-                showNotification('Referral link copied!', 'success');
-            });
+            navigator.clipboard.writeText(linkInput.value).then(() => showNotification('Referral link copied!', 'success'));
         }
 
         function shareOnSocial(platform) {
             const link = document.getElementById('referralLink').value;
             const text = encodeURIComponent('Join Aurion Finance and start earning premium returns with secure USDT investments!');
-            let url = '';
-            switch (platform) {
-                case 'telegram': url = `https://t.me/share/url?url=${link}&text=${text}`; break;
-                case 'twitter': url = `https://twitter.com/intent/tweet?url=${link}&text=${text}`; break;
-                case 'whatsapp': url = `https://wa.me/?text=${text}%20${link}`; break;
-            }
-            if (url) window.open(url, '_blank');
+            const urls = {
+                telegram: `https://t.me/share/url?url=${link}&text=${text}`,
+                twitter: `https://twitter.com/intent/tweet?url=${link}&text=${text}`,
+                whatsapp: `https://wa.me/?text=${text}%20${link}`
+            };
+            if (urls[platform]) window.open(urls[platform], '_blank');
         }
 
-        // Section Data Loading
-        function loadDashboardData() { if (userAccount) loadUserData(); }
-        function loadReferralData() { if (userAccount) loadUserData(); }
-
-        // Utility Functions
         function showNotification(message, type = 'info') {
             notification.textContent = message;
             notification.className = `notification ${type} show`;
-            setTimeout(() => { notification.classList.remove('show'); }, 5000);
+            setTimeout(() => notification.classList.remove('show'), 5000);
         }
 
         function checkPreloader() {
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    preloader.classList.add('fade-out');
-                }, 500);
-            });
+            window.addEventListener('load', () => setTimeout(() => preloader.classList.add('fade-out'), 500));
         }
     </script>
 </body>
