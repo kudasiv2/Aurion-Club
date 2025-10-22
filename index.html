@@ -2315,6 +2315,16 @@
                         <!-- Kartu plan aktif akan diisi oleh JavaScript -->
                     </div>
                 </div>
+                
+                <!-- NEW: Message for users with history but no active plans -->
+                <div class="empty-state" id="noActiveInvestmentsMessage" style="display: none; padding: var(--spacing-2xl);">
+                    <div class="empty-icon" style="width: 60px; height: 60px; font-size: var(--font-size-2xl);">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>No Active Plans</h3>
+                    <p style="margin-bottom: 0;">You don't have any currently active investment plans. Your full investment history is available below.</p>
+                </div>
+
 
                 <!-- Active Investments Table -->
                  <div id="investmentsSectionWrapper" style="display: none;">
@@ -2345,7 +2355,7 @@
                     <div class="empty-icon">
                         <i class="fas fa-chart-pie"></i>
                     </div>
-                    <h3>No Active Investments</h3>
+                    <h3>No Investment History</h3>
                     <p>Start your first investment to begin earning premium returns</p>
                     <button class="btn btn--primary" data-section="invest">
                         <i class="fas fa-rocket"></i>
@@ -3231,24 +3241,21 @@
             // Navigation
             navToggle.addEventListener('click', toggleNavMenu);
             
-            // PERBAIKAN: Menutup hamburger menu saat klik di luar
             document.addEventListener('click', (e) => {
                 if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
                     navMenu.classList.remove('active');
                 }
             });
             
-            // Navigation links
             document.querySelectorAll('.nav__link').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const section = e.target.getAttribute('data-section');
                     showSection(section);
-                    navMenu.classList.remove('active'); // Selalu tutup menu setelah link diklik
+                    navMenu.classList.remove('active');
                 });
             });
 
-            // Footer links
             document.querySelectorAll('.footer-link').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -3257,10 +3264,8 @@
                 });
             });
 
-            // Buttons with data-section
             document.querySelectorAll('button[data-section]').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    // Pastikan yang diklik adalah button, bukan icon di dalamnya
                     const targetButton = e.target.closest('button');
                     if(targetButton){
                         const section = targetButton.getAttribute('data-section');
@@ -3281,7 +3286,6 @@
             });
             document.getElementById('investmentAmount').addEventListener('input', updateInvestmentSummary);
             
-            // PERBAIKAN: Menutup popup investasi saat klik di luar
             investmentSuccessPopup.addEventListener('click', (e) => {
                 if (e.target === investmentSuccessPopup) {
                     investmentSuccessPopup.classList.remove('active');
@@ -3324,26 +3328,21 @@
         }
 
         function showSection(sectionName) {
-            // Hide all sections
             Object.values(sections).forEach(section => {
                 if (section) section.style.display = 'none';
             });
 
-            // Remove active class from all nav links
             document.querySelectorAll('.nav__link').forEach(link => {
                 link.classList.remove('active');
             });
 
-            // Show selected section
             if (sections[sectionName]) {
                 sections[sectionName].style.display = 'block';
-                window.scrollTo(0, 0); // Scroll to top
+                window.scrollTo(0, 0); 
                 
-                // Add active class to corresponding nav link
                 const navLink = document.querySelector(`.nav__link[data-section="${sectionName}"]`);
                 if (navLink) navLink.classList.add('active');
                 
-                // Load section-specific data
                 if (sectionName === 'dashboard' && userAccount) {
                     loadDashboardData();
                 } else if (sectionName === 'referral' && userAccount) {
@@ -3360,7 +3359,6 @@
             }
 
             try {
-                // Check if we're on BSC
                 const chainId = await window.ethereum.request({ method: 'eth_chainId' });
                 if (chainId !== '0x38') { // BSC Mainnet
                     try {
@@ -3369,7 +3367,6 @@
                             params: [{ chainId: '0x38' }],
                         });
                     } catch (switchError) {
-                        // If BSC is not added, add it
                         if (switchError.code === 4902) {
                             await window.ethereum.request({
                                 method: 'wallet_addEthereumChain',
@@ -3420,6 +3417,8 @@
             document.getElementById('actionButtons').style.display = 'none';
             document.getElementById('activePlansSection').style.display = 'none';
             document.getElementById('investmentsSectionWrapper').style.display = 'none';
+            document.getElementById('noInvestmentsMessage').style.display = 'none';
+            document.getElementById('noActiveInvestmentsMessage').style.display = 'none';
             document.getElementById('referralStats').style.display = 'none';
             document.getElementById('referralLinkSection').style.display = 'none';
         }
@@ -3440,13 +3439,11 @@
             if (!contract) return;
 
             try {
-                // Load contract stats
                 const contractBalance = await contract.methods.getContractBalance().call();
                 const contractBalanceFormatted = web3.utils.fromWei(contractBalance, 'ether');
                 document.getElementById('contractBalance').textContent = `${parseFloat(contractBalanceFormatted).toFixed(2)} USDT`;
                 document.getElementById('totalTVL').textContent = `$${parseFloat(contractBalanceFormatted).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-                // Load user-specific data if wallet is connected
                 if (userAccount) {
                     await loadUserData();
                 }
@@ -3463,19 +3460,16 @@
                 const userInfo = await contract.methods.getUserInfo(userAccount).call();
                 const availableEarnings = await contract.methods.calculateAvailableEarnings(userAccount).call();
 
-                // Update dashboard
                 document.getElementById('totalDeposits').textContent = `${parseFloat(web3.utils.fromWei(userInfo.totalDeposits, 'ether')).toFixed(2)} USDT`;
                 document.getElementById('availableEarnings').textContent = `${parseFloat(web3.utils.fromWei(availableEarnings, 'ether')).toFixed(2)} USDT`;
                 document.getElementById('referralBonus').textContent = `${parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2)} USDT`;
                 document.getElementById('directReferrals').textContent = userInfo.directReferrals;
 
-                // Update referral section
                 document.getElementById('totalTeam').textContent = userInfo.directReferrals;
                 document.getElementById('referralDirectReferrals').textContent = userInfo.directReferrals;
                 document.getElementById('totalBonus').textContent = `${parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2)} USDT`;
                 document.getElementById('availableBonus').textContent = `${parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2)} USDT`;
 
-                // Update level counts
                 updateLevelCounts(userInfo.directReferrals);
                 await loadUserInvestments();
                 generateReferralLink();
@@ -3486,48 +3480,56 @@
         }
         
         // =================================================================
-        // == START PERBAIKAN / FIX ==
+        // == START PERBAIKAN / FIX v2.0 ==
         // =================================================================
         async function loadUserInvestments() {
             if (!contract || !userAccount) return;
 
+            // DOM elements
+            const tableBody = document.getElementById('investmentsTableBody');
+            const investmentsSectionWrapper = document.getElementById('investmentsSectionWrapper');
+            const activePlansSection = document.getElementById('activePlansSection');
+            const activePlansGrid = document.getElementById('activePlansGrid');
+            const noInvestmentsMessage = document.getElementById('noInvestmentsMessage');
+            const noActiveInvestmentsMessage = document.getElementById('noActiveInvestmentsMessage');
+
+            // Reset UI state
+            tableBody.innerHTML = '';
+            activePlansGrid.innerHTML = '';
+            investmentsSectionWrapper.style.display = 'none';
+            activePlansSection.style.display = 'none';
+            noInvestmentsMessage.style.display = 'none';
+            noActiveInvestmentsMessage.style.display = 'none';
+
             try {
+                console.log('Fetching user investments for account:', userAccount);
                 const investments = await contract.methods.getUserInvestments(userAccount).call();
-                const tableBody = document.getElementById('investmentsTableBody');
-                const noInvestmentsMessage = document.getElementById('noInvestmentsMessage');
-                const investmentsSectionWrapper = document.getElementById('investmentsSectionWrapper');
-                const activePlansSection = document.getElementById('activePlansSection');
-                const activePlansGrid = document.getElementById('activePlansGrid');
+                // PENTING: Lihat data mentah dari smart contract di konsol browser (F12)
+                console.log('Data received from smart contract:', investments);
 
                 if (investments.length === 0) {
                     noInvestmentsMessage.style.display = 'block';
-                    investmentsSectionWrapper.style.display = 'none';
-                    activePlansSection.style.display = 'none'; // Pastikan disembunyikan jika tidak ada investasi
                     return;
                 }
 
-                noInvestmentsMessage.style.display = 'none';
+                // Jika ada riwayat, tampilkan tabelnya
                 investmentsSectionWrapper.style.display = 'block';
-                
-                tableBody.innerHTML = '';
-                activePlansGrid.innerHTML = '';
                 
                 const planNames = ['Starter Plan', 'Advanced Plan', 'Professional Plan', 'Premium Plan', 'VIP Plan'];
                 const planROIs = [1.00, 1.20, 1.50, 1.80, 2.00];
                 const planDurations = [150, 150, 150, 150, 150];
                 const planTotalROIs = [150, 180, 225, 270, 300];
+                let hasActivePlan = false;
 
-                let hasActivePlan = false; // Variabel untuk melacak plan aktif
-
-                for (let i = 0; i < investments.length; i++) {
-                    const investment = investments[i];
+                for (const investment of investments) {
+                    const isActive = investment.active;
+                    
+                    // Isi tabel riwayat
                     const amount = web3.utils.fromWei(investment.amount, 'ether');
                     const planId = investment.planId;
                     const startTime = new Date(investment.startTime * 1000);
                     const totalWithdrawn = web3.utils.fromWei(investment.totalWithdrawn, 'ether');
-                    const isActive = investment.active;
-
-                    // Tambahkan ke tabel riwayat investasi
+                    
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${planNames[planId] || `Plan ${planId}`}</td>
@@ -3539,9 +3541,9 @@
                     `;
                     tableBody.appendChild(row);
 
-                    // Jika aktif, tambahkan ke grid plan aktif
+                    // Jika aktif, isi grid plan aktif
                     if (isActive) {
-                        hasActivePlan = true; // Set flag menjadi true
+                        hasActivePlan = true;
                         const planCard = document.createElement('div');
                         planCard.className = 'active-plan-card';
                         planCard.innerHTML = `
@@ -3572,23 +3574,30 @@
                     }
                 }
                 
-                // BARIS YANG DIPERBAIKI: Tampilkan atau sembunyikan kontainer berdasarkan flag
-                activePlansSection.style.display = hasActivePlan ? 'block' : 'none';
+                // Logika Tampilan Final
+                if (hasActivePlan) {
+                    activePlansSection.style.display = 'block';
+                    noActiveInvestmentsMessage.style.display = 'none';
+                } else {
+                    activePlansSection.style.display = 'none';
+                    noActiveInvestmentsMessage.style.display = 'block'; // Tampilkan pesan "tidak ada yang aktif"
+                }
 
             } catch (error) {
-                console.error('Error loading user investments:', error);
-                document.getElementById('noInvestmentsMessage').style.display = 'block';
-                document.getElementById('investmentsSectionWrapper').style.display = 'none';
-                document.getElementById('activePlansSection').style.display = 'none'; // Sembunyikan jika error
+                console.error('Failed to fetch user investments:', error);
+                // Jika terjadi error, sembunyikan semuanya kecuali pesan error (jika ada)
+                noInvestmentsMessage.style.display = 'block';
+                noInvestmentsMessage.querySelector('h3').textContent = 'Error Loading Data';
+                noInvestmentsMessage.querySelector('p').textContent = 'Could not fetch investment data from the blockchain. Please refresh and try again.';
             }
         }
         // =================================================================
-        // == END PERBAIKAN / FIX ==
+        // == END PERBAIKAN / FIX v2.0 ==
         // =================================================================
 
         function updateLevelCounts(directReferrals) {
             document.getElementById('level1Count').textContent = directReferrals;
-            document.getElementById('level2Count').textContent = directReferrals; // Contract handles logic, UI shows total
+            document.getElementById('level2Count').textContent = directReferrals;
             document.getElementById('level3Count').textContent = directReferrals;
             document.getElementById('level4Count').textContent = directReferrals;
         }
@@ -3632,7 +3641,6 @@
                 </div>
             `).join('');
 
-            // Add event listener to each card
             document.querySelectorAll('.plan-card').forEach(card => {
                 card.addEventListener('click', (e) => {
                     const planId = parseInt(e.currentTarget.getAttribute('data-plan-id'));
