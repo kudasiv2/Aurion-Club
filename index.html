@@ -1998,6 +1998,11 @@
             .audit-summary {
                 grid-template-columns: 1fr;
             }
+            
+            /* PERBAIKAN TAMBAHAN: Padding lebih kecil untuk Audit Report di layar sangat kecil */
+            .whitepaper-content, .audit-content {
+                padding: var(--spacing-lg);
+            }
 
             .finding-header {
                 flex-direction: column;
@@ -2234,30 +2239,6 @@
                     </button>
                 </div>
                 
-                <!-- Investment History Table -->
-                 <div id="investmentsSectionWrapper" style="display: none;">
-                    <h3 style="margin-bottom: var(--spacing-xl); color: var(--white); font-family: var(--font-heading); font-size: var(--font-size-2xl);">Investment History</h3>
-                    <div class="investments-table" id="investmentsSection">
-                        <div class="investment-table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Plan</th>
-                                        <th>Amount</th>
-                                        <th>Start Date</th>
-                                        <th>Daily ROI</th>
-                                        <th>Total Withdrawn</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="investmentsTableBody">
-                                    <!-- Akan diisi oleh JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- No Investments Message -->
                 <div class="empty-state" id="noInvestmentsMessage" style="display: none;">
                     <div class="empty-icon">
@@ -3247,12 +3228,18 @@
 
         function showWalletAlerts() {
             ['dashboardWalletAlert', 'investWalletAlert', 'referralWalletAlert'].forEach(id => document.getElementById(id).style.display = 'flex');
-            ['quickStats', 'actionButtons', 'investmentsSectionWrapper', 'noInvestmentsMessage', 'referralStats', 'referralLinkSection'].forEach(id => document.getElementById(id).style.display = 'none');
+            ['quickStats', 'actionButtons', 'noInvestmentsMessage', 'referralStats', 'referralLinkSection'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
         }
 
         function hideWalletAlerts() {
             ['dashboardWalletAlert', 'investWalletAlert', 'referralWalletAlert'].forEach(id => document.getElementById(id).style.display = 'none');
-            ['quickStats', 'actionButtons', 'referralStats', 'referralLinkSection'].forEach(id => document.getElementById(id).style.display = 'grid');
+            ['quickStats', 'actionButtons', 'referralStats', 'referralLinkSection'].forEach(id => {
+                 const el = document.getElementById(id);
+                if (el) el.style.display = 'grid';
+            });
             document.getElementById('actionButtons').style.display = 'flex';
         }
 
@@ -3294,18 +3281,10 @@
             }
         }
         
-        // =================================================================
-        // == START REVISED JAVASCRIPT LOGIC ==
-        // =================================================================
         async function loadUserInvestments() {
             if (!contract || !userAccount) return;
 
-            const tableBody = document.getElementById('investmentsTableBody');
-            const investmentsSectionWrapper = document.getElementById('investmentsSectionWrapper');
             const noInvestmentsMessage = document.getElementById('noInvestmentsMessage');
-
-            tableBody.innerHTML = '';
-            investmentsSectionWrapper.style.display = 'none';
             noInvestmentsMessage.style.display = 'none';
 
             try {
@@ -3315,24 +3294,9 @@
                     noInvestmentsMessage.style.display = 'block';
                     return;
                 }
-
-                investmentsSectionWrapper.style.display = 'block';
                 
-                const planNames = ['Starter Plan', 'Advanced Plan', 'Professional Plan', 'Premium Plan', 'VIP Plan'];
-                const planROIs = [1.00, 1.20, 1.50, 1.80, 2.00];
-
-                for (const investment of investments) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${planNames[investment.planId] || `Plan ${investment.planId}`}</td>
-                        <td>${parseFloat(web3.utils.fromWei(investment.amount, 'ether')).toFixed(2)} USDT</td>
-                        <td>${new Date(investment.startTime * 1000).toLocaleDateString()}</td>
-                        <td>${planROIs[investment.planId] || 1.00}%</td>
-                        <td>${parseFloat(web3.utils.fromWei(investment.totalWithdrawn, 'ether')).toFixed(2)} USDT</td>
-                        <td><span class="status-badge ${investment.active ? 'status-active' : 'status-completed'}">${investment.active ? 'Active' : 'Completed'}</span></td>
-                    `;
-                    tableBody.appendChild(row);
-                }
+                // If there are investments, we assume there's no need to show the history table as it was requested to be removed.
+                // The logic to check if there are investments is kept to decide whether to show the "No Investments" message.
 
             } catch (error) {
                 console.error('Failed to fetch user investments:', error);
@@ -3341,9 +3305,6 @@
                 noInvestmentsMessage.querySelector('p').textContent = 'Could not fetch investment data from the blockchain.';
             }
         }
-        // =================================================================
-        // == END REVISED JAVASCRIPT LOGIC ==
-        // =================================================================
 
         function updateLevelCounts(directReferrals) {
             ['level1Count', 'level2Count', 'level3Count', 'level4Count'].forEach(id => {
