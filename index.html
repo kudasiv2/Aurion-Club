@@ -1132,6 +1132,20 @@
             backdrop-filter: blur(10px);
             box-shadow: var(--shadow-elegant);
         }
+        
+        .referral-link-container h2 {
+            text-align: center;
+            font-family: var(--font-heading);
+            color: var(--white);
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .referral-link-container p {
+            text-align: center;
+            color: var(--gray-400);
+            margin-bottom: var(--spacing-xl);
+        }
 
         .link-display {
             display: flex;
@@ -1478,6 +1492,10 @@
             border-radius: var(--radius-lg);
             overflow: hidden;
             box-shadow: var(--shadow-elegant);
+        }
+        
+        .investment-table-wrapper {
+             overflow-x: auto;
         }
 
         .investment-table th {
@@ -2014,7 +2032,8 @@
             .audit-summary {
                 grid-template-columns: repeat(2, 1fr);
             }
-
+            
+            /* PERBAIKAN: Padding untuk Whitepaper & Audit di mobile */
             .whitepaper-content, .audit-content {
                 padding: var(--spacing-xl);
             }
@@ -2289,31 +2308,36 @@
                     </button>
                 </div>
 
-                <!-- NEW: Active Investment Plans Section -->
+                <!-- PERBAIKAN: Active Investment Plans Section DITAMBAHKAN -->
                 <div class="active-plans-section" id="activePlansSection" style="display: none;">
-                    <h3 style="margin-bottom: var(--spacing-xl); color: var(--white); font-family: var(--font-heading);">Active Investment Plans</h3>
+                    <h3 style="margin-bottom: var(--spacing-xl); color: var(--white); font-family: var(--font-heading); font-size: var(--font-size-2xl);">Active Investment Plans</h3>
                     <div class="active-plans-grid" id="activePlansGrid">
-                        <!-- Active plans will be populated by JavaScript -->
+                        <!-- Kartu plan aktif akan diisi oleh JavaScript -->
                     </div>
                 </div>
 
-                <!-- Active Investments -->
-                <div class="investments-table" id="investmentsSection" style="display: none;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Plan</th>
-                                <th>Amount</th>
-                                <th>Start Date</th>
-                                <th>Daily ROI</th>
-                                <th>Total Withdrawn</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="investmentsTableBody">
-                            <!-- Will be populated by JavaScript -->
-                        </tbody>
-                    </table>
+                <!-- Active Investments Table -->
+                 <div id="investmentsSectionWrapper" style="display: none;">
+                    <h3 style="margin-bottom: var(--spacing-xl); color: var(--white); font-family: var(--font-heading); font-size: var(--font-size-2xl);">Investment History</h3>
+                    <div class="investments-table" id="investmentsSection">
+                        <div class="investment-table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Plan</th>
+                                        <th>Amount</th>
+                                        <th>Start Date</th>
+                                        <th>Daily ROI</th>
+                                        <th>Total Withdrawn</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="investmentsTableBody">
+                                    <!-- Akan diisi oleh JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- No Investments Message -->
@@ -2407,7 +2431,7 @@
                     </div>
                 </div>
 
-                <!-- Investment Success Popup - DIPERKECIL -->
+                <!-- Investment Success Popup -->
                 <div class="investment-success-popup" id="investmentSuccessPopup">
                     <div class="investment-success">
                         <div class="success-icon">
@@ -2430,7 +2454,7 @@
             </div>
         </section>
 
-        <!-- Referral Section - LINK REFERRAL DITAMBAHKAN -->
+        <!-- Referral Section -->
         <section class="referral-section section" id="referral" style="display: none;">
             <div class="container">
                 <div class="section__header">
@@ -2484,12 +2508,10 @@
                     </div>
                 </div>
 
-                <!-- Referral Link Section - DITAMBAHKAN -->
+                <!-- PERBAIKAN: Referral Link Section DITAMBAHKAN -->
                 <div class="referral-link-container" id="referralLinkSection" style="display: none;">
-                    <div class="section-header">
-                        <h2>Your Exclusive Referral Link</h2>
-                        <p>Share this link with your network and earn premium commissions from their investments</p>
-                    </div>
+                    <h2>Your Exclusive Referral Link</h2>
+                    <p>Share this link with your network and earn premium commissions from their investments</p>
                     <div class="link-display">
                         <input type="text" id="referralLink" class="link-input" readonly>
                         <button class="btn btn--primary" id="copyLink">
@@ -2631,7 +2653,7 @@
             </div>
         </section>
 
-        <!-- NEW: Whitepaper Section -->
+        <!-- Whitepaper Section -->
         <section class="whitepaper-section section" id="whitepaper" style="display: none;">
             <div class="container">
                 <div class="section__header">
@@ -2664,6 +2686,7 @@
                             <div class="chapter-content">
                                 <p>The protocol includes five distinct investment tiers, each defined by deposit range, daily ROI, duration, and total earning potential.</p>
                                 
+                                <div class="investment-table-wrapper">
                                 <table class="investment-table">
                                     <thead>
                                         <tr>
@@ -2712,6 +2735,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                </div>
 
                                 <p><strong>Example:</strong> An investor staking $1,000 in Plan 2 earns 1.2% daily ($12) for 150 days, receiving a total of $1,800, including the principal.</p>
                             </div>
@@ -2736,6 +2760,7 @@
                             <div class="chapter-content">
                                 <p>Aurion integrates a 4-level referral system that rewards users for network expansion while encouraging active engagement and leadership building.</p>
                                 
+                                <div class="investment-table-wrapper">
                                 <table class="investment-table">
                                     <thead>
                                         <tr>
@@ -2767,6 +2792,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                </div>
 
                                 <p>When a user deposits, bonuses are distributed automatically up the referral chain. If a upline fails to meet the required number of direct active referrals, their corresponding bonus becomes expired and is redirected to the expired bonus pool, accessible only by the contract owner for reinvestment or liquidity maintenance.</p>
                             </div>
@@ -2856,7 +2882,7 @@
             </div>
         </section>
 
-        <!-- NEW: Audit Report Section -->
+        <!-- Audit Report Section -->
         <section class="audit-section section" id="audit" style="display: none;">
             <div class="container">
                 <div class="section__header">
@@ -2935,7 +2961,7 @@
             </div>
         </section>
 
-        <!-- NEW: FAQ Section -->
+        <!-- FAQ Section -->
         <section class="faq-section section" id="faq" style="display: none;">
             <div class="container">
                 <div class="section__header">
@@ -3091,42 +3117,12 @@
         // USDT Token Address on BSC
         const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
         
-        // USDT ABI (FIXED)
+        // USDT ABI
         const USDT_ABI = [
-            {
-                "constant": false,
-                "inputs": [
-                    {"name": "_spender", "type": "address"},
-                    {"name": "_value", "type": "uint256"}
-                ],
-                "name": "approve",
-                "outputs": [{"name": "", "type": "bool"}],
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [{"name": "_owner", "type": "address"}],
-                "name": "balanceOf",
-                "outputs": [{"name": "balance", "type": "uint256"}],
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [
-                    {"name": "_owner", "type": "address"},
-                    {"name": "_spender", "type": "address"}
-                ],
-                "name": "allowance",
-                "outputs": [{"name": "", "type": "uint256"}],
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "decimals",
-                "outputs": [{"name": "", "type": "uint8"}],
-                "type": "function"
-            }
+            {"constant": false, "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "approve", "outputs": [{"name": "", "type": "bool"}], "type": "function"},
+            {"constant": true, "inputs": [{"name": "_owner", "type": "address"}], "name": "balanceOf", "outputs": [{"name": "balance", "type": "uint256"}], "type": "function"},
+            {"constant": true, "inputs": [{"name": "_owner", "type": "address"}, {"name": "_spender", "type": "address"}], "name": "allowance", "outputs": [{"name": "", "type": "uint256"}], "type": "function"},
+            {"constant": true, "inputs": [], "name": "decimals", "outputs": [{"name": "", "type": "uint8"}], "type": "function"}
         ];
 
         // Main Contract ABI
@@ -3235,13 +3231,20 @@
             // Navigation
             navToggle.addEventListener('click', toggleNavMenu);
             
+            // PERBAIKAN: Menutup hamburger menu saat klik di luar
+            document.addEventListener('click', (e) => {
+                if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                }
+            });
+            
             // Navigation links
             document.querySelectorAll('.nav__link').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const section = e.target.getAttribute('data-section');
                     showSection(section);
-                    navMenu.classList.remove('active');
+                    navMenu.classList.remove('active'); // Selalu tutup menu setelah link diklik
                 });
             });
 
@@ -3255,11 +3258,14 @@
             });
 
             // Buttons with data-section
-            document.querySelectorAll('[data-section]').forEach(button => {
-                if (button.classList.contains('nav__link')) return;
+            document.querySelectorAll('button[data-section]').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    const section = e.target.getAttribute('data-section');
-                    showSection(section);
+                    // Pastikan yang diklik adalah button, bukan icon di dalamnya
+                    const targetButton = e.target.closest('button');
+                    if(targetButton){
+                        const section = targetButton.getAttribute('data-section');
+                        showSection(section);
+                    }
                 });
             });
 
@@ -3269,8 +3275,19 @@
             // Investment related
             document.getElementById('backToPlans').addEventListener('click', showPlans);
             document.getElementById('confirmInvestment').addEventListener('click', confirmInvestment);
-            document.getElementById('newInvestment').addEventListener('click', showPlans);
+            document.getElementById('newInvestment').addEventListener('click', () => {
+                investmentSuccessPopup.classList.remove('active');
+                showPlans();
+            });
             document.getElementById('investmentAmount').addEventListener('input', updateInvestmentSummary);
+            
+            // PERBAIKAN: Menutup popup investasi saat klik di luar
+            investmentSuccessPopup.addEventListener('click', (e) => {
+                if (e.target === investmentSuccessPopup) {
+                    investmentSuccessPopup.classList.remove('active');
+                }
+            });
+
 
             // Withdraw earnings
             document.getElementById('withdrawEarnings').addEventListener('click', withdrawEarnings);
@@ -3320,15 +3337,16 @@
             // Show selected section
             if (sections[sectionName]) {
                 sections[sectionName].style.display = 'block';
+                window.scrollTo(0, 0); // Scroll to top
                 
                 // Add active class to corresponding nav link
                 const navLink = document.querySelector(`.nav__link[data-section="${sectionName}"]`);
                 if (navLink) navLink.classList.add('active');
                 
                 // Load section-specific data
-                if (sectionName === 'dashboard') {
+                if (sectionName === 'dashboard' && userAccount) {
                     loadDashboardData();
-                } else if (sectionName === 'referral') {
+                } else if (sectionName === 'referral' && userAccount) {
                     loadReferralData();
                 }
             }
@@ -3358,22 +3376,18 @@
                                 params: [{
                                     chainId: '0x38',
                                     chainName: 'Binance Smart Chain',
-                                    nativeCurrency: {
-                                        name: 'BNB',
-                                        symbol: 'BNB',
-                                        decimals: 18
-                                    },
+                                    nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
                                     rpcUrls: ['https://bsc-dataseed.binance.org/'],
                                     blockExplorerUrls: ['https://bscscan.com/']
                                 }]
                             });
+                        } else {
+                           throw switchError;
                         }
                     }
                 }
 
-                const accounts = await window.ethereum.request({
-                    method: 'eth_requestAccounts'
-                });
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
                 if (accounts.length > 0) {
                     userAccount = accounts[0];
@@ -3389,16 +3403,10 @@
 
         function updateWalletUI() {
             if (userAccount) {
-                connectWalletBtn.innerHTML = `
-                    <i class="fas fa-wallet"></i>
-                    ${userAccount.substring(0, 6)}...${userAccount.substring(userAccount.length - 4)}
-                `;
+                connectWalletBtn.innerHTML = `<i class="fas fa-wallet"></i> ${userAccount.substring(0, 6)}...${userAccount.substring(userAccount.length - 4)}`;
                 hideWalletAlerts();
             } else {
-                connectWalletBtn.innerHTML = `
-                    <i class="fas fa-wallet"></i>
-                    Connect Wallet
-                `;
+                connectWalletBtn.innerHTML = `<i class="fas fa-wallet"></i> Connect Wallet`;
                 showWalletAlerts();
             }
         }
@@ -3410,6 +3418,8 @@
             
             document.getElementById('quickStats').style.display = 'none';
             document.getElementById('actionButtons').style.display = 'none';
+            document.getElementById('activePlansSection').style.display = 'none';
+            document.getElementById('investmentsSectionWrapper').style.display = 'none';
             document.getElementById('referralStats').style.display = 'none';
             document.getElementById('referralLinkSection').style.display = 'none';
         }
@@ -3432,11 +3442,9 @@
             try {
                 // Load contract stats
                 const contractBalance = await contract.methods.getContractBalance().call();
-                
-                // Update home stats
                 const contractBalanceFormatted = web3.utils.fromWei(contractBalance, 'ether');
                 document.getElementById('contractBalance').textContent = `${parseFloat(contractBalanceFormatted).toFixed(2)} USDT`;
-                document.getElementById('totalTVL').textContent = `$${parseFloat(contractBalanceFormatted).toLocaleString()}`;
+                document.getElementById('totalTVL').textContent = `$${parseFloat(contractBalanceFormatted).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
                 // Load user-specific data if wallet is connected
                 if (userAccount) {
@@ -3456,24 +3464,20 @@
                 const availableEarnings = await contract.methods.calculateAvailableEarnings(userAccount).call();
 
                 // Update dashboard
-                document.getElementById('totalDeposits').textContent = `${web3.utils.fromWei(userInfo.totalDeposits, 'ether')} USDT`;
-                document.getElementById('availableEarnings').textContent = `${web3.utils.fromWei(availableEarnings, 'ether')} USDT`;
-                document.getElementById('referralBonus').textContent = `${web3.utils.fromWei(userInfo.referralBonus, 'ether')} USDT`;
+                document.getElementById('totalDeposits').textContent = `${parseFloat(web3.utils.fromWei(userInfo.totalDeposits, 'ether')).toFixed(2)} USDT`;
+                document.getElementById('availableEarnings').textContent = `${parseFloat(web3.utils.fromWei(availableEarnings, 'ether')).toFixed(2)} USDT`;
+                document.getElementById('referralBonus').textContent = `${parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2)} USDT`;
                 document.getElementById('directReferrals').textContent = userInfo.directReferrals;
 
                 // Update referral section
                 document.getElementById('totalTeam').textContent = userInfo.directReferrals;
                 document.getElementById('referralDirectReferrals').textContent = userInfo.directReferrals;
-                document.getElementById('totalBonus').textContent = `${web3.utils.fromWei(userInfo.referralBonus, 'ether')} USDT`;
-                document.getElementById('availableBonus').textContent = `${web3.utils.fromWei(userInfo.referralBonus, 'ether')} USDT`;
+                document.getElementById('totalBonus').textContent = `${parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2)} USDT`;
+                document.getElementById('availableBonus').textContent = `${parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2)} USDT`;
 
                 // Update level counts
                 updateLevelCounts(userInfo.directReferrals);
-
-                // Load user investments
                 await loadUserInvestments();
-
-                // Generate referral link
                 generateReferralLink();
 
             } catch (error) {
@@ -3488,21 +3492,20 @@
                 const investments = await contract.methods.getUserInvestments(userAccount).call();
                 const tableBody = document.getElementById('investmentsTableBody');
                 const noInvestmentsMessage = document.getElementById('noInvestmentsMessage');
-                const investmentsSection = document.getElementById('investmentsSection');
+                const investmentsSectionWrapper = document.getElementById('investmentsSectionWrapper');
                 const activePlansSection = document.getElementById('activePlansSection');
                 const activePlansGrid = document.getElementById('activePlansGrid');
 
                 if (investments.length === 0) {
                     noInvestmentsMessage.style.display = 'block';
-                    investmentsSection.style.display = 'none';
+                    investmentsSectionWrapper.style.display = 'none';
                     activePlansSection.style.display = 'none';
                     return;
                 }
 
                 noInvestmentsMessage.style.display = 'none';
-                investmentsSection.style.display = 'block';
-                activePlansSection.style.display = 'block';
-
+                investmentsSectionWrapper.style.display = 'block';
+                
                 tableBody.innerHTML = '';
                 activePlansGrid.innerHTML = '';
                 
@@ -3510,6 +3513,8 @@
                 const planROIs = [1.00, 1.20, 1.50, 1.80, 2.00];
                 const planDurations = [150, 150, 150, 150, 150];
                 const planTotalROIs = [150, 180, 225, 270, 300];
+
+                let hasActivePlan = false;
 
                 for (let i = 0; i < investments.length; i++) {
                     const investment = investments[i];
@@ -3533,6 +3538,7 @@
 
                     // Add to active plans grid if active
                     if (isActive) {
+                        hasActivePlan = true;
                         const planCard = document.createElement('div');
                         planCard.className = 'active-plan-card';
                         planCard.innerHTML = `
@@ -3546,8 +3552,8 @@
                                     <div class="active-plan-value">${planROIs[planId] || 1.00}%</div>
                                 </div>
                                 <div class="active-plan-detail">
-                                    <div class="active-plan-label">Days Duration</div>
-                                    <div class="active-plan-value">${planDurations[planId] || 150}</div>
+                                    <div class="active-plan-label">Duration</div>
+                                    <div class="active-plan-value">${planDurations[planId] || 150} Days</div>
                                 </div>
                                 <div class="active-plan-detail">
                                     <div class="active-plan-label">Total Returns</div>
@@ -3562,28 +3568,30 @@
                         activePlansGrid.appendChild(planCard);
                     }
                 }
+                
+                activePlansSection.style.display = hasActivePlan ? 'block' : 'none';
 
             } catch (error) {
                 console.error('Error loading user investments:', error);
                 document.getElementById('noInvestmentsMessage').style.display = 'block';
-                document.getElementById('investmentsSection').style.display = 'none';
+                document.getElementById('investmentsSectionWrapper').style.display = 'none';
                 document.getElementById('activePlansSection').style.display = 'none';
             }
         }
 
         function updateLevelCounts(directReferrals) {
             document.getElementById('level1Count').textContent = directReferrals;
-            document.getElementById('level2Count').textContent = Math.max(0, directReferrals);
-            document.getElementById('level3Count').textContent = Math.max(0, directReferrals);
-            document.getElementById('level4Count').textContent = Math.max(0, directReferrals);
+            document.getElementById('level2Count').textContent = directReferrals; // Contract handles logic, UI shows total
+            document.getElementById('level3Count').textContent = directReferrals;
+            document.getElementById('level4Count').textContent = directReferrals;
         }
 
         function generateReferralLink() {
-            const referralLink = document.getElementById('referralLink');
-            if (referralLink && userAccount) {
+            const referralLinkInput = document.getElementById('referralLink');
+            if (referralLinkInput && userAccount) {
                 const baseUrl = window.location.origin + window.location.pathname;
                 const link = `${baseUrl}?ref=${userAccount}`;
-                referralLink.value = link;
+                referralLinkInput.value = link;
             }
         }
 
@@ -3591,102 +3599,16 @@
         function generateInvestmentPlans() {
             const plansContainer = document.getElementById('investmentPlans');
             if (!plansContainer) return;
-
             const plans = [
-                {
-                    id: 0,
-                    name: 'Starter Plan',
-                    roi: '1% Daily',
-                    dailyROI: 1.00,
-                    range: '20 - 499 USDT',
-                    minAmount: 20,
-                    maxAmount: 499,
-                    duration: '150 Days',
-                    total: '150% Total ROI',
-                    features: [
-                        '1% Daily ROI',
-                        '150 Days Duration',
-                        '150% Total Returns',
-                        '4-Level Referral'
-                    ],
-                    featured: false
-                },
-                {
-                    id: 1,
-                    name: 'Advanced Plan',
-                    roi: '1.2% Daily',
-                    dailyROI: 1.20,
-                    range: '500 - 1,999 USDT',
-                    minAmount: 500,
-                    maxAmount: 1999,
-                    duration: '150 Days',
-                    total: '180% Total ROI',
-                    features: [
-                        '1.2% Daily ROI',
-                        '150 Days Duration',
-                        '180% Total Returns',
-                        '4-Level Referral'
-                    ],
-                    featured: false
-                },
-                {
-                    id: 2,
-                    name: 'Professional Plan',
-                    roi: '1.5% Daily',
-                    dailyROI: 1.50,
-                    range: '2,000 - 4,999 USDT',
-                    minAmount: 2000,
-                    maxAmount: 4999,
-                    duration: '150 Days',
-                    total: '225% Total ROI',
-                    features: [
-                        '1.5% Daily ROI',
-                        '150 Days Duration',
-                        '225% Total Returns',
-                        '4-Level Referral'
-                    ],
-                    featured: true
-                },
-                {
-                    id: 3,
-                    name: 'Premium Plan',
-                    roi: '1.8% Daily',
-                    dailyROI: 1.80,
-                    range: '5,000 - 9,999 USDT',
-                    minAmount: 5000,
-                    maxAmount: 9999,
-                    duration: '150 Days',
-                    total: '270% Total ROI',
-                    features: [
-                        '1.8% Daily ROI',
-                        '150 Days Duration',
-                        '270% Total Returns',
-                        '4-Level Referral'
-                    ],
-                    featured: false
-                },
-                {
-                    id: 4,
-                    name: 'VIP Plan',
-                    roi: '2% Daily',
-                    dailyROI: 2.00,
-                    range: '10,000+ USDT',
-                    minAmount: 10000,
-                    maxAmount: 999999,
-                    duration: '150 Days',
-                    total: '300% Total ROI',
-                    features: [
-                        '2% Daily ROI',
-                        '150 Days Duration',
-                        '300% Total Returns',
-                        '4-Level Referral'
-                    ],
-                    featured: false
-                }
+                {id: 0, name: 'Starter Plan', roi: '1% Daily', range: '20 - 499 USDT', duration: '150 Days', total: '150% Total ROI', features: ['1% Daily ROI', '150 Days Duration', '150% Total Returns', '4-Level Referral'], featured: false},
+                {id: 1, name: 'Advanced Plan', roi: '1.2% Daily', range: '500 - 1,999 USDT', duration: '150 Days', total: '180% Total ROI', features: ['1.2% Daily ROI', '150 Days Duration', '180% Total Returns', '4-Level Referral'], featured: false},
+                {id: 2, name: 'Professional Plan', roi: '1.5% Daily', range: '2,000 - 4,999 USDT', duration: '150 Days', total: '225% Total ROI', features: ['1.5% Daily ROI', '150 Days Duration', '225% Total Returns', '4-Level Referral'], featured: true},
+                {id: 3, name: 'Premium Plan', roi: '1.8% Daily', range: '5,000 - 9,999 USDT', duration: '150 Days', total: '270% Total ROI', features: ['1.8% Daily ROI', '150 Days Duration', '270% Total Returns', '4-Level Referral'], featured: false},
+                {id: 4, name: 'VIP Plan', roi: '2% Daily', range: '10,000+ USDT', duration: '150 Days', total: '300% Total ROI', features: ['2% Daily ROI', '150 Days Duration', '300% Total Returns', '4-Level Referral'], featured: false}
             ];
 
             plansContainer.innerHTML = plans.map(plan => `
-                <div class="plan-card ${plan.featured ? 'featured' : ''}" onclick="selectPlan(${plan.id})">
+                <div class="plan-card ${plan.featured ? 'featured' : ''}" data-plan-id="${plan.id}">
                     ${plan.featured ? '<div class="plan-badge">Popular</div>' : ''}
                     <div class="plan-name">${plan.name}</div>
                     <div class="plan-roi">${plan.roi}</div>
@@ -3702,6 +3624,14 @@
                     </button>
                 </div>
             `).join('');
+
+            // Add event listener to each card
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    const planId = parseInt(e.currentTarget.getAttribute('data-plan-id'));
+                    selectPlan(planId);
+                });
+            });
         }
 
         function selectPlan(planId) {
@@ -3709,232 +3639,131 @@
                 showNotification('Please connect your wallet first', 'error');
                 return;
             }
-
             const plans = [
-                { id: 0, name: 'Starter Plan', roi: '1% Daily', dailyROI: 1.00, minAmount: 20, maxAmount: 499, totalROI: 150 },
-                { id: 1, name: 'Advanced Plan', roi: '1.2% Daily', dailyROI: 1.20, minAmount: 500, maxAmount: 1999, totalROI: 180 },
-                { id: 2, name: 'Professional Plan', roi: '1.5% Daily', dailyROI: 1.50, minAmount: 2000, maxAmount: 4999, totalROI: 225 },
-                { id: 3, name: 'Premium Plan', roi: '1.8% Daily', dailyROI: 1.80, minAmount: 5000, maxAmount: 9999, totalROI: 270 },
-                { id: 4, name: 'VIP Plan', roi: '2% Daily', dailyROI: 2.00, minAmount: 10000, maxAmount: 999999, totalROI: 300 }
+                { id: 0, name: 'Starter Plan', roi: '1% Daily', minAmount: 20, maxAmount: 499 },
+                { id: 1, name: 'Advanced Plan', roi: '1.2% Daily', minAmount: 500, maxAmount: 1999 },
+                { id: 2, name: 'Professional Plan', roi: '1.5% Daily', minAmount: 2000, maxAmount: 4999 },
+                { id: 3, name: 'Premium Plan', roi: '1.8% Daily', minAmount: 5000, maxAmount: 9999 },
+                { id: 4, name: 'VIP Plan', roi: '2% Daily', minAmount: 10000, maxAmount: 999999 }
             ];
-
             selectedPlan = plans.find(plan => plan.id === planId);
-            
             if (selectedPlan) {
                 showInvestmentForm();
-                updatePlanSummary();
-                updateAmountRange();
-                updateInvestmentSummary();
             }
         }
 
         function showInvestmentForm() {
             document.getElementById('investmentPlans').style.display = 'none';
             document.getElementById('investmentForm').classList.add('active');
-            document.getElementById('investWalletAlert').style.display = 'none';
+            updatePlanSummary();
+            updateAmountRange();
+            updateInvestmentSummary();
         }
 
         function showPlans() {
             document.getElementById('investmentPlans').style.display = 'grid';
             document.getElementById('investmentForm').classList.remove('active');
-            investmentSuccessPopup.classList.remove('active');
             selectedPlan = null;
-        }
-
-        function showSuccessPopup() {
-            investmentSuccessPopup.classList.add('active');
         }
 
         function updatePlanSummary() {
             const summaryElement = document.getElementById('selectedPlanSummary');
             if (!summaryElement || !selectedPlan) return;
-
             summaryElement.innerHTML = `
                 <div class="plan-name">${selectedPlan.name}</div>
                 <div class="plan-roi">${selectedPlan.roi}</div>
-                <div class="plan-range">${selectedPlan.minAmount} - ${selectedPlan.maxAmount === 999999 ? 'Unlimited' : selectedPlan.maxAmount} USDT</div>
             `;
         }
 
         function updateAmountRange() {
             const rangeElement = document.getElementById('amountRange');
             const amountInput = document.getElementById('investmentAmount');
-
             if (!rangeElement || !amountInput || !selectedPlan) return;
-
-            rangeElement.textContent = `Minimum: ${selectedPlan.minAmount} USDT, Maximum: ${selectedPlan.maxAmount === 999999 ? 'Unlimited' : selectedPlan.maxAmount} USDT`;
-            
+            const maxText = selectedPlan.maxAmount === 999999 ? 'Unlimited' : selectedPlan.maxAmount;
+            rangeElement.textContent = `Minimum: ${selectedPlan.minAmount} USDT, Maximum: ${maxText} USDT`;
             amountInput.min = selectedPlan.minAmount;
             amountInput.max = selectedPlan.maxAmount === 999999 ? '' : selectedPlan.maxAmount;
-            amountInput.placeholder = `Enter amount between ${selectedPlan.minAmount} and ${selectedPlan.maxAmount === 999999 ? 'Unlimited' : selectedPlan.maxAmount} USDT`;
             amountInput.value = selectedPlan.minAmount;
         }
 
         function updateInvestmentSummary() {
             const amountInput = document.getElementById('investmentAmount');
             if (!amountInput || !selectedPlan) return;
-
             const amount = parseFloat(amountInput.value) || 0;
-            const platformFee = amount * 0.10;
-            const totalToPay = amount;
-
+            const platformFee = amount * 0.10; // 10%
             document.getElementById('summaryAmount').textContent = `${amount.toFixed(2)} USDT`;
             document.getElementById('summaryFee').textContent = `${platformFee.toFixed(2)} USDT`;
-            document.getElementById('summaryTotal').textContent = `${totalToPay.toFixed(2)} USDT`;
+            document.getElementById('summaryTotal').textContent = `${amount.toFixed(2)} USDT`;
         }
-
-        // FIXED CONFIRM INVESTMENT FUNCTION - 100% WORKING
+        
         async function confirmInvestment() {
-            if (!contract || !userAccount) {
-                showNotification('Please connect your wallet first', 'error');
-                return;
-            }
-
-            if (!selectedPlan) {
-                showNotification('Please select an investment plan', 'error');
-                return;
-            }
+            if (!contract || !userAccount) { showNotification('Please connect wallet', 'error'); return; }
+            if (!selectedPlan) { showNotification('Please select a plan', 'error'); return; }
 
             const amountInput = document.getElementById('investmentAmount');
             const amount = parseFloat(amountInput.value) || 0;
 
-            // Validation
-            if (amount < selectedPlan.minAmount) {
-                showNotification(`Minimum investment for this plan is ${selectedPlan.minAmount} USDT`, 'error');
-                return;
-            }
+            if (amount < selectedPlan.minAmount) { showNotification(`Minimum is ${selectedPlan.minAmount} USDT`, 'error'); return; }
+            if (selectedPlan.maxAmount !== 999999 && amount > selectedPlan.maxAmount) { showNotification(`Maximum is ${selectedPlan.maxAmount} USDT`, 'error'); return; }
 
-            if (selectedPlan.maxAmount !== 999999 && amount > selectedPlan.maxAmount) {
-                showNotification(`Maximum investment for this plan is ${selectedPlan.maxAmount} USDT`, 'error');
-                return;
-            }
-
-            // Get referrer address
-            let referrerAddress = document.getElementById('referrerAddress').value;
-            if (!referrerAddress || referrerAddress === '') {
-                referrerAddress = referralAddress || '0x0000000000000000000000000000000000000000';
-            }
-
-            // Validate referrer address
-            if (referrerAddress !== '0x0000000000000000000000000000000000000000' && !web3.utils.isAddress(referrerAddress)) {
-                showNotification('Invalid referrer address', 'error');
-                return;
-            }
-
+            let refAddr = document.getElementById('referrerAddress').value.trim();
+            refAddr = refAddr || referralAddress || '0x0000000000000000000000000000000000000000';
+            if (!web3.utils.isAddress(refAddr)) { showNotification('Invalid referrer address', 'error'); return; }
+            
+            const confirmBtn = document.getElementById('confirmInvestment');
             try {
-                const confirmBtn = document.getElementById('confirmInvestment');
                 confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
                 confirmBtn.disabled = true;
 
-                // Convert amount to wei (USDT has 18 decimals)
                 const amountWei = web3.utils.toWei(amount.toString(), 'ether');
-
-                // Check USDT balance
                 const usdtBalance = await usdtContract.methods.balanceOf(userAccount).call();
-                const balanceFormatted = parseFloat(web3.utils.fromWei(usdtBalance, 'ether'));
-                
-                if (balanceFormatted < amount) {
-                    showNotification(`Insufficient USDT balance. You have ${balanceFormatted.toFixed(2)} USDT`, 'error');
-                    confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> Confirm Investment';
-                    confirmBtn.disabled = false;
-                    return;
+                if (new BigNumber(usdtBalance).isLessThan(new BigNumber(amountWei))) {
+                    throw new Error(`Insufficient USDT balance. You have ${web3.utils.fromWei(usdtBalance, 'ether')} USDT`);
                 }
 
-                // FIXED: Use BigNumber.js for comparison
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
-                const allowanceNeeded = new BigNumber(amountWei);
-                const currentAllowance = new BigNumber(allowance);
-
-                if (currentAllowance.isLessThan(allowanceNeeded)) {
-                    showNotification('Step 1/2: Approving USDT access...', 'info');
-                    
-                    // Use maximum uint256 for unlimited approval
+                if (new BigNumber(allowance).isLessThan(new BigNumber(amountWei))) {
+                    showNotification('Approving USDT...', 'info');
                     const maxApproval = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
-                    
-                    await usdtContract.methods.approve(CONTRACT_ADDRESS, maxApproval).send({
-                        from: userAccount,
-                        gas: 100000,
-                        gasPrice: web3.utils.toWei('5', 'gwei')
-                    });
-                    
-                    showNotification('USDT approved! Proceeding to investment...', 'success');
-                    
-                    // Wait 3 seconds to ensure approval is complete
-                    await new Promise(resolve => setTimeout(resolve, 3000));
+                    await usdtContract.methods.approve(CONTRACT_ADDRESS, maxApproval).send({ from: userAccount });
+                    showNotification('Approval successful!', 'success');
                 }
 
-                // FIXED: Execute deposit with sufficient gas
-                showNotification('Step 2/2: Processing investment...', 'info');
-                await contract.methods.deposit(amountWei, selectedPlan.id, referrerAddress).send({
-                    from: userAccount,
-                    gas: 500000,
-                    gasPrice: web3.utils.toWei('5', 'gwei')
-                });
+                showNotification('Depositing...', 'info');
+                await contract.methods.deposit(amountWei, selectedPlan.id, refAddr).send({ from: userAccount });
 
                 showNotification('Investment successful! 🎉', 'success');
-                showSuccessPopup();
-                
-                // Reload user data
+                investmentSuccessPopup.classList.add('active');
                 await loadUserData();
-
+                
             } catch (error) {
                 console.error('Investment error:', error);
-                let errorMessage = 'Investment failed';
-                
-                if (error.code === 4001) {
-                    errorMessage = 'Transaction rejected by user';
-                } else if (error.message && error.message.includes('insufficient funds')) {
-                    errorMessage = 'Insufficient BNB for gas fees';
-                } else if (error.message && error.message.includes('User denied')) {
-                    errorMessage = 'Transaction was cancelled';
-                } else if (error.message) {
-                    const revertMatch = error.message.match(/revert (.*)/);
-                    errorMessage = revertMatch ? revertMatch[1] : error.message;
-                }
-
-                showNotification(errorMessage, 'error');
+                const msg = error.message.includes("rejected") ? 'Transaction rejected' : 'Investment failed';
+                showNotification(msg, 'error');
             } finally {
-                const confirmBtn = document.getElementById('confirmInvestment');
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> Confirm Investment';
                 confirmBtn.disabled = false;
             }
         }
 
         async function withdrawEarnings() {
-            if (!contract || !userAccount) {
-                showNotification('Please connect your wallet first', 'error');
-                return;
-            }
+            if (!contract || !userAccount) { showNotification('Please connect wallet', 'error'); return; }
 
+            const withdrawBtn = document.getElementById('withdrawEarnings');
             try {
-                const withdrawBtn = document.getElementById('withdrawEarnings');
-                withdrawBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                withdrawBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Withdrawing...';
                 withdrawBtn.disabled = true;
-
-                await contract.methods.withdraw().send({
-                    from: userAccount,
-                    gas: 300000,
-                    gasPrice: web3.utils.toWei('5', 'gwei')
-                });
+                
+                await contract.methods.withdraw().send({ from: userAccount });
 
                 showNotification('Withdrawal successful!', 'success');
                 await loadUserData();
 
             } catch (error) {
                 console.error('Withdrawal error:', error);
-                let errorMessage = 'Withdrawal failed';
-                
-                if (error.code === 4001) {
-                    errorMessage = 'Transaction rejected by user';
-                } else if (error.message.includes('insufficient funds')) {
-                    errorMessage = 'Insufficient balance for transaction';
-                } else {
-                    errorMessage = error.message;
-                }
-
-                showNotification(errorMessage, 'error');
+                const msg = error.message.includes("rejected") ? 'Transaction rejected' : 'Withdrawal failed';
+                showNotification(msg, 'error');
             } finally {
-                const withdrawBtn = document.getElementById('withdrawEarnings');
                 withdrawBtn.innerHTML = '<i class="fas fa-download"></i> Withdraw Earnings';
                 withdrawBtn.disabled = false;
             }
@@ -3942,78 +3771,42 @@
 
         // Referral Functions
         function copyReferralLink() {
-            const referralLink = document.getElementById('referralLink');
-            if (referralLink) {
-                referralLink.select();
-                referralLink.setSelectionRange(0, 99999);
-                navigator.clipboard.writeText(referralLink.value);
+            const linkInput = document.getElementById('referralLink');
+            navigator.clipboard.writeText(linkInput.value).then(() => {
                 showNotification('Referral link copied!', 'success');
-            }
+            });
         }
 
         function shareOnSocial(platform) {
-            const referralLink = document.getElementById('referralLink');
-            if (!referralLink) return;
-
-            const link = referralLink.value;
-            const text = 'Join Aurion Finance and start earning premium returns with secure USDT investments!';
-            
+            const link = document.getElementById('referralLink').value;
+            const text = encodeURIComponent('Join Aurion Finance and start earning premium returns with secure USDT investments!');
             let url = '';
-            
             switch (platform) {
-                case 'telegram':
-                    url = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
-                    break;
-                case 'twitter':
-                    url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text + ' ' + link)}`;
-                    break;
-                case 'whatsapp':
-                    url = `https://wa.me/?text=${encodeURIComponent(text + ' ' + link)}`;
-                    break;
+                case 'telegram': url = `https://t.me/share/url?url=${link}&text=${text}`; break;
+                case 'twitter': url = `https://twitter.com/intent/tweet?url=${link}&text=${text}`; break;
+                case 'whatsapp': url = `https://wa.me/?text=${text}%20${link}`; break;
             }
-
-            if (url) {
-                window.open(url, '_blank', 'width=600,height=400');
-            }
+            if (url) window.open(url, '_blank');
         }
 
         // Section Data Loading
-        function loadDashboardData() {
-            if (userAccount) {
-                loadUserData();
-            }
-        }
-
-        function loadReferralData() {
-            if (userAccount) {
-                loadUserData();
-            }
-        }
+        function loadDashboardData() { if (userAccount) loadUserData(); }
+        function loadReferralData() { if (userAccount) loadUserData(); }
 
         // Utility Functions
         function showNotification(message, type = 'info') {
             notification.textContent = message;
             notification.className = `notification ${type} show`;
-
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
+            setTimeout(() => { notification.classList.remove('show'); }, 5000);
         }
 
         function checkPreloader() {
             window.addEventListener('load', () => {
                 setTimeout(() => {
                     preloader.classList.add('fade-out');
-                    setTimeout(() => {
-                        preloader.remove();
-                    }, 500);
-                }, 1000);
+                }, 500);
             });
         }
-
-        // Make functions available globally
-        window.selectPlan = selectPlan;
-        window.showSection = showSection;
     </script>
 </body>
 </html>
