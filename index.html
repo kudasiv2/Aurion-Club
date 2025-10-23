@@ -248,6 +248,7 @@
         .btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center; /* Center button content */
             gap: var(--spacing-sm);
             padding: var(--spacing-md) var(--spacing-xl);
             border: none;
@@ -316,7 +317,13 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center; /* Center content horizontally */
             position: relative;
+            text-align: center; /* Center text by default */
+        }
+        
+        .section .container {
+            width: 100%;
         }
 
         .section__title {
@@ -385,6 +392,11 @@
             align-items: center;
         }
 
+        /* PERBAIKAN: Center hero content */
+        .hero__content {
+            text-align: left; /* Revert to left align for grid layout */
+        }
+        
         .hero__badge {
             margin-bottom: var(--spacing-lg);
         }
@@ -427,6 +439,7 @@
         .hero__stats {
             display: flex;
             gap: var(--spacing-2xl);
+            text-align: left; /* Revert for stats */
         }
 
         .stat {
@@ -544,6 +557,7 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: var(--spacing-lg);
             margin-bottom: var(--spacing-3xl);
+            text-align: left;
         }
 
         .stat-card {
@@ -576,6 +590,7 @@
             font-size: var(--font-size-2xl);
             color: var(--primary-black);
             box-shadow: var(--shadow-gold);
+            flex-shrink: 0;
         }
 
         .stat-value {
@@ -597,6 +612,7 @@
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-3xl);
             flex-wrap: wrap;
+            justify-content: center; /* Center buttons */
         }
 
         .investments-table {
@@ -670,6 +686,10 @@
             border-radius: var(--radius-2xl);
             backdrop-filter: blur(10px);
             box-shadow: var(--shadow-elegant);
+            display: flex; /* Flexbox for centering */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .empty-icon {
@@ -847,6 +867,8 @@
             display: none;
             backdrop-filter: blur(10px);
             box-shadow: var(--shadow-elegant);
+            width: 100%;
+            max-width: 600px; /* Consistent width for form */
         }
 
         .investment-form-container.active {
@@ -872,6 +894,7 @@
         .investment-form {
             max-width: 500px;
             margin: 0 auto;
+            text-align: left;
         }
 
         .form-group {
@@ -1047,6 +1070,7 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: var(--spacing-lg);
             margin-bottom: var(--spacing-3xl);
+            text-align: left;
         }
 
         .referral-link-container {
@@ -1057,6 +1081,8 @@
             margin-bottom: var(--spacing-3xl);
             backdrop-filter: blur(10px);
             box-shadow: var(--shadow-elegant);
+            width: 100%;
+            max-width: 800px;
         }
         
         .referral-link-container h2 {
@@ -1122,6 +1148,7 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: var(--spacing-2xl);
             margin-bottom: var(--spacing-3xl);
+            text-align: left;
         }
 
         .level-card {
@@ -1129,7 +1156,6 @@
             border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: var(--radius-2xl);
             padding: var(--spacing-2xl);
-            text-align: center;
             transition: all var(--transition-normal);
             backdrop-filter: blur(10px);
             box-shadow: var(--shadow-elegant);
@@ -1162,6 +1188,7 @@
             font-weight: 700;
             font-size: var(--font-size-xl);
             box-shadow: var(--shadow-gold);
+            flex-shrink: 0;
         }
 
         .level-commission {
@@ -1169,10 +1196,12 @@
             font-weight: 700;
             color: var(--primary-gold);
             font-family: var(--font-heading);
+            text-align: right;
         }
 
         .level-requirements {
             margin-bottom: var(--spacing-lg);
+            padding-top: var(--spacing-md);
         }
 
         .requirement {
@@ -1187,21 +1216,7 @@
         .requirement i {
             color: var(--primary-gold);
         }
-
-        .level-stats {
-            background: rgba(10, 10, 10, 0.8);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-md);
-        }
-
-        .level-stats .stat {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--gray-300);
-            font-size: var(--font-size-sm);
-        }
-
+        
         .bonus-claim-section {
             margin-bottom: var(--spacing-3xl);
         }
@@ -1356,6 +1371,7 @@
         .whitepaper-container {
             max-width: 900px;
             margin: 0 auto;
+            text-align: left;
         }
 
         .whitepaper-content {
@@ -1466,6 +1482,7 @@
         .audit-container {
             max-width: 900px;
             margin: 0 auto;
+            text-align: left;
         }
 
         .audit-content {
@@ -1619,6 +1636,8 @@
         .faq-container {
             max-width: 800px;
             margin: 0 auto;
+            width: 100%;
+            text-align: left;
         }
 
         .faq-item {
@@ -1722,6 +1741,11 @@
             margin-bottom: var(--spacing-2xl);
             border: 1px solid;
             backdrop-filter: blur(10px);
+            max-width: 800px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
         }
 
         .alert-warning {
@@ -1773,6 +1797,7 @@
             background: var(--primary-black);
             border-top: 1px solid rgba(212, 175, 55, 0.1);
             padding: var(--spacing-4xl) 0 var(--spacing-xl);
+            min-height: auto;
         }
 
         .footer__content {
@@ -1780,6 +1805,7 @@
             grid-template-columns: 1fr 2fr;
             gap: var(--spacing-3xl);
             margin-bottom: var(--spacing-2xl);
+            text-align: left;
         }
 
         .footer__brand {
@@ -1875,6 +1901,13 @@
                 text-align: center;
             }
 
+            .hero__content {
+                text-align: center; /* Center content on smaller screens */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
             .hero__buttons {
                 justify-content: center;
             }
@@ -1886,6 +1919,10 @@
             .footer__content {
                 grid-template-columns: 1fr;
                 gap: var(--spacing-2xl);
+                text-align: center;
+            }
+            .footer__brand {
+                align-items: center;
             }
         }
 
@@ -1932,6 +1969,11 @@
             .hero__buttons {
                 flex-direction: column;
                 align-items: center;
+                width: 100%;
+                max-width: 300px;
+            }
+            .hero__buttons .btn {
+                width: 100%;
             }
 
             .hero__stats {
@@ -1960,6 +2002,10 @@
             .success-actions {
                 flex-direction: column;
                 align-items: center;
+                width: 100%;
+            }
+            .success-actions .btn {
+                width: 80%;
             }
 
             .referral-stats {
@@ -1987,6 +2033,7 @@
             .footer__links {
                 grid-template-columns: 1fr;
                 gap: var(--spacing-xl);
+                text-align: center;
             }
 
             .resources-grid {
@@ -2361,7 +2408,7 @@
                             </div>
                         </div>
 
-                        <button class="btn btn--primary btn-lg" id="confirmInvestment">
+                        <button class="btn btn--primary btn-lg" id="confirmInvestment" style="width: 100%;">
                             <i class="fas fa-check-circle"></i>
                             Confirm Investment
                         </button>
@@ -2427,15 +2474,6 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">
-                            <i class="fas fa-gift"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-value" id="totalBonus">0 USDT</div>
-                            <div class="stat-label">Total Bonus Earned</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
                             <i class="fas fa-wallet"></i>
                         </div>
                         <div class="stat-info">
@@ -2486,12 +2524,6 @@
                                 <span>Active investment required</span>
                             </div>
                         </div>
-                        <div class="level-stats">
-                            <div class="stat">
-                                <span>Your Referrals:</span>
-                                <span id="level1Count">0</span>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="level-card">
@@ -2507,12 +2539,6 @@
                             <div class="requirement">
                                 <i class="fas fa-check"></i>
                                 <span>Active investment required</span>
-                            </div>
-                        </div>
-                        <div class="level-stats">
-                            <div class="stat">
-                                <span>Your Referrals:</span>
-                                <span id="level2Count">0</span>
                             </div>
                         </div>
                     </div>
@@ -2532,12 +2558,6 @@
                                 <span>Active investment required</span>
                             </div>
                         </div>
-                        <div class="level-stats">
-                            <div class="stat">
-                                <span>Your Referrals:</span>
-                                <span id="level3Count">0</span>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="level-card">
@@ -2553,12 +2573,6 @@
                             <div class="requirement">
                                 <i class="fas fa-check"></i>
                                 <span>Active investment required</span>
-                            </div>
-                        </div>
-                        <div class="level-stats">
-                            <div class="stat">
-                                <span>Your Referrals:</span>
-                                <span id="level4Count">0</span>
                             </div>
                         </div>
                     </div>
@@ -3297,7 +3311,7 @@
             });
             document.querySelectorAll('.nav__link').forEach(link => link.classList.remove('active'));
             if (sections[sectionName]) {
-                sections[sectionName].style.display = 'block';
+                sections[sectionName].style.display = 'flex'; // Use flex for centering
                 window.scrollTo(0, 0);
                 const navLink = document.querySelector(`.nav__link[data-section="${sectionName}"]`);
                 if (navLink) navLink.classList.add('active');
@@ -3356,11 +3370,12 @@
 
         function hideWalletAlerts() {
             ['dashboardWalletAlert', 'investWalletAlert', 'referralWalletAlert'].forEach(id => document.getElementById(id).style.display = 'none');
-            ['quickStats', 'actionButtons', 'referralStats', 'referralLinkSection'].forEach(id => {
+             ['quickStats', 'referralStats'].forEach(id => {
                  const el = document.getElementById(id);
                 if (el) el.style.display = 'grid';
             });
             document.getElementById('actionButtons').style.display = 'flex';
+             document.getElementById('referralLinkSection').style.display = 'block';
         }
 
         // Contract Data Functions
@@ -3381,7 +3396,6 @@
             if (!contract || !userAccount) return;
             try {
                 const userInfo = await contract.methods.getUserInfo(userAccount).call();
-                const userContractData = await contract.methods.users(userAccount).call(); // Get raw user data
                 const availableEarnings = await contract.methods.calculateAvailableEarnings(userAccount).call();
 
                 // Dashboard stats
@@ -3393,33 +3407,8 @@
                 // Referral stats
                 document.getElementById('totalTeam').textContent = userInfo.directReferrals;
                 document.getElementById('referralDirectReferrals').textContent = userInfo.directReferrals;
-
-                // --- PERBAIKAN LOGIKA TOTAL BONUS ---
-                const availableBonusBN = new BigNumber(userInfo.referralBonus);
-                // The contract's `totalWithdrawn` includes both investment earnings and referral bonus withdrawals.
-                // The `referralBonus` field in the user struct seems to be the current available amount.
-                // A true "Total Earned" would require event tracking, which is complex for the frontend.
-                // A practical approach is to calculate it based on what has been paid out from referrals to this user.
-                // Since we cannot easily separate referral withdrawals from earnings withdrawals, we will assume
-                // that the smart contract does not store a cumulative total bonus earned.
-                // The most logical value for "Total Bonus Earned" that we can derive is the sum of what's available now
-                // plus what has been withdrawn that originated from bonuses. Since we can't track that, we will show what's available.
-                // If the user's contract had a `totalBonusEarned` field, we would use it.
-                // For now, `referralBonus` represents the available amount.
-                const totalWithdrawnFromBonuses = new BigNumber(userContractData.totalWithdrawn).minus(new BigNumber(userContractData.totalDeposits));
+                document.getElementById('availableBonus').textContent = `${parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2)} USDT`;
                 
-                // Let's assume a simpler logic that might be intended: Total Earned = Available + Withdrawn.
-                // But `totalWithdrawn` is combined. So we'll use a placeholder logic if needed.
-                // The most accurate available value is `userInfo.referralBonus`.
-                const availableBonusFormatted = parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2);
-                document.getElementById('availableBonus').textContent = `${availableBonusFormatted} USDT`;
-                // To avoid confusion, let's assume "Total Bonus Earned" should reflect a lifetime value.
-                // Since the contract does not provide it, we cannot display it accurately.
-                // We will set it to the available bonus as the best available data. If this is not what the user wants,
-                // the smart contract needs to be updated to track this value.
-                document.getElementById('totalBonus').textContent = `${availableBonusFormatted} USDT`; // This sets it to the most accurate data we have.
-                
-                updateLevelCounts(userInfo.directReferrals);
                 await loadUserInvestments();
                 generateReferralLink();
             } catch (error) {
@@ -3435,28 +3424,19 @@
 
             try {
                 const investments = await contract.methods.getUserInvestments(userAccount).call();
-                const hasActiveInvestment = investments.some(inv => inv.active);
 
                 if (investments.length === 0) {
-                    noInvestmentsMessage.style.display = 'block';
+                    noInvestmentsMessage.style.display = 'flex';
                 } else {
-                    // This section remains empty as the user requested to remove the investment history table
-                    // but we still check for investments to hide the "No Investments" message.
+                    noInvestmentsMessage.style.display = 'none';
                 }
 
             } catch (error) {
                 console.error('Failed to fetch user investments:', error);
-                noInvestmentsMessage.style.display = 'block';
+                noInvestmentsMessage.style.display = 'flex';
                 noInvestmentsMessage.querySelector('h3').textContent = 'Error Loading Data';
                 noInvestmentsMessage.querySelector('p').textContent = 'Could not fetch investment data from the blockchain.';
             }
-        }
-
-        function updateLevelCounts(directReferrals) {
-            document.getElementById('level1Count').textContent = directReferrals;
-            document.getElementById('level2Count').textContent = directReferrals;
-            document.getElementById('level3Count').textContent = directReferrals;
-            document.getElementById('level4Count').textContent = directReferrals;
         }
 
         function generateReferralLink() {
@@ -3486,7 +3466,7 @@
                     <div class="plan-duration">${plan.duration}</div>
                     <div class="plan-total">${plan.total}</div>
                     <ul class="plan-features">${plan.features.map(f => `<li><i class="fas fa-check"></i> ${f}</li>`).join('')}</ul>
-                    <button class="btn btn--primary"><i class="fas fa-arrow-right"></i> Select Plan</button>
+                    <button class="btn btn--primary" style="margin-top: auto;"><i class="fas fa-arrow-right"></i> Select Plan</button>
                 </div>
             `).join('');
             document.querySelectorAll('.plan-card').forEach(card => {
