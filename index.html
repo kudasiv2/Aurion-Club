@@ -18,44 +18,29 @@
             --accent-gold: #F5D76E;
             --light-gold: #FFF9E6;
             --white: #FFFFFF;
-            --gray-100: #F5F5F5;
-            --gray-200: #E5E5E5;
             --gray-300: #D4D4D3;
             --gray-400: #A3A3A3;
             --gray-500: #737373;
-            --gray-600: #525252;
-            --gray-700: #404040;
-            --gray-800: #262626;
-            --gray-900: #171717;
 
             --gradient-gold: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
             --gradient-dark: linear-gradient(135deg, var(--primary-black) 0%, var(--secondary-black) 100%);
-            --gradient-card: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
-            --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
             --gradient-elegant: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(255, 215, 0, 0.08) 100%);
 
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
             --shadow-gold: 0 0 20px rgba(212, 175, 55, 0.3);
             --shadow-gold-lg: 0 0 40px rgba(212, 175, 55, 0.4);
             --shadow-elegant: 0 8px 32px rgba(0, 0, 0, 0.2);
 
             --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-heading: 'Montserrat', sans-serif;
-            --font-size-xs: 0.75rem;
-            --font-size-sm: 0.875rem;
             --font-size-base: 1rem;
+            --font-size-sm: 0.875rem;
             --font-size-lg: 1.125rem;
             --font-size-xl: 1.25rem;
             --font-size-2xl: 1.5rem;
             --font-size-3xl: 1.875rem;
-            --font-size-4xl: 2.25rem;
             --font-size-5xl: 3rem;
             --font-size-6xl: 3.75rem;
 
-            --spacing-xs: 0.25rem;
             --spacing-sm: 0.5rem;
             --spacing-md: 1rem;
             --spacing-lg: 1.5rem;
@@ -64,14 +49,10 @@
             --spacing-3xl: 4rem;
             --spacing-4xl: 6rem;
 
-            --radius-sm: 0.375rem;
-            --radius-md: 0.5rem;
             --radius-lg: 0.75rem;
             --radius-xl: 1rem;
             --radius-2xl: 1.5rem;
-            --radius-3xl: 2rem;
 
-            --transition-fast: 0.15s ease;
             --transition-normal: 0.3s ease;
             --transition-slow: 0.5s ease;
 
@@ -80,16 +61,8 @@
             --mouse-y: 50%;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: var(--font-primary);
             background: var(--primary-black);
@@ -98,13 +71,9 @@
             overflow-x: hidden;
         }
         
-        /* NEW: Cursor Spotlight Effect */
         #spotlight {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 9998;
             background: radial-gradient(
@@ -117,794 +86,192 @@
             transition: background 0.1s ease;
         }
 
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--spacing-lg); }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 var(--spacing-lg);
-        }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-        /* NEW: Scroll Animation Classes */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Enhanced Preloader */
         .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--primary-black);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 9999;
             transition: opacity var(--transition-slow);
         }
-        .preloader.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .loader {
-            display: flex;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-lg);
-        }
-        .gold-bar {
-            width: 6px;
-            height: 30px;
-            background: var(--gradient-gold);
-            border-radius: var(--radius-sm);
-            animation: loader 1.2s ease-in-out infinite;
-            box-shadow: var(--shadow-gold);
-        }
+        .preloader.fade-out { opacity: 0; pointer-events: none; }
+        .loader { display: flex; gap: var(--spacing-sm); margin-bottom: var(--spacing-lg); }
+        .gold-bar { width: 6px; height: 30px; background: var(--gradient-gold); border-radius: 0.375rem; animation: loader 1.2s ease-in-out infinite; box-shadow: var(--shadow-gold); }
         .gold-bar:nth-child(2) { animation-delay: 0.1s; }
         .gold-bar:nth-child(3) { animation-delay: 0.2s; }
         .gold-bar:nth-child(4) { animation-delay: 0.3s; }
         .gold-bar:nth-child(5) { animation-delay: 0.4s; }
-        @keyframes loader {
-            0%, 40%, 100% { transform: scaleY(1); }
-            20% { transform: scaleY(2.5); }
-        }
-        .preloader-text {
-            font-family: var(--font-heading);
-            font-size: var(--font-size-xl);
-            color: var(--primary-gold);
-            letter-spacing: 2px;
-            font-weight: 600;
-        }
+        @keyframes loader { 0%, 40%, 100% { transform: scaleY(1); } 20% { transform: scaleY(2.5); } }
+        .preloader-text { font-family: var(--font-heading); font-size: var(--font-size-xl); color: var(--primary-gold); letter-spacing: 2px; font-weight: 600; }
 
-        /* Enhanced Header */
         .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            position: fixed; top: 0; left: 0; width: 100%;
             background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
             z-index: 1000;
             transition: all var(--transition-normal);
         }
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--spacing-md) 0;
-        }
-        .nav__logo {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-        .logo {
-            width: 35px;
-            height: 35px;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
-        }
-        .logo__text {
-            font-family: var(--font-heading);
-            font-size: var(--font-size-lg);
-            font-weight: 700;
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 1px;
-        }
-        .nav__menu {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-2xl);
-        }
-        .nav__list {
-            display: flex;
-            gap: var(--spacing-xl);
-            list-style: none;
-        }
-        .nav__link {
-            color: var(--gray-300);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color var(--transition-fast);
-            position: relative;
-            cursor: pointer;
-            font-size: var(--font-size-sm);
-            letter-spacing: 0.5px;
-        }
-        .nav__link:hover,
-        .nav__link.active {
-            color: var(--primary-gold);
-        }
-        .nav__link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--gradient-gold);
-            box-shadow: var(--shadow-gold);
-        }
-        .nav__toggle {
-            display: none;
-            font-size: var(--font-size-xl);
-            cursor: pointer;
-            color: var(--primary-gold);
-        }
+        .nav { display: flex; justify-content: space-between; align-items: center; padding: var(--spacing-md) 0; }
+        .nav__logo { display: flex; align-items: center; gap: var(--spacing-sm); }
+        .logo { width: 35px; height: 35px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); }
+        .logo__text { font-family: var(--font-heading); font-size: var(--font-size-lg); font-weight: 700; background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1px; }
+        .nav__menu { display: flex; align-items: center; gap: var(--spacing-2xl); }
+        .nav__list { display: flex; gap: var(--spacing-xl); list-style: none; }
+        .nav__link { color: var(--gray-300); text-decoration: none; font-weight: 500; transition: color 0.15s ease; position: relative; cursor: pointer; font-size: var(--font-size-sm); letter-spacing: 0.5px; }
+        .nav__link:hover, .nav__link.active { color: var(--primary-gold); }
+        .nav__link.active::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 100%; height: 2px; background: var(--gradient-gold); box-shadow: var(--shadow-gold); }
+        .nav__toggle { display: none; font-size: var(--font-size-xl); cursor: pointer; color: var(--primary-gold); }
 
-        /* Enhanced Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-sm);
-            padding: var(--spacing-md) var(--spacing-xl);
-            border: none;
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-base);
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.5px;
-        }
-        .btn--primary {
-            background: var(--gradient-gold);
-            color: var(--primary-black);
-            box-shadow: var(--shadow-gold);
-        }
-        .btn--primary:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-gold-lg);
-        }
-        .btn--outline {
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--primary-gold);
-        }
-        .btn--outline:hover {
-            background: rgba(212, 175, 55, 0.1);
-            transform: translateY(-3px);
-        }
-        .btn i {
-            font-size: var(--font-size-lg);
-        }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--spacing-sm); padding: var(--spacing-md) var(--spacing-xl); border: none; border-radius: var(--radius-lg); font-size: var(--font-size-base); font-weight: 600; text-decoration: none; cursor: pointer; transition: all var(--transition-normal); position: relative; overflow: hidden; letter-spacing: 0.5px; }
+        .btn--primary { background: var(--gradient-gold); color: var(--primary-black); box-shadow: var(--shadow-gold); }
+        .btn--primary:hover { transform: translateY(-3px); box-shadow: var(--shadow-gold-lg); }
+        .btn--outline { background: transparent; color: var(--white); border: 2px solid var(--primary-gold); }
+        .btn--outline:hover { background: rgba(212, 175, 55, 0.1); transform: translateY(-3px); }
+        .btn i { font-size: var(--font-size-lg); }
 
-        /* Enhanced Sections */
-        .section {
-            padding: var(--spacing-4xl) 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            text-align: center;
-        }
-        .section .container {
-            width: 100%;
-        }
-        .section__title {
-            font-family: var(--font-heading);
-            font-size: var(--font-size-5xl);
-            text-align: center;
-            margin-bottom: var(--spacing-md);
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-        .section__subtitle {
-            font-size: var(--font-size-xl);
-            text-align: center;
-            color: var(--gray-400);
-            margin-bottom: var(--spacing-3xl);
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.7;
-        }
-        .gradient-text {
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        .section { padding: var(--spacing-4xl) 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center; }
+        .section .container { width: 100%; }
+        .section__title { font-family: var(--font-heading); font-size: var(--font-size-5xl); text-align: center; margin-bottom: var(--spacing-md); background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 1px; font-weight: 700; }
+        .section__subtitle { font-size: var(--font-size-xl); text-align: center; color: var(--gray-400); margin-bottom: var(--spacing-3xl); max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+        .gradient-text { background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-        /* Enhanced Hero Section with 3D */
-        .hero {
-            padding-top: 140px;
-            background: var(--gradient-dark);
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
-        }
-        .hero__container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-3xl);
-            align-items: center;
-        }
-        .hero__content {
-            text-align: left;
-        }
-        .badge {
-            display: inline-block;
-            padding: var(--spacing-sm) var(--spacing-md);
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid var(--primary-gold);
-            border-radius: var(--radius-lg);
-            color: var(--primary-gold);
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: var(--spacing-lg);
-        }
-        .hero__title {
-            font-family: var(--font-heading);
-            font-size: var(--font-size-6xl);
-            margin-bottom: var(--spacing-lg);
-            line-height: 1.1;
-            letter-spacing: 1px;
-            font-weight: 800;
-        }
-        .hero__description {
-            font-size: var(--font-size-xl);
-            color: var(--gray-300);
-            margin-bottom: var(--spacing-2xl);
-            max-width: 500px;
-            line-height: 1.7;
-        }
-        .hero__buttons {
-            display: flex;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-3xl);
-        }
-        .hero__stats {
-            display: flex;
-            gap: var(--spacing-2xl);
-            text-align: left;
-        }
-        .stat__value {
-            font-size: var(--font-size-3xl);
-            font-weight: 700;
-            color: var(--primary-gold);
-            margin-bottom: var(--spacing-xs);
-            font-family: var(--font-heading);
-        }
-        .stat__label {
-            font-size: var(--font-size-sm);
-            color: var(--gray-400);
-            letter-spacing: 0.5px;
-        }
+        .hero { padding-top: 140px; background: var(--gradient-dark); position: relative; overflow: hidden; }
+        .hero::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--primary-gold), transparent); }
+        .hero__container { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-3xl); align-items: center; }
+        .hero__content { text-align: left; }
+        .badge { display: inline-block; padding: var(--spacing-sm) var(--spacing-md); background: rgba(212, 175, 55, 0.1); border: 1px solid var(--primary-gold); border-radius: var(--radius-lg); color: var(--primary-gold); font-size: var(--font-size-sm); font-weight: 600; letter-spacing: 1px; margin-bottom: var(--spacing-lg); }
+        .hero__title { font-family: var(--font-heading); font-size: var(--font-size-6xl); margin-bottom: var(--spacing-lg); line-height: 1.1; letter-spacing: 1px; font-weight: 800; }
+        .hero__description { font-size: var(--font-size-xl); color: var(--gray-300); margin-bottom: var(--spacing-2xl); max-width: 500px; line-height: 1.7; }
+        .hero__buttons { display: flex; gap: var(--spacing-md); margin-bottom: var(--spacing-3xl); }
+        .hero__stats { display: flex; gap: var(--spacing-2xl); text-align: left; }
+        .stat__value { font-size: var(--font-size-3xl); font-weight: 700; color: var(--primary-gold); margin-bottom: 0.25rem; font-family: var(--font-heading); }
+        .stat__label { font-size: var(--font-size-sm); color: var(--gray-400); letter-spacing: 0.5px; }
         
-        /* NEW: 3D Spline Container */
-        .spline-container {
-            width: 100%;
-            height: 500px;
-            min-height: 400px;
-            position: relative;
-        }
-        .spline-container canvas {
-            border-radius: var(--radius-2xl);
-        }
+        .spline-container { width: 100%; height: 500px; min-height: 400px; position: relative; }
+        .spline-container canvas { border-radius: var(--radius-2xl); }
 
-        /* NEW: Base styles for tiltable cards */
-        .tilt-card {
-            transition: transform 0.1s ease-out;
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
+        .tilt-card { transition: transform 0.1s ease-out; transform-style: preserve-3d; will-change: transform; }
 
-        /* Enhanced Dashboard Section */
-        .dashboard-section {
-            background: var(--secondary-black);
-        }
-        .quick-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-3xl);
-            text-align: left;
-        }
-        .stat-card {
-            background: var(--gradient-elegant);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-2xl);
-            padding: var(--spacing-2xl);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-lg);
-            transition: all var(--transition-normal);
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-elegant);
-        }
-        .stat-card:hover {
-            border-color: var(--primary-gold);
-            box-shadow: var(--shadow-gold-lg);
-        }
-        .stat-icon {
-            width: 70px;
-            height: 70px;
-            background: var(--gradient-gold);
-            border-radius: var(--radius-xl);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: var(--font-size-2xl);
-            color: var(--primary-black);
-            box-shadow: var(--shadow-gold);
-            flex-shrink: 0;
-        }
-        .stat-value {
-            font-size: var(--font-size-2xl);
-            font-weight: 700;
-            color: var(--primary-gold);
-            margin-bottom: var(--spacing-xs);
-            font-family: var(--font-heading);
-        }
-        .stat-label {
-            color: var(--gray-400);
-            font-size: var(--font-size-sm);
-            letter-spacing: 0.5px;
-        }
-        .action-buttons {
-            display: flex;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-3xl);
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .empty-state {
-            text-align: center;
-            padding: var(--spacing-4xl);
-            background: var(--gradient-elegant);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-2xl);
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-elegant);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .empty-icon {
-            width: 100px;
-            height: 100px;
-            background: var(--gradient-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: var(--font-size-3xl);
-            color: var(--primary-black);
-            margin: 0 auto var(--spacing-lg);
-            box-shadow: var(--shadow-gold);
-        }
-        .empty-state h3 {
-            margin-bottom: var(--spacing-md);
-            color: var(--white);
-            font-family: var(--font-heading);
-            font-size: var(--font-size-2xl);
-        }
-        .empty-state p {
-            color: var(--gray-400);
-            margin-bottom: var(--spacing-xl);
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
+        .dashboard-section, .referral-section, .whitepaper-section, .audit-section, .faq-section, .resources-section { background: var(--secondary-black); }
+        .quick-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-lg); margin-bottom: var(--spacing-3xl); text-align: left; }
+        .stat-card { background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-2xl); display: flex; align-items: center; gap: var(--spacing-lg); transition: all var(--transition-normal); backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); }
+        .stat-card:hover { border-color: var(--primary-gold); box-shadow: var(--shadow-gold-lg); }
+        .stat-icon { width: 70px; height: 70px; background: var(--gradient-gold); border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; font-size: var(--font-size-2xl); color: var(--primary-black); box-shadow: var(--shadow-gold); flex-shrink: 0; }
+        .stat-value { font-size: var(--font-size-2xl); font-weight: 700; color: var(--primary-gold); margin-bottom: 0.25rem; font-family: var(--font-heading); }
+        .stat-label { color: var(--gray-400); font-size: var(--font-size-sm); letter-spacing: 0.5px; }
+        .action-buttons { display: flex; gap: var(--spacing-md); margin-bottom: var(--spacing-3xl); flex-wrap: wrap; justify-content: center; }
+        .empty-state { text-align: center; padding: var(--spacing-4xl); background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .empty-icon { width: 100px; height: 100px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-3xl); color: var(--primary-black); margin: 0 auto var(--spacing-lg); box-shadow: var(--shadow-gold); }
+        .empty-state h3 { margin-bottom: var(--spacing-md); color: var(--white); font-family: var(--font-heading); font-size: var(--font-size-2xl); }
+        .empty-state p { color: var(--gray-400); margin-bottom: var(--spacing-xl); max-width: 400px; margin-left: auto; margin-right: auto; line-height: 1.6; }
 
-        /* Enhanced Invest Section */
-        .invest-section {
-            background: var(--primary-black);
-        }
-        .investment-plans {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: var(--spacing-2xl);
-            margin-bottom: var(--spacing-3xl);
-        }
-        .plan-card {
-            background: var(--gradient-elegant);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-2xl);
-            padding: var(--spacing-2xl);
-            text-align: center;
-            transition: all var(--transition-normal);
-            position: relative;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-elegant);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .plan-card:hover {
-            border-color: var(--primary-gold);
-            box-shadow: var(--shadow-gold-lg);
-        }
-        .plan-card.featured {
-            border-color: var(--primary-gold);
-            box-shadow: var(--shadow-gold-lg);
-            transform: scale(1.05);
-        }
-        .plan-card.featured::before {
-            content: 'RECOMMENDED';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--gradient-gold);
-            color: var(--primary-black);
-            padding: var(--spacing-xs) var(--spacing-lg);
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-sm);
-            font-weight: 700;
-            letter-spacing: 1px;
-            box-shadow: var(--shadow-gold);
-        }
-        .plan-card.featured:hover {
-            transform: scale(1.05); /* Remove translateY from hover when featured */
-        }
-        .plan-name {
-            font-size: var(--font-size-xl);
-            margin-bottom: var(--spacing-md);
-            color: var(--white);
-            font-family: var(--font-heading);
-        }
-        .plan-roi {
-            font-size: var(--font-size-3xl);
-            font-weight: 700;
-            color: var(--primary-gold);
-            margin-bottom: var(--spacing-md);
-            font-family: var(--font-heading);
-        }
-        .plan-range {
-            background: rgba(212, 175, 55, 0.1);
-            padding: var(--spacing-md);
-            border-radius: var(--radius-lg);
-            margin: var(--spacing-lg) 0;
-            font-weight: 600;
-            color: var(--primary-gold);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
-        .plan-features {
-            list-style: none;
-            margin: var(--spacing-lg) 0;
-            text-align: left;
-            flex-grow: 1;
-        }
-        .plan-features li {
-            padding: var(--spacing-sm) 0;
-            color: var(--gray-300);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-            display: flex;
-            align-items: center;
-        }
-        .plan-features li:last-child {
-            border-bottom: none;
-        }
-        .plan-features li i {
-            color: var(--primary-gold);
-            margin-right: var(--spacing-sm);
-            font-size: var(--font-size-sm);
-        }
-        .investment-form-container {
-            background: var(--gradient-elegant);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-2xl);
-            padding: var(--spacing-3xl);
-            margin-bottom: var(--spacing-3xl);
-            display: none;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-elegant);
-            width: 100%;
-            max-width: 600px;
-        }
-        
-        .investment-form-container.active {
-            display: block;
-        }
+        .invest-section { background: var(--primary-black); }
+        .investment-plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--spacing-2xl); margin-bottom: var(--spacing-3xl); }
+        .plan-card { background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-2xl); text-align: center; transition: all var(--transition-normal); position: relative; cursor: pointer; backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+        .plan-card:hover { border-color: var(--primary-gold); box-shadow: var(--shadow-gold-lg); }
+        .plan-card.featured { border-color: var(--primary-gold); box-shadow: var(--shadow-gold-lg); transform: scale(1.05); }
+        .plan-card.featured::before { content: 'RECOMMENDED'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gradient-gold); color: var(--primary-black); padding: 0.25rem var(--spacing-lg); border-radius: var(--radius-lg); font-size: var(--font-size-sm); font-weight: 700; letter-spacing: 1px; box-shadow: var(--shadow-gold); }
+        .plan-card.featured:hover { transform: scale(1.05); }
+        .plan-name { font-size: var(--font-size-xl); margin-bottom: var(--spacing-md); color: var(--white); font-family: var(--font-heading); }
+        .plan-roi { font-size: var(--font-size-3xl); font-weight: 700; color: var(--primary-gold); margin-bottom: var(--spacing-md); font-family: var(--font-heading); }
+        .plan-range { background: rgba(212, 175, 55, 0.1); padding: var(--spacing-md); border-radius: var(--radius-lg); margin: var(--spacing-lg) 0; font-weight: 600; color: var(--primary-gold); border: 1px solid rgba(212, 175, 55, 0.2); }
+        .plan-features { list-style: none; margin: var(--spacing-lg) 0; text-align: left; flex-grow: 1; }
+        .plan-features li { padding: var(--spacing-sm) 0; color: var(--gray-300); border-bottom: 1px solid rgba(212, 175, 55, 0.1); display: flex; align-items: center; }
+        .plan-features li:last-child { border-bottom: none; }
+        .plan-features li i { color: var(--primary-gold); margin-right: var(--spacing-sm); font-size: var(--font-size-sm); }
+        .investment-form-container { background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-3xl); margin-bottom: var(--spacing-3xl); display: none; backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); width: 100%; max-width: 600px; }
+        .investment-form-container.active { display: block; }
+        .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-2xl); padding-bottom: var(--spacing-lg); border-bottom: 1px solid rgba(212, 175, 55, 0.1); }
+        .form-header h2 { margin: 0; color: var(--white); font-family: var(--font-heading); font-size: var(--font-size-3xl); }
+        .investment-form { max-width: 500px; margin: 0 auto; text-align: left; }
+        .form-group { margin-bottom: var(--spacing-xl); }
+        .form-group label { display: block; margin-bottom: var(--spacing-sm); color: var(--white); font-weight: 600; font-size: var(--font-size-lg); }
+        .form-input { width: 100%; padding: var(--spacing-lg); background: rgba(10, 10, 10, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: var(--radius-lg); color: var(--white); font-size: var(--font-size-base); transition: all var(--transition-normal); }
+        .form-input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); }
+        .amount-range { margin-top: var(--spacing-sm); font-size: var(--font-size-sm); color: var(--gray-400); }
+        .plan-summary { background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-lg); padding: var(--spacing-lg); color: var(--white); }
+        .investment-summary { background: rgba(10, 10, 10, 0.8); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-lg); padding: var(--spacing-xl); margin: var(--spacing-2xl) 0; }
+        .investment-summary h3 { margin-bottom: var(--spacing-lg); color: var(--white); text-align: center; font-family: var(--font-heading); font-size: var(--font-size-xl); }
+        .summary-item { display: flex; justify-content: space-between; align-items: center; padding: var(--spacing-md) 0; border-bottom: 1px solid rgba(212, 175, 55, 0.1); color: var(--gray-300); }
+        .summary-item:last-child { border-bottom: none; }
 
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-2xl);
-            padding-bottom: var(--spacing-lg);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .form-header h2 {
-            margin: 0;
-            color: var(--white);
-            font-family: var(--font-heading);
-            font-size: var(--font-size-3xl);
-        }
-
-        .investment-form {
-            max-width: 500px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .form-group {
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: var(--spacing-sm);
-            color: var(--white);
-            font-weight: 600;
-            font-size: var(--font-size-lg);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: var(--spacing-lg);
-            background: rgba(10, 10, 10, 0.8);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: var(--radius-lg);
-            color: var(--white);
-            font-size: var(--font-size-base);
-            transition: all var(--transition-normal);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-        }
-
-        .amount-range {
-            margin-top: var(--spacing-sm);
-            font-size: var(--font-size-sm);
-            color: var(--gray-400);
-        }
-
-        .plan-summary {
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
-            color: var(--white);
-        }
-
-        .investment-summary {
-            background: rgba(10, 10, 10, 0.8);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-xl);
-            margin: var(--spacing-2xl) 0;
-        }
-        .investment-summary h3 {
-            margin-bottom: var(--spacing-lg);
-            color: var(--white);
-            text-align: center;
-            font-family: var(--font-heading);
-            font-size: var(--font-size-xl);
-        }
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--spacing-md) 0;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-            color: var(--gray-300);
-        }
-        .summary-item:last-child {
-            border-bottom: none;
-        }
-
-        /* Enhanced Investment Success Popup */
-        .investment-success-popup {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;
-            z-index: 2000; opacity: 0; visibility: hidden; transition: all var(--transition-normal);
-        }
+        .investment-success-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: all var(--transition-normal); }
         .investment-success-popup.active { opacity: 1; visibility: visible; }
-        .investment-success {
-            background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-2xl); padding: var(--spacing-xl); text-align: center;
-            max-width: 400px; width: 90%; backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant);
-            transform: scale(0.9); transition: transform var(--transition-normal);
-        }
+        .investment-success { background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-xl); text-align: center; max-width: 400px; width: 90%; backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); transform: scale(0.9); transition: transform var(--transition-normal); }
         .investment-success-popup.active .investment-success { transform: scale(1); }
-        .success-icon {
-            width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: var(--font-size-2xl);
-            color: var(--primary-black); margin: 0 auto var(--spacing-lg); box-shadow: var(--shadow-gold);
-        }
+        .success-icon { width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-2xl); color: var(--primary-black); margin: 0 auto var(--spacing-lg); box-shadow: var(--shadow-gold); }
         .investment-success h2 { margin-bottom: var(--spacing-md); color: var(--white); font-family: var(--font-heading); font-size: var(--font-size-xl); }
         .investment-success p { color: var(--gray-400); margin-bottom: var(--spacing-xl); line-height: 1.6; font-size: var(--font-size-base); }
         .success-actions { display: flex; gap: var(--spacing-md); justify-content: center; flex-wrap: wrap; }
 
-        /* Enhanced Referral Section */
-        .referral-section { background: var(--secondary-black); }
-        .referral-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-lg); margin-bottom: var(--spacing-3xl); text-align: left; }
-        .referral-link-container {
-            background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-2xl); padding: var(--spacing-3xl); margin-bottom: var(--spacing-3xl);
-            backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); width: 100%; max-width: 800px;
-        }
+        .referral-link-container { background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-3xl); margin-bottom: var(--spacing-3xl); backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); width: 100%; max-width: 800px; }
         .referral-link-container h2 { text-align: center; font-family: var(--font-heading); color: var(--white); font-size: var(--font-size-2xl); margin-bottom: var(--spacing-sm); }
         .referral-link-container p { text-align: center; color: var(--gray-400); margin-bottom: var(--spacing-xl); }
         .link-display { display: flex; gap: var(--spacing-md); margin-bottom: var(--spacing-lg); }
         .link-input { flex: 1; padding: var(--spacing-lg); background: rgba(10, 10, 10, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: var(--radius-lg); color: var(--white); font-size: var(--font-size-base); }
         .social-share { display: flex; justify-content: center; gap: var(--spacing-md); }
-        .social-btn {
-            width: 60px; height: 60px; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-lg); color: var(--primary-gold); font-size: var(--font-size-xl);
-            cursor: pointer; transition: all var(--transition-normal); display: flex; align-items: center; justify-content: center;
-        }
+        .social-btn { width: 60px; height: 60px; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-lg); color: var(--primary-gold); font-size: var(--font-size-xl); cursor: pointer; transition: all var(--transition-normal); display: flex; align-items: center; justify-content: center; }
         .social-btn:hover { background: var(--primary-gold); color: var(--primary-black); transform: translateY(-5px); box-shadow: var(--shadow-gold); }
         .levels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-2xl); margin-bottom: var(--spacing-3xl); text-align: left; }
-        .level-card {
-            background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-2xl);
-            transition: all var(--transition-normal); backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant);
-        }
+        .level-card { background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-2xl); transition: all var(--transition-normal); backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); }
         .level-card:hover { border-color: var(--primary-gold); box-shadow: var(--shadow-gold-lg); }
         .level-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg); padding-bottom: var(--spacing-md); border-bottom: 1px solid rgba(212, 175, 55, 0.1); }
-        .level-number {
-            width: 50px; height: 50px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--primary-black); font-weight: 700; font-size: var(--font-size-xl); box-shadow: var(--shadow-gold); flex-shrink: 0;
-        }
+        .level-number { width: 50px; height: 50px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-black); font-weight: 700; font-size: var(--font-size-xl); box-shadow: var(--shadow-gold); flex-shrink: 0; }
         .level-commission { font-size: var(--font-size-xl); font-weight: 700; color: var(--primary-gold); font-family: var(--font-heading); text-align: right; }
         .requirement i { color: var(--primary-gold); }
         .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-2xl); }
-        .step-card {
-            background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-2xl); text-align: center;
-            transition: all var(--transition-normal); backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant);
-        }
+        .step-card { background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-2xl); text-align: center; transition: all var(--transition-normal); backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); }
         .step-card:hover { border-color: var(--primary-gold); }
         .step-number { width: 70px; height: 70px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-black); font-weight: 700; font-size: var(--font-size-2xl); margin: 0 auto var(--spacing-lg); box-shadow: var(--shadow-gold); }
         .step-card h3 { margin-bottom: var(--spacing-md); color: var(--white); font-family: var(--font-heading); font-size: var(--font-size-xl); }
         .step-card p { color: var(--gray-300); line-height: 1.6; }
 
-        /* Whitepaper, Audit, FAQ, and other sections... */
-        .whitepaper-section, .audit-section, .faq-section, .resources-section {
-            background: var(--secondary-black);
-        }
-        .whitepaper-content, .audit-content {
-            background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-4xl);
-            backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant);
-        }
-        .chapter-title {
-            font-size: var(--font-size-2xl); color: var(--primary-gold); margin-bottom: var(--spacing-lg); display: flex; align-items: center;
-            gap: var(--spacing-md); font-family: var(--font-heading);
-        }
-        .faq-item {
-            background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-xl); margin-bottom: var(--spacing-lg);
-            overflow: hidden; backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant);
-        }
+        .whitepaper-content, .audit-content { background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-4xl); backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); }
+        .chapter-title { font-size: var(--font-size-2xl); color: var(--primary-gold); margin-bottom: var(--spacing-lg); display: flex; align-items: center; gap: var(--spacing-md); font-family: var(--font-heading); }
+        .faq-item { background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-xl); margin-bottom: var(--spacing-lg); overflow: hidden; backdrop-filter: blur(10px); box-shadow: var(--shadow-elegant); }
         .faq-question { padding: var(--spacing-xl); display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all var(--transition-normal); }
         .faq-item.active .faq-answer { padding: 0 var(--spacing-xl) var(--spacing-xl); max-height: 500px; }
         .faq-item.active .faq-icon { transform: rotate(180deg); }
-        .alert {
-            display: flex; align-items: center; gap: var(--spacing-md); padding: var(--spacing-lg); border-radius: var(--radius-lg); margin-bottom: var(--spacing-2xl);
-            border: 1px solid; backdrop-filter: blur(10px); max-width: 800px; width: 100%; margin-left: auto; margin-right: auto; text-align: left;
-        }
+        .alert { display: flex; align-items: center; gap: var(--spacing-md); padding: var(--spacing-lg); border-radius: var(--radius-lg); margin-bottom: var(--spacing-2xl); border: 1px solid; backdrop-filter: blur(10px); max-width: 800px; width: 100%; margin-left: auto; margin-right: auto; text-align: left; }
         .alert-warning { background: rgba(245, 158, 11, 0.1); border-color: #F59E0B; color: #F59E0B; }
-        .notification {
-            position: fixed; top: 20px; right: 20px; padding: var(--spacing-lg) var(--spacing-xl); background: var(--secondary-black);
-            border: 1px solid var(--primary-gold); border-radius: var(--radius-lg); color: var(--white); box-shadow: var(--shadow-lg);
-            transform: translateX(150%); transition: transform var(--transition-normal); z-index: 3000; max-width: 400px; backdrop-filter: blur(10px);
-        }
+        .notification { position: fixed; top: 20px; right: 20px; padding: var(--spacing-lg) var(--spacing-xl); background: var(--secondary-black); border: 1px solid var(--primary-gold); border-radius: var(--radius-lg); color: var(--white); box-shadow: var(--shadow-lg); transform: translateX(150%); transition: transform var(--transition-normal); z-index: 3000; max-width: 400px; backdrop-filter: blur(10px); }
         .notification.show { transform: translateX(0); }
         .notification.success { border-color: #10B981; background: rgba(16, 185, 129, 0.1); }
         .notification.error { border-color: #EF4444; background: rgba(239, 68, 68, 0.1); }
         
         .resources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: var(--spacing-2xl); margin-bottom: var(--spacing-3xl); }
-        .resource-card {
-            background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-2xl); text-align: center;
-            transition: all var(--transition-normal); backdrop-filter: blur(10px); height: 100%; display: flex; flex-direction: column; box-shadow: var(--shadow-elegant);
-        }
+        .resource-card { background: var(--gradient-elegant); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-2xl); padding: var(--spacing-2xl); text-align: center; transition: all var(--transition-normal); backdrop-filter: blur(10px); height: 100%; display: flex; flex-direction: column; box-shadow: var(--shadow-elegant); }
         .resource-card:hover { border-color: var(--primary-gold); box-shadow: var(--shadow-gold-lg); }
         .resource-icon { width: 90px; height: 90px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-3xl); color: var(--primary-black); margin: 0 auto var(--spacing-lg); box-shadow: var(--shadow-gold); }
 
-
-        /* Footer */
-        .footer {
-            background: var(--primary-black); border-top: 1px solid rgba(212, 175, 55, 0.1);
-            padding: var(--spacing-4xl) 0 var(--spacing-xl); min-height: auto;
-        }
+        .footer { background: var(--primary-black); border-top: 1px solid rgba(212, 175, 55, 0.1); padding: var(--spacing-4xl) 0 var(--spacing-xl); min-height: auto; }
         .footer__content { display: grid; grid-template-columns: 1fr 2fr; gap: var(--spacing-3xl); margin-bottom: var(--spacing-2xl); text-align: left; }
         .footer__brand { display: flex; flex-direction: column; gap: var(--spacing-md); }
         .footer__logo { display: flex; align-items: center; gap: var(--spacing-sm); font-size: var(--font-size-xl); font-weight: 700; color: var(--primary-gold); font-family: var(--font-heading); }
         .footer__logo img { width: 35px; height: 35px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); }
         .footer__social { display: flex; gap: var(--spacing-md); }
-        .social__link {
-            width: 45px; height: 45px; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--primary-gold); border-radius: var(--radius-md);
-            display: flex; align-items: center; justify-content: center; color: var(--primary-gold); text-decoration: none; transition: all var(--transition-normal);
-        }
+        .social__link { width: 45px; height: 45px; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--primary-gold); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: var(--primary-gold); text-decoration: none; transition: all var(--transition-normal); }
         .social__link:hover { background: var(--primary-gold); color: var(--primary-black); transform: translateY(-3px); box-shadow: var(--shadow-gold); }
         .footer__links { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-2xl); }
         .footer__column h4 { color: var(--white); margin-bottom: var(--spacing-lg); font-size: var(--font-size-lg); font-family: var(--font-heading); }
-        .footer__column a { display: block; color: var(--gray-400); text-decoration: none; margin-bottom: var(--spacing-sm); transition: color var(--transition-fast); }
+        .footer__column a { display: block; color: var(--gray-400); text-decoration: none; margin-bottom: var(--spacing-sm); transition: color 0.15s ease; }
         .footer__column a:hover { color: var(--primary-gold); }
         .footer__bottom { border-top: 1px solid rgba(212, 175, 55, 0.1); padding-top: var(--spacing-lg); text-align: center; color: var(--gray-500); }
 
-
-        /* Responsive Design */
         @media (max-width: 1024px) {
-            .hero__container {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-2xl);
-                text-align: center;
-            }
-            .hero__content {
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .hero__buttons, .hero__stats {
-                justify-content: center;
-            }
-            .footer__content {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-2xl);
-                text-align: center;
-            }
-            .footer__brand {
-                align-items: center;
-            }
+            .hero__container { grid-template-columns: 1fr; gap: var(--spacing-2xl); text-align: center; }
+            .hero__content { text-align: center; display: flex; flex-direction: column; align-items: center; }
+            .hero__buttons, .hero__stats { justify-content: center; }
+            .footer__content { grid-template-columns: 1fr; gap: var(--spacing-2xl); text-align: center; }
+            .footer__brand { align-items: center; }
         }
-
         @media (max-width: 768px) {
-            .nav__menu {
-                position: fixed; top: 70px; left: -100%; width: 80%; height: calc(100vh - 70px);
-                background: var(--secondary-black); flex-direction: column; justify-content: flex-start;
-                align-items: flex-start; padding: var(--spacing-2xl); transition: left var(--transition-normal);
-                border-right: 1px solid rgba(212, 175, 55, 0.1); backdrop-filter: blur(20px);
-            }
+            .nav__menu { position: fixed; top: 70px; left: -100%; width: 80%; height: calc(100vh - 70px); background: var(--secondary-black); flex-direction: column; justify-content: flex-start; align-items: flex-start; padding: var(--spacing-2xl); transition: left var(--transition-normal); border-right: 1px solid rgba(212, 175, 55, 0.1); backdrop-filter: blur(20px); }
             .nav__menu.active { left: 0; }
             .nav__list { flex-direction: column; gap: var(--spacing-lg); width: 100%; }
             .nav__buttons { width: 100%; margin-top: var(--spacing-xl); }
@@ -920,11 +287,7 @@
 
     <div class="preloader">
         <div class="loader">
-            <div class="gold-bar"></div>
-            <div class="gold-bar"></div>
-            <div class="gold-bar"></div>
-            <div class="gold-bar"></div>
-            <div class="gold-bar"></div>
+            <div class="gold-bar"></div><div class="gold-bar"></div><div class="gold-bar"></div><div class="gold-bar"></div><div class="gold-bar"></div>
         </div>
         <div class="preloader-text">AURION CLUB</div>
     </div>
@@ -1057,7 +420,7 @@
         </section>
         
         <section class="referral-section section" id="referral" style="display: none;">
-             <div class="container">
+            <div class="container">
                 <div class="section__header fade-in">
                     <h2 class="section__title">Referral Program</h2>
                     <p class="section__subtitle">Earn exclusive commissions from 4 levels of your referral network</p>
@@ -1080,13 +443,15 @@
                     </div>
                 </div>
                  <div class="levels-grid fade-in">
-                    <div class="level-card tilt-card"></div>
-                    <div class="level-card tilt-card"></div>
-                    <div class="level-card tilt-card"></div>
-                    <div class="level-card tilt-card"></div>
                  </div>
             </div>
         </section>
+        
+        <!-- Other Sections Placeholder -->
+        <section class="whitepaper-section section" id="whitepaper" style="display: none;"></section>
+        <section class="audit-section section" id="audit" style="display: none;"></section>
+        <section class="resources-section section" id="downloads" style="display: none;"></section>
+        <section class="faq-section section" id="faq" style="display: none;"></section>
 
     </main>
     
@@ -1151,22 +516,18 @@
     <script>
         // --- START OF SCRIPT ---
         
-        // Contract Configuration
         const CONTRACT_ADDRESS = '0xAD81F7819465e3e4201C587c20C4b8E1Bb9920eb';
         const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
-        const USDT_ABI = [{"constant": false, "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "approve", "outputs": [{"name": "", "type": "bool"}], "type": "function"}, {"constant": true, "inputs": [{"name": "_owner", "type": "address"}], "name": "balanceOf", "outputs": [{"name": "balance", "type": "uint256"}], "type": "function"}, {"constant": true, "inputs": [{"name": "_owner", "type": "address"}, {"name": "_spender", "type": "address"}], "name": "allowance", "outputs": [{"name": "", "type": "uint256"}], "type": "function"}, {"constant": true, "inputs": [], "name": "decimals", "outputs": [{"name": "", "type": "uint8"}], "type": "function"}];
-        const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdtToken","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"planId","type":"uint256"},{"indexed":false,"internalType":"address","name":"upline","type":"address"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"uint256","name":"totalBalance","type":"uint256"}],"name":"PoolWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referral","type":"address"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ReferralBonus","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"referral","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"address","name":"owner","type":"address"}],"name":"ReferralBonusExpired","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"fee","type":"uint256"}],"name":"Withdraw","type":"event"},{"inputs":[],"name":"DAILY_WITHDRAWAL_LIMIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_ACTIVE_INVESTMENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_WITHDRAWAL","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"OWNER_FEE_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"WITHDRAWAL_FEE_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"calculateAvailableEarnings","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"dailyWithdrawals","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"uint256","name":"_planId","type":"uint256"},{"internalType":"address","name":"_upline","type":"address"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getActiveInvestmentStatus","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractStats","outputs":[{"internalType":"uint256","name":"totalExpiredBonuses","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawalFeesCollected","type":"uint256"},{"internalType":"uint256","name":"totalReferralBonusesPaid","type":"uint256"},{"internalType":"uint256","name":"currentContractBalance","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getPlansCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"uint256","name":"totalDeposits","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"directReferrals","type":"uint256"},{"internalType":"uint256","name":"referralBonus","type":"uint256"},{"internalType":"uint256","name":"availableEarnings","type":"uint256"},{"internalType":"address","name":"upline","type":"address"},{"internalType":"bool","name":"hasActiveInvestment","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserInvestments","outputs":[{"components":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"planId","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"lastWithdrawalTime","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"internalType":"struct Aurion.UserInvestment[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"investmentPlans","outputs":[{"internalType":"uint256","name":"minAmount","type":"uint256"},{"internalType":"uint256","name":"maxAmount","type":"uint256"},{"internalType":"uint256","name":"dailyROI","type":"uint256"},{"internalType":"uint256","name":"duration","type":"uint256"},{"internalType":"uint256","name":"totalROI","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"referralLevels","outputs":[{"internalType":"uint256","name":"percentage","type":"uint256"},{"internalType":"uint256","name":"minDirectReferrals","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalExpiredReferralBonuses","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalReferralBonuses","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawalFees","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"upline","type":"address"},{"internalType":"uint256","name":"totalDeposits","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"directReferrals","type":"uint256"},{"internalType":"uint256","name":"referralBonus","type":"uint256"},{"internalType":"uint256","name":"lastWithdrawal","type":"uint256"},{"internalType":"bool","name":"exists","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawExpiredBonuses","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+        const USDT_ABI = [{"constant": false, "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "approve", "outputs": [{"name": "", "type": "bool"}], "type": "function"}, {"constant": true, "inputs": [{"name": "_owner", "type": "address"}], "name": "balanceOf", "outputs": [{"name": "balance", "type": "uint256"}], "type": "function"}, {"constant": true, "inputs": [{"name": "_owner", "type": "address"}, {"name": "_spender", "type": "address"}], "name": "allowance", "outputs": [{"name": "", "type": "uint256"}], "type": "function"}];
+        const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdtToken","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"planId","type":"uint256"},{"indexed":false,"internalType":"address","name":"upline","type":"address"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referral","type":"address"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ReferralBonus","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"fee","type":"uint256"}],"name":"Withdraw","type":"event"},{"inputs":[],"name":"DAILY_WITHDRAWAL_LIMIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"calculateAvailableEarnings","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"uint256","name":"_planId","type":"uint256"},{"internalType":"address","name":"_upline","type":"address"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getContractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"uint256","name":"totalDeposits","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"directReferrals","type":"uint256"},{"internalType":"uint256","name":"referralBonus","type":"uint256"},{"internalType":"uint256","name":"availableEarnings","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 
-        // Global Variables
         let web3, contract, usdtContract, userAccount, selectedPlan = null, referralAddress = null;
 
-        // DOM Elements
         const preloader = document.querySelector('.preloader');
         const navMenu = document.getElementById('nav-menu');
         const navToggle = document.getElementById('nav-toggle');
         const connectWalletBtn = document.getElementById('connectWallet');
         const notification = document.getElementById('notification');
-        const investmentSuccessPopup = document.getElementById('investmentSuccessPopup');
         const sections = {
             home: document.getElementById('home'),
             dashboard: document.getElementById('dashboard'),
@@ -1178,21 +539,16 @@
             faq: document.getElementById('faq')
         };
         
-        // --- START OF MAIN LOGIC ---
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize all functionalities
+        document.addEventListener('DOMContentLoaded', () => {
             initializeApp();
             setupEventListeners();
             generateInvestmentPlans();
             checkPreloader();
             checkURLForReferral();
-            setupFAQ();
             setupAdvancedEffects();
         });
 
         function setupAdvancedEffects() {
-             // --- Cursor Spotlight Effect ---
             const spotlight = document.getElementById('spotlight');
             if (spotlight) {
                 window.addEventListener('mousemove', (e) => {
@@ -1201,7 +557,6 @@
                 });
             }
 
-            // --- Scroll Animation Observer ---
             const fadeInElements = document.querySelectorAll('.fade-in');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1212,15 +567,12 @@
                 });
             }, { threshold: 0.1 });
             fadeInElements.forEach(el => observer.observe(el));
-
-            // --- 3D Tilt Effect on Cards ---
             initializeTiltEffect(document.querySelectorAll('.tilt-card'));
         }
 
         function initializeTiltEffect(elements) {
             elements.forEach(card => {
-                if (card.dataset.tiltInitialized) return; // Prevent re-initializing
-                
+                if (card.dataset.tiltInitialized) return;
                 const maxTilt = 10;
                 card.addEventListener('mousemove', (e) => {
                     const rect = card.getBoundingClientRect();
@@ -1253,7 +605,6 @@
                         loadContractData();
                     }
                 } catch (error) {
-                    console.error('Error initializing Web3:', error);
                     showNotification('Error connecting to blockchain', 'error');
                 }
             } else {
@@ -1280,7 +631,6 @@
                 });
                 window.ethereum.on('chainChanged', () => window.location.reload());
             }
-            // Add other event listeners...
             document.getElementById('backToPlans').addEventListener('click', showPlans);
             document.getElementById('confirmInvestment').addEventListener('click', confirmInvestment);
             document.getElementById('investmentAmount').addEventListener('input', updateInvestmentSummary);
@@ -1315,12 +665,13 @@
         }
 
         function updateWalletUI() {
+            const alerts = ['dashboardWalletAlert', 'investWalletAlert', 'referralWalletAlert'];
             if (userAccount) {
                 connectWalletBtn.innerHTML = `<i class="fas fa-wallet"></i> ${userAccount.substring(0, 6)}...${userAccount.substring(userAccount.length - 4)}`;
-                ['dashboardWalletAlert', 'investWalletAlert', 'referralWalletAlert'].forEach(id => document.getElementById(id).style.display = 'none');
+                alerts.forEach(id => document.getElementById(id).style.display = 'none');
             } else {
                 connectWalletBtn.innerHTML = `<i class="fas fa-wallet"></i> Connect Wallet`;
-                ['dashboardWalletAlert', 'investWalletAlert', 'referralWalletAlert'].forEach(id => document.getElementById(id).style.display = 'flex');
+                alerts.forEach(id => document.getElementById(id).style.display = 'flex');
             }
         }
 
@@ -1328,80 +679,149 @@
             try {
                 const balance = await contract.methods.getContractBalance().call();
                 const formattedBalance = parseFloat(web3.utils.fromWei(balance, 'ether')).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                document.getElementById('contractBalance').textContent = `${formattedBalance} USDT`;
                 document.getElementById('totalTVL').textContent = `$${formattedBalance}`;
                 if (userAccount) await loadUserData();
             } catch (error) { console.error('Error loading contract data:', error); }
         }
         
         async function loadUserData() {
-            // (Same as previous version)
+            if (!userAccount) return;
+            try {
+                const userInfo = await contract.methods.getUserInfo(userAccount).call();
+                document.getElementById('totalDeposits').textContent = `${parseFloat(web3.utils.fromWei(userInfo.totalDeposits, 'ether')).toFixed(2)} USDT`;
+                document.getElementById('availableEarnings').textContent = `${parseFloat(web3.utils.fromWei(userInfo.availableEarnings, 'ether')).toFixed(2)} USDT`;
+                document.getElementById('totalWithdrawn').textContent = `${parseFloat(web3.utils.fromWei(userInfo.totalWithdrawn, 'ether')).toFixed(2)} USDT`;
+                document.getElementById('referralBonus').textContent = `${parseFloat(web3.utils.fromWei(userInfo.referralBonus, 'ether')).toFixed(2)} USDT`;
+                document.getElementById('referralLink').value = `${window.location.origin}${window.location.pathname}?ref=${userAccount}`;
+                document.getElementById('quickStats').style.display = 'grid';
+                document.getElementById('actionButtons').style.display = 'flex';
+            } catch (error) { console.error('Error loading user data:', error); }
         }
 
         function generateInvestmentPlans() {
-            const plansContainer = document.getElementById('investmentPlans');
-            if (!plansContainer) return;
+            const container = document.getElementById('investmentPlans');
+            if (!container) return;
             const plans = [
-                {id: 0, name: 'Starter Plan', roi: '1% Daily', range: '20 - 499 USDT', features: ['1% Daily ROI', '150 Days Duration', '150% Total Returns', '4-Level Referral'], featured: false},
-                {id: 1, name: 'Advanced Plan', roi: '1.2% Daily', range: '500 - 1,999 USDT', features: ['1.2% Daily ROI', '150 Days Duration', '180% Total Returns', '4-Level Referral'], featured: false},
-                {id: 2, name: 'Professional Plan', roi: '1.5% Daily', range: '2,000 - 4,999 USDT', features: ['1.5% Daily ROI', '150 Days Duration', '225% Total Returns', '4-Level Referral'], featured: true},
-                {id: 3, name: 'Premium Plan', roi: '1.8% Daily', range: '5,000 - 9,999 USDT', features: ['1.8% Daily ROI', '150 Days Duration', '270% Total Returns', '4-Level Referral'], featured: false},
-                {id: 4, name: 'VIP Plan', roi: '2% Daily', range: '10,000+ USDT', features: ['2% Daily ROI', '150 Days Duration', '300% Total Returns', '4-Level Referral'], featured: false}
+                {id: 0, name: 'Starter', roi: '1%', range: '20 - 499 USDT', features: ['1% Daily ROI', '150 Days Duration'], featured: false},
+                {id: 1, name: 'Advanced', roi: '1.2%', range: '500 - 1,999 USDT', features: ['1.2% Daily ROI', '150 Days Duration'], featured: false},
+                {id: 2, name: 'Professional', roi: '1.5%', range: '2,000 - 4,999 USDT', features: ['1.5% Daily ROI', '150 Days Duration'], featured: true},
+                {id: 3, name: 'Premium', roi: '1.8%', range: '5,000 - 9,999 USDT', features: ['1.8% Daily ROI', '150 Days Duration'], featured: false},
+                {id: 4, name: 'VIP', roi: '2%', range: '10,000+ USDT', features: ['2% Daily ROI', '150 Days Duration'], featured: false}
             ];
-            plansContainer.innerHTML = plans.map(plan => `
-                <div class="plan-card tilt-card ${plan.featured ? 'featured' : ''}" data-plan-id="${plan.id}">
-                    ${plan.featured ? '<div class="plan-badge">Popular</div>' : ''}
-                    <div class="plan-name">${plan.name}</div>
-                    <div class="plan-roi">${plan.roi}</div>
-                    <div class="plan-range">${plan.range}</div>
-                    <ul class="plan-features">${plan.features.map(f => `<li><i class="fas fa-check"></i> ${f}</li>`).join('')}</ul>
+            container.innerHTML = plans.map(p => `
+                <div class="plan-card tilt-card ${p.featured ? 'featured' : ''}" data-plan-id="${p.id}">
+                    ${p.featured ? '<div class="plan-badge">RECOMMENDED</div>' : ''}
+                    <div class="plan-name">${p.name} Plan</div>
+                    <div class="plan-roi">${p.roi} Daily</div>
+                    <div class="plan-range">${p.range}</div>
+                    <ul class="plan-features">${p.features.map(f => `<li><i class="fas fa-check"></i> ${f}</li>`).join('')}</ul>
                     <button class="btn btn--primary" style="margin-top: auto;"><i class="fas fa-arrow-right"></i> Select Plan</button>
-                </div>
-            `).join('');
+                </div>`).join('');
             
-            document.querySelectorAll('.plan-card').forEach(card => {
-                card.addEventListener('click', (e) => selectPlan(parseInt(e.currentTarget.getAttribute('data-plan-id'))));
-            });
-
-            // Re-initialize tilt effect for newly created cards
-            initializeTiltEffect(document.querySelectorAll('.plan-card.tilt-card'));
+            container.querySelectorAll('.plan-card').forEach(c => c.addEventListener('click', (e) => selectPlan(parseInt(e.currentTarget.dataset.planId))));
+            initializeTiltEffect(container.querySelectorAll('.tilt-card'));
         }
         
         function selectPlan(planId) {
-             // (Same as previous version)
+            if (!userAccount) return showNotification('Please connect your wallet first!', 'error');
+            const plansData = [{id:0,min:20,max:499},{id:1,min:500,max:1999},{id:2,min:2000,max:4999},{id:3,min:5000,max:9999},{id:4,min:10000,max:Infinity}];
+            selectedPlan = plansData.find(p => p.id === planId);
+            if (selectedPlan) showInvestmentForm();
         }
+        
         function showInvestmentForm() {
-             // (Same as previous version)
-        }
-        function showPlans() {
-             // (Same as previous version)
-        }
-        function updateInvestmentSummary() {
-             // (Same as previous version)
-        }
-        async function confirmInvestment() {
-             // (Same as previous version)
-        }
-        async function withdrawEarnings() {
-             // (Same as previous version)
-        }
-        function copyReferralLink() {
-             // (Same as previous version)
-        }
-        function showNotification(message, type = 'info') {
-             // (Same as previous version)
-        }
-        function checkPreloader() {
-             window.addEventListener('load', () => setTimeout(() => preloader.classList.add('fade-out'), 500));
-        }
-        function checkURLForReferral() {
-             // (Same as previous version)
-        }
-        function setupFAQ() {
-             // (Same as previous version)
+            document.getElementById('investmentPlans').style.display = 'none';
+            document.getElementById('investmentForm').style.display = 'block';
+            document.getElementById('amountRange').textContent = `Min: ${selectedPlan.min} USDT, Max: ${selectedPlan.max === Infinity ? 'Unlimited' : selectedPlan.max + ' USDT'}`;
+            document.getElementById('investmentAmount').min = selectedPlan.min;
+            document.getElementById('investmentAmount').max = selectedPlan.max === Infinity ? '' : selectedPlan.max;
         }
 
-        // --- END OF SCRIPT ---
+        function showPlans() {
+            document.getElementById('investmentPlans').style.display = 'grid';
+            document.getElementById('investmentForm').style.display = 'none';
+            selectedPlan = null;
+        }
+        
+        function updateInvestmentSummary() {
+            const amount = parseFloat(document.getElementById('investmentAmount').value) || 0;
+            document.getElementById('summaryAmount').textContent = `${amount.toFixed(2)} USDT`;
+        }
+
+        async function confirmInvestment() {
+            if (!userAccount || !selectedPlan) return showNotification('Please connect wallet and select a plan', 'error');
+            const amount = parseFloat(document.getElementById('investmentAmount').value);
+            if (isNaN(amount) || amount < selectedPlan.min || (selectedPlan.max !== Infinity && amount > selectedPlan.max)) {
+                return showNotification('Invalid investment amount for this plan', 'error');
+            }
+            let refAddr = document.getElementById('referrerAddress').value.trim() || referralAddress || '0x0000000000000000000000000000000000000000';
+            if (!web3.utils.isAddress(refAddr)) return showNotification('Invalid referrer address', 'error');
+            
+            const btn = document.getElementById('confirmInvestment');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            
+            try {
+                const amountWei = web3.utils.toWei(amount.toString(), 'ether');
+                const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
+                if (new BigNumber(allowance).isLessThan(new BigNumber(amountWei))) {
+                    showNotification('Approving USDT...', 'info');
+                    await usdtContract.methods.approve(CONTRACT_ADDRESS, amountWei).send({ from: userAccount });
+                    showNotification('Approval successful. Now confirming deposit...', 'success');
+                }
+                await contract.methods.deposit(amountWei, selectedPlan.id, refAddr).send({ from: userAccount });
+                showNotification('Investment successful!', 'success');
+                document.getElementById('investmentSuccessPopup').classList.add('active');
+                await loadUserData();
+            } catch (error) {
+                showNotification(error.message.includes("rejected") ? 'Transaction rejected' : 'Investment failed', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Confirm Investment';
+            }
+        }
+
+        async function withdrawEarnings() {
+            if (!userAccount) return showNotification('Please connect wallet', 'error');
+            const btn = document.getElementById('withdrawEarnings');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Withdrawing...';
+            try {
+                await contract.methods.withdraw().send({ from: userAccount });
+                showNotification('Withdrawal successful!', 'success');
+                await loadUserData();
+            } catch (error) {
+                showNotification(error.message.includes("rejected") ? 'Transaction rejected' : 'Withdrawal failed', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-download"></i> Withdraw Earnings';
+            }
+        }
+        
+        function copyReferralLink() {
+            const linkInput = document.getElementById('referralLink');
+            navigator.clipboard.writeText(linkInput.value).then(() => showNotification('Referral link copied!', 'success'));
+        }
+
+        function showNotification(message, type = 'info') {
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            setTimeout(() => notification.classList.remove('show'), 5000);
+        }
+
+        function checkPreloader() {
+            window.addEventListener('load', () => setTimeout(() => preloader.classList.add('fade-out'), 500));
+        }
+
+        function checkURLForReferral() {
+            const ref = new URLSearchParams(window.location.search).get('ref');
+            if (ref && web3.utils.isAddress(ref)) {
+                referralAddress = ref;
+                document.getElementById('referrerAddress').value = ref;
+                showNotification('Referral address detected!', 'success');
+            }
+        }
     </script>
+
 </body>
 </html>
