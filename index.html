@@ -3445,12 +3445,37 @@
         }
 
         // ===================================================================
-        // PERBAIKAN: Fungsi ini sekarang mengambil semua data global
+        // PERBAIKAN: Fungsi ini mengambil data historis dengan memecahnya 
+        // menjadi beberapa bagian (chunks) untuk menghindari error RPC.
         // ===================================================================
         async function loadContractData() {
             if (!contract) return;
+
+            // Helper function to fetch events in chunks to avoid RPC limits
+            async function getEventsInChunks(eventName, fromBlock) {
+                try {
+                    const latestBlock = await web3.eth.getBlockNumber();
+                    const chunkSize = 5000; // A common safe limit for public RPCs
+                    let allEvents = [];
+
+                    for (let i = fromBlock; i <= latestBlock; i += chunkSize) {
+                        const toBlock = Math.min(i + chunkSize - 1, Number(latestBlock));
+                        const events = await contract.getPastEvents(eventName, { fromBlock: i, toBlock: toBlock });
+                        allEvents = allEvents.concat(events);
+                    }
+                    return allEvents;
+                } catch (e) {
+                    console.error(`Could not fetch ${eventName} events:`, e.message);
+                    return null; // Return null on failure
+                }
+            }
+
             try {
-                // 1. Get Total Value Locked (TVL)
+                // The block number where the contract was deployed.
+                // This is a crucial optimization.
+                const DEPLOYMENT_BLOCK = 32865660; 
+
+                // 1. Get TVL (this is a simple call and should be fast)
                 const balance = await contract.methods.getContractBalance().call();
                 const formattedBalance = parseFloat(web3.utils.fromWei(balance, 'ether')).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
@@ -3459,41 +3484,50 @@
                 document.getElementById('contractBalance').textContent = `${formattedBalance} USDT`;
                 document.getElementById('totalTVL').textContent = `$${formattedBalance}`;
 
-                // 2. Get Total Investors by counting unique depositors from events
-                const depositEvents = await contract.getPastEvents('Deposit', {
-                    fromBlock: 0,
-                    toBlock: 'latest'
-                });
-                const investors = new Set(depositEvents.map(event => event.returnValues.user));
-                document.getElementById('totalUsers').textContent = investors.size;
+                // Set placeholders while loading historical data
+                document.getElementById('totalUsers').textContent = 'Loading...';
+                document.getElementById('totalPaid').textContent = '$Loading...';
 
-                // 3. Get Total Paid Out by summing all withdrawal events
-                const withdrawEvents = await contract.getPastEvents('Withdraw', {
-                    fromBlock: 0,
-                    toBlock: 'latest'
-                });
+                // 2. Fetch events in parallel using the chunking helper
+                const [depositEvents, withdrawEvents] = await Promise.all([
+                    getEventsInChunks('Deposit', DEPLOYMENT_BLOCK),
+                    getEventsInChunks('Withdraw', DEPLOYMENT_BLOCK)
+                ]);
 
-                let totalPaidOut = new BigNumber(0);
-                withdrawEvents.forEach(event => {
-                    totalPaidOut = totalPaidOut.plus(new BigNumber(event.returnValues.amount));
-                });
+                // 3. Process Total Investors
+                if (depositEvents) {
+                    const investors = new Set(depositEvents.map(event => event.returnValues.user));
+                    document.getElementById('totalUsers').textContent = investors.size;
+                } else {
+                    document.getElementById('totalUsers').textContent = 'N/A';
+                }
 
-                const formattedPaidOut = parseFloat(web3.utils.fromWei(totalPaidOut.toFixed(), 'ether')).toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                document.getElementById('totalPaid').textContent = `$${formattedPaidOut}`;
+                // 4. Process Total Paid Out
+                if (withdrawEvents) {
+                    let totalPaidOut = new BigNumber(0);
+                    withdrawEvents.forEach(event => {
+                        totalPaidOut = totalPaidOut.plus(new BigNumber(event.returnValues.amount));
+                    });
+                    const formattedPaidOut = parseFloat(web3.utils.fromWei(totalPaidOut.toFixed(), 'ether')).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                    document.getElementById('totalPaid').textContent = `$${formattedPaidOut}`;
+                } else {
+                    document.getElementById('totalPaid').textContent = '$N/A';
+                }
 
                 // If user is connected, load their specific data
                 if (userAccount) await loadUserData();
 
             } catch (error) {
                 console.error('Error loading global contract data:', error);
-                // Fallback in case of RPC error
+                // Fallback in case of RPC error during initial calls
                 document.getElementById('totalUsers').textContent = 'N/A';
                 document.getElementById('totalPaid').textContent = '$N/A';
             }
         }
+
 
         async function loadUserData() {
             if (!contract || !userAccount) return;
