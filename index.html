@@ -3206,19 +3206,13 @@
     <script>
         // Contract Configuration - REAL CONTRACT
         const CONTRACT_ADDRESS = '0xAD81F7819465e3e4201C587c20C4b8E1Bb9920eb';
-        
-        // USDT Token Address on BSC
         const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
         
-        // USDT ABI
-        const USDT_ABI = [
-            {"constant": false, "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "approve", "outputs": [{"name": "", "type": "bool"}], "type": "function"},
-            {"constant": true, "inputs": [{"name": "_owner", "type": "address"}], "name": "balanceOf", "outputs": [{"name": "balance", "type": "uint256"}], "type": "function"},
-            {"constant": true, "inputs": [{"name": "_owner", "type": "address"}, {"name": "_spender", "type": "address"}], "name": "allowance", "outputs": [{"name": "", "type": "uint256"}], "type": "function"},
-            {"constant": true, "inputs": [], "name": "decimals", "outputs": [{"name": "", "type": "uint8"}], "type": "function"}
-        ];
+        // Stable Public RPC Node for initial loading
+        const READ_ONLY_RPC = 'https://bsc-dataseed1.binance.org/';
 
-        // Main Contract ABI
+        // ABIs remain the same...
+        const USDT_ABI = [{"constant": false, "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "approve", "outputs": [{"name": "", "type": "bool"}], "type": "function"}, {"constant": true, "inputs": [{"name": "_owner", "type": "address"}], "name": "balanceOf", "outputs": [{"name": "balance", "type": "uint256"}], "type": "function"}, {"constant": true, "inputs": [{"name": "_owner", "type": "address"}, {"name": "_spender", "type": "address"}], "name": "allowance", "outputs": [{"name": "", "type": "uint256"}], "type": "function"}, {"constant": true, "inputs": [], "name": "decimals", "outputs": [{"name": "", "type": "uint8"}], "type": "function"}];
         const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdtToken","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"planId","type":"uint256"},{"indexed":false,"internalType":"address","name":"upline","type":"address"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"uint256","name":"totalBalance","type":"uint256"}],"name":"PoolWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referral","type":"address"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ReferralBonus","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"referral","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"address","name":"owner","type":"address"}],"name":"ReferralBonusExpired","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"fee","type":"uint256"}],"name":"Withdraw","type":"event"},{"inputs":[],"name":"DAILY_WITHDRAWAL_LIMIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_ACTIVE_INVESTMENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_WITHDRAWAL","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"OWNER_FEE_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"WITHDRAWAL_FEE_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"calculateAvailableEarnings","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"dailyWithdrawals","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"uint256","name":"_planId","type":"uint256"},{"internalType":"address","name":"_upline","type":"address"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getActiveInvestmentStatus","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractStats","outputs":[{"internalType":"uint256","name":"totalExpiredBonuses","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawalFeesCollected","type":"uint256"},{"internalType":"uint256","name":"totalReferralBonusesPaid","type":"uint256"},{"internalType":"uint256","name":"currentContractBalance","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getPlansCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"uint256","name":"totalDeposits","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"directReferrals","type":"uint256"},{"internalType":"uint256","name":"referralBonus","type":"uint256"},{"internalType":"uint256","name":"availableEarnings","type":"uint256"},{"internalType":"address","name":"upline","type":"address"},{"internalType":"bool","name":"hasActiveInvestment","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserInvestments","outputs":[{"components":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"planId","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"lastWithdrawalTime","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"internalType":"struct Aurion.UserInvestment[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"investmentPlans","outputs":[{"internalType":"uint256","name":"minAmount","type":"uint256"},{"internalType":"uint256","name":"maxAmount","type":"uint256"},{"internalType":"uint256","name":"dailyROI","type":"uint256"},{"internalType":"uint256","name":"duration","type":"uint256"},{"internalType":"uint256","name":"totalROI","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"referralLevels","outputs":[{"internalType":"uint256","name":"percentage","type":"uint256"},{"internalType":"uint256","name":"minDirectReferrals","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalExpiredReferralBonuses","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalReferralBonuses","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawalFees","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"upline","type":"address"},{"internalType":"uint256","name":"totalDeposits","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"directReferrals","type":"uint256"},{"internalType":"uint256","name":"referralBonus","type":"uint256"},{"internalType":"uint256","name":"lastWithdrawal","type":"uint256"},{"internalType":"bool","name":"exists","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawExpiredBonuses","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 
         // Global Variables
@@ -3262,15 +3256,11 @@
         // Setup FAQ functionality
         function setupFAQ() {
             const faqItems = document.querySelectorAll('.faq-item');
-            
             faqItems.forEach(item => {
                 const question = item.querySelector('.faq-question');
-                
                 question.addEventListener('click', () => {
                     faqItems.forEach(otherItem => {
-                        if (otherItem !== item) {
-                            otherItem.classList.remove('active');
-                        }
+                        if (otherItem !== item) otherItem.classList.remove('active');
                     });
                     item.classList.toggle('active');
                 });
@@ -3281,7 +3271,6 @@
         function checkURLForReferral() {
             const urlParams = new URLSearchParams(window.location.search);
             const refAddress = urlParams.get('ref');
-            
             if (refAddress) {
                 referralAddress = refAddress;
                 document.getElementById('referrerAddress').value = refAddress;
@@ -3289,31 +3278,142 @@
             }
         }
 
-        // Initialize Web3 and Contract
+        // Initialize Web3 and Contract with Fallback
         async function initializeApp() {
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    web3 = new Web3(window.ethereum);
-                    contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-                    usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-                    console.log('Web3 and contracts initialized successfully');
-                    
-                    // Load global data that doesn't require a wallet connection first
-                    loadContractData();
+            // Always start with a read-only provider for reliability
+            try {
+                web3 = new Web3(new Web3.providers.HttpProvider(READ_ONLY_RPC));
+                contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                console.log('Read-only Web3 initialized successfully');
+                loadContractData(); // Load initial data immediately
+            } catch (error) {
+                console.error('Error initializing read-only Web3:', error);
+            }
 
-                    const accounts = await web3.eth.getAccounts();
-                    if (accounts.length > 0) {
-                        userAccount = accounts[0];
-                        updateWalletUI();
-                        // Load user-specific data now that we have the account
-                        loadUserData(); 
+            // If MetaMask is present, we'll switch to it when user connects
+            if (typeof window.ethereum !== 'undefined') {
+                 const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                 if (accounts.length > 0) {
+                     // Auto-connect if already authorized
+                     connectWallet();
+                 }
+            }
+        }
+
+        // ===================================================================
+        // CORE FIX: ROBUST DATA LOADING WITH AGGRESSIVE CHUNKING
+        // ===================================================================
+        async function loadContractData() {
+            if (!contract) return;
+
+            const DEPLOYMENT_BLOCK = 32865660; // Contract creation block
+
+            try {
+                // 1. Get TVL (Fast call)
+                const balance = await contract.methods.getContractBalance().call();
+                const formattedBalance = parseFloat(web3.utils.fromWei(balance, 'ether')).toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                document.getElementById('contractBalance').textContent = `${formattedBalance} USDT`;
+                document.getElementById('totalTVL').textContent = `$${formattedBalance}`;
+
+                // Set loading state
+                document.getElementById('totalUsers').textContent = 'Calculating...';
+                document.getElementById('totalPaid').textContent = '$Calculating...';
+
+                // 2. Robust Chunking for Events
+                const latestBlock = await web3.eth.getBlockNumber();
+                const CHUNK_SIZE = 3000; // Very safe chunk size for public nodes
+                
+                let allInvestors = new Set();
+                let totalPaidOutWei = new BigNumber(0);
+
+                // Process blocks in chunks
+                for (let i = DEPLOYMENT_BLOCK; i <= latestBlock; i += CHUNK_SIZE) {
+                    const toBlock = Math.min(i + CHUNK_SIZE - 1, Number(latestBlock));
+                    
+                    // Fetch both event types in parallel for speed
+                    try {
+                        const [chunkDeposits, chunkWithdraws] = await Promise.all([
+                            contract.getPastEvents('Deposit', { fromBlock: i, toBlock: toBlock }),
+                            contract.getPastEvents('Withdraw', { fromBlock: i, toBlock: toBlock })
+                        ]);
+
+                        // Process this chunk's data immediately
+                        chunkDeposits.forEach(event => allInvestors.add(event.returnValues.user));
+                        chunkWithdraws.forEach(event => {
+                            totalPaidOutWei = totalPaidOutWei.plus(new BigNumber(event.returnValues.amount));
+                        });
+
+                    } catch (chunkError) {
+                        console.warn(`Failed to fetch chunk ${i}-${toBlock}, retrying once...`);
+                        // Simple one-time retry logic for a failed chunk
+                        try {
+                             const [chunkDeposits, chunkWithdraws] = await Promise.all([
+                                contract.getPastEvents('Deposit', { fromBlock: i, toBlock: toBlock }),
+                                contract.getPastEvents('Withdraw', { fromBlock: i, toBlock: toBlock })
+                            ]);
+                            chunkDeposits.forEach(event => allInvestors.add(event.returnValues.user));
+                            chunkWithdraws.forEach(event => {
+                                totalPaidOutWei = totalPaidOutWei.plus(new BigNumber(event.returnValues.amount));
+                            });
+                        } catch (retryError) {
+                             console.error(`Retry failed for chunk ${i}-${toBlock}. Data might be slightly incomplete.`);
+                        }
                     }
-                } catch (error) {
-                    console.error('Error initializing Web3:', error);
-                    showNotification('Error connecting to blockchain', 'error');
                 }
-            } else {
-                showNotification('Please install MetaMask!', 'error');
+
+                // 3. Finalize and Display Data
+                document.getElementById('totalUsers').textContent = allInvestors.size;
+                
+                const formattedTotalPaidOut = parseFloat(web3.utils.fromWei(totalPaidOutWei.toFixed(), 'ether')).toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                document.getElementById('totalPaid').textContent = `$${formattedTotalPaidOut}`;
+
+            } catch (error) {
+                console.error('Critical error loading contract data:', error);
+                document.getElementById('totalUsers').textContent = 'Error';
+                document.getElementById('totalPaid').textContent = '$Error';
+            }
+        }
+
+        // Wallet Functions
+        async function connectWallet() {
+            if (typeof window.ethereum === 'undefined') {
+                return showNotification('Please install MetaMask!', 'error');
+            }
+            try {
+                // Switch to MetaMask provider
+                web3 = new Web3(window.ethereum);
+                contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                if (chainId !== '0x38') {
+                     try {
+                        await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{ chainId: '0x38', chainName: 'Binance Smart Chain', nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }, rpcUrls: ['https://bsc-dataseed.binance.org/'], blockExplorerUrls: ['https://bscscan.com/'] }] });
+                        } else { throw switchError; }
+                    }
+                }
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (accounts.length > 0) {
+                    userAccount = accounts[0];
+                    updateWalletUI();
+                    loadUserData();
+                    // Rerunning loadContractData here ensures we have the absolute latest data
+                    // but might be redundant if read-only worked. Optional.
+                    // loadContractData(); 
+                    showNotification('Wallet connected successfully!', 'success');
+                }
+            } catch (error) {
+                console.error('Error connecting wallet:', error);
+                showNotification('Failed to connect wallet', 'error');
             }
         }
 
@@ -3359,7 +3459,7 @@
                 window.ethereum.on('accountsChanged', (accounts) => {
                     userAccount = accounts.length > 0 ? accounts[0] : null;
                     updateWalletUI();
-                    if(userAccount) loadUserData(); // Fetch user data for the new account
+                    if(userAccount) loadUserData();
                     else showWalletAlerts();
                 });
                 window.ethereum.on('chainChanged', () => window.location.reload());
@@ -3384,35 +3484,6 @@
                 if ((sectionName === 'dashboard' || sectionName === 'referral') && userAccount) {
                     loadUserData();
                 }
-            }
-        }
-
-        // Wallet Functions
-        async function connectWallet() {
-            if (typeof window.ethereum === 'undefined') {
-                return showNotification('Please install MetaMask!', 'error');
-            }
-            try {
-                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-                if (chainId !== '0x38') { // BSC Mainnet
-                    try {
-                        await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
-                    } catch (switchError) {
-                        if (switchError.code === 4902) {
-                            await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{ chainId: '0x38', chainName: 'Binance Smart Chain', nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }, rpcUrls: ['https://bsc-dataseed.binance.org/'], blockExplorerUrls: ['https://bscscan.com/'] }] });
-                        } else { throw switchError; }
-                    }
-                }
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                if (accounts.length > 0) {
-                    userAccount = accounts[0];
-                    updateWalletUI();
-                    loadContractData(); // Reload all data
-                    showNotification('Wallet connected successfully!', 'success');
-                }
-            } catch (error) {
-                console.error('Error connecting wallet:', error);
-                showNotification('Failed to connect wallet', 'error');
             }
         }
 
@@ -3444,94 +3515,15 @@
              document.getElementById('referralLinkSection').style.display = 'block';
         }
 
-        // ===================================================================
-        // PERBAIKAN: Fungsi ini mengambil data historis dengan memecahnya 
-        // menjadi beberapa bagian (chunks) untuk menghindari error RPC.
-        // ===================================================================
-        async function loadContractData() {
-            if (!contract) return;
-
-            // Helper function to fetch events in chunks to avoid RPC limits
-            async function getEventsInChunks(eventName, fromBlock) {
-                try {
-                    const latestBlock = await web3.eth.getBlockNumber();
-                    const chunkSize = 5000; // A common safe limit for public RPCs
-                    let allEvents = [];
-
-                    for (let i = fromBlock; i <= latestBlock; i += chunkSize) {
-                        const toBlock = Math.min(i + chunkSize - 1, Number(latestBlock));
-                        const events = await contract.getPastEvents(eventName, { fromBlock: i, toBlock: toBlock });
-                        allEvents = allEvents.concat(events);
-                    }
-                    return allEvents;
-                } catch (e) {
-                    console.error(`Could not fetch ${eventName} events:`, e.message);
-                    return null; // Return null on failure
-                }
-            }
-
-            try {
-                // The block number where the contract was deployed.
-                // This is a crucial optimization.
-                const DEPLOYMENT_BLOCK = 32865660; 
-
-                // 1. Get TVL (this is a simple call and should be fast)
-                const balance = await contract.methods.getContractBalance().call();
-                const formattedBalance = parseFloat(web3.utils.fromWei(balance, 'ether')).toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                document.getElementById('contractBalance').textContent = `${formattedBalance} USDT`;
-                document.getElementById('totalTVL').textContent = `$${formattedBalance}`;
-
-                // Set placeholders while loading historical data
-                document.getElementById('totalUsers').textContent = 'Loading...';
-                document.getElementById('totalPaid').textContent = '$Loading...';
-
-                // 2. Fetch events in parallel using the chunking helper
-                const [depositEvents, withdrawEvents] = await Promise.all([
-                    getEventsInChunks('Deposit', DEPLOYMENT_BLOCK),
-                    getEventsInChunks('Withdraw', DEPLOYMENT_BLOCK)
-                ]);
-
-                // 3. Process Total Investors
-                if (depositEvents) {
-                    const investors = new Set(depositEvents.map(event => event.returnValues.user));
-                    document.getElementById('totalUsers').textContent = investors.size;
-                } else {
-                    document.getElementById('totalUsers').textContent = 'N/A';
-                }
-
-                // 4. Process Total Paid Out
-                if (withdrawEvents) {
-                    let totalPaidOut = new BigNumber(0);
-                    withdrawEvents.forEach(event => {
-                        totalPaidOut = totalPaidOut.plus(new BigNumber(event.returnValues.amount));
-                    });
-                    const formattedPaidOut = parseFloat(web3.utils.fromWei(totalPaidOut.toFixed(), 'ether')).toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                    document.getElementById('totalPaid').textContent = `$${formattedPaidOut}`;
-                } else {
-                    document.getElementById('totalPaid').textContent = '$N/A';
-                }
-
-                // If user is connected, load their specific data
-                if (userAccount) await loadUserData();
-
-            } catch (error) {
-                console.error('Error loading global contract data:', error);
-                // Fallback in case of RPC error during initial calls
-                document.getElementById('totalUsers').textContent = 'N/A';
-                document.getElementById('totalPaid').textContent = '$N/A';
-            }
-        }
-
-
         async function loadUserData() {
             if (!contract || !userAccount) return;
             try {
+                // Ensure we are using the connected wallet provider for user-specific data
+                if (window.ethereum && web3.currentProvider !== window.ethereum) {
+                     web3 = new Web3(window.ethereum);
+                     contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                }
+
                 const userInfo = await contract.methods.getUserInfo(userAccount).call();
                 const availableEarnings = await contract.methods.calculateAvailableEarnings(userAccount).call();
 
