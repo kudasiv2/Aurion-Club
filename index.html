@@ -88,7 +88,9 @@
 
         body {
             font-family: var(--font-primary);
-            background: var(--primary-black);
+            background-color: var(--primary-black);
+            background-image: radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.1), transparent 30%),
+                              radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.08), transparent 30%);
             color: var(--white);
             line-height: 1.6;
             overflow-x: hidden;
@@ -375,6 +377,17 @@
         }
 
         /* Enhanced Hero Section */
+        @keyframes fadeIn-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         .hero {
             padding-top: 120px;
             background: var(--gradient-dark);
@@ -415,6 +428,7 @@
         
         .hero__badge {
             margin-bottom: var(--spacing-lg);
+            animation: fadeIn-up 0.6s ease-out 0.2s backwards;
         }
 
         .badge {
@@ -437,6 +451,7 @@
             letter-spacing: 1px;
             font-weight: 800;
             text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            animation: fadeIn-up 0.6s ease-out 0.4s backwards;
         }
 
         .hero__description {
@@ -445,38 +460,18 @@
             margin-bottom: var(--spacing-2xl);
             max-width: 500px;
             line-height: 1.7;
+            animation: fadeIn-up 0.6s ease-out 0.6s backwards;
         }
 
         .hero__buttons {
             display: flex;
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-3xl);
+            animation: fadeIn-up 0.6s ease-out 0.8s backwards;
         }
 
-        /* PERBAIKAN: Statistik Real-time Dikembalikan */
-        .hero__stats {
-            display: flex;
-            gap: var(--spacing-2xl);
-            text-align: left;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat__value {
-            font-size: var(--font-size-3xl);
-            font-weight: 700;
-            color: var(--primary-gold);
-            margin-bottom: var(--spacing-xs);
-            font-family: var(--font-heading);
-        }
-
-        .stat__label {
-            font-size: var(--font-size-sm);
-            color: var(--gray-400);
-            letter-spacing: 0.5px;
-        }
+        /* PERUBAHAN: Bagian Statistik di Home Dihapus */
+        /* .hero__stats { ... } -> Class dan elemennya sudah dihapus dari HTML */
 
         .hero__image {
             display: flex;
@@ -2209,21 +2204,7 @@
                         </button>
                     </div>
                     
-                    <!-- PERBAIKAN: Statistik Real-time Dikembalikan -->
-                    <div class="hero__stats">
-                        <div class="stat">
-                            <div class="stat__value" id="heroTotalTVL">$0.00</div>
-                            <div class="stat__label">Total Value Locked</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat__value" id="heroTotalInvestors">0</div>
-                            <div class="stat__label">Total Investors</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat__value" id="heroTotalWithdrawn">$0.00</div>
-                            <div class="stat__label">Total Withdrawn</div>
-                        </div>
-                    </div>
+                    <!-- PERUBAHAN: Blok statistik ini telah dihapus sesuai permintaan -->
 
                 </div>
                 <div class="hero__image">
@@ -2238,19 +2219,19 @@
                         <div class="card__content">
                             <div class="stat-item">
                                 <span>Total Value Locked</span>
-                                <span class="value" id="contractBalance">0 USDT</span>
+                                <span class="value" id="contractBalance">Loading...</span>
                             </div>
                             <div class="stat-item">
-                                <span>Daily ROI</span>
-                                <span class="value">1% - 2%</span>
+                                <span>Total Investors</span>
+                                <span class="value" id="totalInvestors">Loading...</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Total Withdrawn</span>
+                                <span class="value" id="totalWithdrawnValue">Loading...</span>
                             </div>
                             <div class="stat-item">
                                 <span>Investment Plans</span>
                                 <span class="value">5 Tiers</span>
-                            </div>
-                            <div class="stat-item">
-                                <span>Referral Levels</span>
-                                <span class="value">4 Levels</span>
                             </div>
                         </div>
                     </div>
@@ -3263,16 +3244,20 @@
             } catch (error) {
                 console.error('Error initializing read-only Web3:', error);
             }
-
+            
+            // PERUBAHAN: Koneksi wallet otomatis
             if (typeof window.ethereum !== 'undefined') {
-                 const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-                 if (accounts.length > 0) {
-                     connectWallet();
+                 try {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts.length > 0) {
+                        await connectWallet();
+                    }
+                 } catch (err) {
+                    console.error("Could not check for connected accounts:", err);
                  }
             }
         }
         
-        /* PERBAIKAN: Fungsi loadContractData dikembalikan untuk mengambil data real-time */
         async function loadContractData() {
             if (!contract) return;
 
@@ -3280,9 +3265,9 @@
 
             try {
                 // Set loading state
-                document.getElementById('heroTotalTVL').textContent = 'Calculating...';
-                document.getElementById('heroTotalInvestors').textContent = 'Calculating...';
-                document.getElementById('heroTotalWithdrawn').textContent = 'Calculating...';
+                document.getElementById('contractBalance').textContent = 'Calculating...';
+                document.getElementById('totalInvestors').textContent = 'Calculating...';
+                document.getElementById('totalWithdrawnValue').textContent = 'Calculating...';
 
                 // 1. Get TVL (Panggilan cepat)
                 const balance = await contract.methods.getContractBalance().call();
@@ -3291,7 +3276,6 @@
                     maximumFractionDigits: 2
                 });
                 document.getElementById('contractBalance').textContent = `${formattedBalance} USDT`;
-                document.getElementById('heroTotalTVL').textContent = `$${formattedBalance}`;
 
                 // 2. Kalkulasi data historis dengan chunking
                 const latestBlock = await web3.eth.getBlockNumber();
@@ -3332,19 +3316,19 @@
                 }
 
                 // 3. Finalisasi dan tampilkan data
-                document.getElementById('heroTotalInvestors').textContent = allInvestors.size;
+                document.getElementById('totalInvestors').textContent = allInvestors.size;
                 
                 const formattedTotalPaidOut = parseFloat(web3.utils.fromWei(totalPaidOutWei.toFixed(), 'ether')).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 });
-                document.getElementById('heroTotalWithdrawn').textContent = `$${formattedTotalPaidOut}`;
+                document.getElementById('totalWithdrawnValue').textContent = `${formattedTotalPaidOut} USDT`;
 
             } catch (error) {
                 console.error('Error loading contract data:', error);
-                document.getElementById('heroTotalTVL').textContent = 'Error';
-                document.getElementById('heroTotalInvestors').textContent = 'Error';
-                document.getElementById('heroTotalWithdrawn').textContent = 'Error';
+                document.getElementById('contractBalance').textContent = 'Error';
+                document.getElementById('totalInvestors').textContent = 'Error';
+                document.getElementById('totalWithdrawnValue').textContent = 'Error';
             }
         }
         
@@ -3479,7 +3463,6 @@
                 const userInfo = await contract.methods.getUserInfo(userAccount).call();
                 const availableEarnings = await contract.methods.calculateAvailableEarnings(userAccount).call();
 
-                // PERBAIKAN: Koreksi unit desimal USDT ke 'ether'
                 const formatUSDT = (weiValue) => parseFloat(web3.utils.fromWei(weiValue, 'ether')).toFixed(2);
                 
                 document.getElementById('totalDeposits').textContent = `${formatUSDT(userInfo.totalDeposits)} USDT`;
