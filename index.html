@@ -470,9 +470,6 @@
             animation: fadeIn-up 0.6s ease-out 0.8s backwards;
         }
 
-        /* PERUBAHAN: Bagian Statistik di Home Dihapus */
-        /* .hero__stats { ... } -> Class dan elemennya sudah dihapus dari HTML */
-
         .hero__image {
             display: flex;
             justify-content: center;
@@ -1925,10 +1922,6 @@
                 justify-content: center;
             }
 
-            .hero__stats {
-                justify-content: center;
-            }
-
             .footer__content {
                 grid-template-columns: 1fr;
                 gap: var(--spacing-2xl);
@@ -2001,11 +1994,6 @@
             }
             .hero__buttons .btn {
                 width: 100%;
-            }
-
-            .hero__stats {
-                flex-direction: column;
-                gap: var(--spacing-lg);
             }
 
             .investment-plans {
@@ -2203,9 +2191,6 @@
                             View Dashboard
                         </button>
                     </div>
-                    
-                    <!-- PERUBAHAN: Blok statistik ini telah dihapus sesuai permintaan -->
-
                 </div>
                 <div class="hero__image">
                     <div class="floating-card">
@@ -2222,16 +2207,16 @@
                                 <span class="value" id="contractBalance">Loading...</span>
                             </div>
                             <div class="stat-item">
-                                <span>Total Investors</span>
-                                <span class="value" id="totalInvestors">Loading...</span>
-                            </div>
-                            <div class="stat-item">
-                                <span>Total Withdrawn</span>
-                                <span class="value" id="totalWithdrawnValue">Loading...</span>
+                                <span>Daily ROI</span>
+                                <span class="value">1% - 2%</span>
                             </div>
                             <div class="stat-item">
                                 <span>Investment Plans</span>
                                 <span class="value">5 Tiers</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Referral Levels</span>
+                                <span class="value">4 Levels</span>
                             </div>
                         </div>
                     </div>
@@ -3240,12 +3225,11 @@
             try {
                 web3 = new Web3(new Web3.providers.HttpProvider(READ_ONLY_RPC));
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-                await loadContractData(); // Load global data on page load
+                await loadContractData();
             } catch (error) {
                 console.error('Error initializing read-only Web3:', error);
             }
             
-            // PERUBAHAN: Koneksi wallet otomatis
             if (typeof window.ethereum !== 'undefined') {
                  try {
                     const accounts = await window.ethereum.request({ method: 'eth_accounts' });
@@ -3258,99 +3242,63 @@
             }
         }
         
+        // PERBAIKAN: Fungsi ini disederhanakan untuk hanya memuat TVL
         async function loadContractData() {
             if (!contract) return;
-
-            const DEPLOYMENT_BLOCK = 32865660; // Ganti dengan block deployment kontrak Anda
-
             try {
-                // Set loading state
                 document.getElementById('contractBalance').textContent = 'Calculating...';
-                document.getElementById('totalInvestors').textContent = 'Calculating...';
-                document.getElementById('totalWithdrawnValue').textContent = 'Calculating...';
-
-                // 1. Get TVL (Panggilan cepat)
                 const balance = await contract.methods.getContractBalance().call();
                 const formattedBalance = parseFloat(web3.utils.fromWei(balance, 'ether')).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 });
                 document.getElementById('contractBalance').textContent = `${formattedBalance} USDT`;
-
-                // 2. Kalkulasi data historis dengan chunking
-                const latestBlock = await web3.eth.getBlockNumber();
-                const CHUNK_SIZE = 5000;
-                
-                let allInvestors = new Set();
-                let totalPaidOutWei = new BigNumber(0);
-
-                for (let i = DEPLOYMENT_BLOCK; i <= latestBlock; i += CHUNK_SIZE) {
-                    const toBlock = Math.min(i + CHUNK_SIZE - 1, Number(latestBlock));
-                    try {
-                        const [chunkDeposits, chunkWithdraws] = await Promise.all([
-                            contract.getPastEvents('Deposit', { fromBlock: i, toBlock: toBlock }),
-                            contract.getPastEvents('Withdraw', { fromBlock: i, toBlock: toBlock })
-                        ]);
-
-                        chunkDeposits.forEach(event => allInvestors.add(event.returnValues.user));
-                        chunkWithdraws.forEach(event => {
-                            totalPaidOutWei = totalPaidOutWei.plus(new BigNumber(event.returnValues.amount));
-                        });
-
-                    } catch (chunkError) {
-                        console.warn(`Failed to fetch chunk ${i}-${toBlock}, will retry once.`);
-                        // Coba lagi sekali untuk chunk yang gagal
-                        try {
-                             const [chunkDeposits, chunkWithdraws] = await Promise.all([
-                                contract.getPastEvents('Deposit', { fromBlock: i, toBlock: toBlock }),
-                                contract.getPastEvents('Withdraw', { fromBlock: i, toBlock: toBlock })
-                            ]);
-                            chunkDeposits.forEach(event => allInvestors.add(event.returnValues.user));
-                            chunkWithdraws.forEach(event => {
-                                totalPaidOutWei = totalPaidOutWei.plus(new BigNumber(event.returnValues.amount));
-                            });
-                        } catch (retryError) {
-                             console.error(`Retry failed for chunk ${i}-${toBlock}. Data might be incomplete.`);
-                        }
-                    }
-                }
-
-                // 3. Finalisasi dan tampilkan data
-                document.getElementById('totalInvestors').textContent = allInvestors.size;
-                
-                const formattedTotalPaidOut = parseFloat(web3.utils.fromWei(totalPaidOutWei.toFixed(), 'ether')).toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                document.getElementById('totalWithdrawnValue').textContent = `${formattedTotalPaidOut} USDT`;
-
             } catch (error) {
                 console.error('Error loading contract data:', error);
                 document.getElementById('contractBalance').textContent = 'Error';
-                document.getElementById('totalInvestors').textContent = 'Error';
-                document.getElementById('totalWithdrawnValue').textContent = 'Error';
             }
         }
         
+        // PERBAIKAN: Logika koneksi wallet yang lebih robust
         async function connectWallet() {
+            // Cek provider yang di-inject oleh wallet (standar untuk MetaMask, Trust Wallet, dll.)
             if (typeof window.ethereum === 'undefined') {
-                return showNotification('Please install MetaMask!', 'error');
+                return showNotification('Wallet not found. Please use a dApp browser (e.g., in Trust Wallet or MetaMask app).', 'error');
             }
             try {
+                // Gunakan provider dari wallet
                 web3 = new Web3(window.ethereum);
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
 
+                // Minta izin untuk terhubung dan dapatkan chain ID
                 const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                
+                // Jika bukan di Binance Smart Chain (0x38), minta untuk switch chain
                 if (chainId !== '0x38') {
                      try {
-                        await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
+                        await window.ethereum.request({ 
+                            method: 'wallet_switchEthereumChain', 
+                            params: [{ chainId: '0x38' }] 
+                        });
                     } catch (switchError) {
+                        // Jika chain belum ditambahkan di wallet, coba tambahkan
                         if (switchError.code === 4902) {
-                            await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{ chainId: '0x38', chainName: 'Binance Smart Chain', nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }, rpcUrls: ['https://bsc-dataseed.binance.org/'], blockExplorerUrls: ['https://bscscan.com/'] }] });
+                            await window.ethereum.request({ 
+                                method: 'wallet_addEthereumChain', 
+                                params: [{ 
+                                    chainId: '0x38', 
+                                    chainName: 'Binance Smart Chain', 
+                                    nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }, 
+                                    rpcUrls: ['https://bsc-dataseed.binance.org/'], 
+                                    blockExplorerUrls: ['https://bscscan.com/'] 
+                                }] 
+                            });
                         } else { throw switchError; }
                     }
                 }
+                
+                // Minta akses ke akun pengguna
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 if (accounts.length > 0) {
                     userAccount = accounts[0];
@@ -3360,7 +3308,7 @@
                 }
             } catch (error) {
                 console.error('Error connecting wallet:', error);
-                showNotification('Failed to connect wallet', 'error');
+                showNotification(error.message.includes("rejected") ? 'Connection rejected by user' : 'Failed to connect wallet', 'error');
             }
         }
 
