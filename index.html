@@ -32,8 +32,6 @@
             --gradient-dark: linear-gradient(135deg, var(--primary-black) 0%, var(--secondary-black) 100%);
             --gradient-card: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
             --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            
-            /* PERBAIKAN: Efek kaca yang lebih mewah dan profesional */
             --gradient-elegant: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
 
             --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -162,9 +160,9 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(10, 10, 10, 0.85); /* Sedikit lebih transparan */
+            background: rgba(10, 10, 10, 0.85);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2); /* Border lebih terlihat */
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             z-index: 1000;
             transition: all var(--transition-normal);
             box-shadow: var(--shadow-md);
@@ -174,7 +172,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 80px; /* Tinggi header yang konsisten */
+            height: 80px;
             transition: all var(--transition-normal);
         }
 
@@ -224,7 +222,7 @@
             transition: all var(--transition-fast);
             position: relative;
             cursor: pointer;
-            font-size: var(--font-size-base); /* Ukuran font lebih besar */
+            font-size: var(--font-size-base);
             letter-spacing: 0.5px;
             padding: var(--spacing-sm) 0;
         }
@@ -438,7 +436,6 @@
             line-height: 1.1;
             letter-spacing: 1px;
             font-weight: 800;
-            /* PERBAIKAN: Efek bayangan untuk kesan mewah */
             text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
         }
 
@@ -456,6 +453,7 @@
             margin-bottom: var(--spacing-3xl);
         }
 
+        /* PERBAIKAN: Statistik Real-time Dikembalikan */
         .hero__stats {
             display: flex;
             gap: var(--spacing-2xl);
@@ -1947,17 +1945,16 @@
         }
 
         @media (max-width: 768px) {
-            /* === PERBAIKAN: Header Diperbesar untuk Mobile === */
             .nav {
-                height: 72px; /* Tinggi header diperbesar */
+                height: 72px;
             }
 
             .nav__menu {
                 position: fixed;
-                top: 72px; /* Disesuaikan dengan tinggi header baru */
+                top: 72px;
                 left: -100%;
                 width: 80%;
-                height: calc(100vh - 72px); /* Disesuaikan dengan tinggi header baru */
+                height: calc(100vh - 72px);
                 background: var(--secondary-black);
                 flex-direction: column;
                 justify-content: flex-start;
@@ -1985,20 +1982,18 @@
 
             .nav__toggle {
                 display: block;
-                font-size: var(--font-size-2xl); /* Ikon menu diperbesar */
+                font-size: var(--font-size-2xl);
             }
 
             .logo {
-                width: 35px; /* Logo diperbesar */
+                width: 35px;
                 height: 35px;
             }
             
             .logo__text {
-                font-size: var(--font-size-lg); /* Teks logo diperbesar */
+                font-size: var(--font-size-lg);
             }
             
-            /* === Akhir Perbaikan Header === */
-
             .hero__title {
                 font-size: var(--font-size-4xl);
             }
@@ -2213,6 +2208,23 @@
                             View Dashboard
                         </button>
                     </div>
+                    
+                    <!-- PERBAIKAN: Statistik Real-time Dikembalikan -->
+                    <div class="hero__stats">
+                        <div class="stat">
+                            <div class="stat__value" id="heroTotalTVL">$0.00</div>
+                            <div class="stat__label">Total Value Locked</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat__value" id="heroTotalInvestors">0</div>
+                            <div class="stat__label">Total Investors</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat__value" id="heroTotalWithdrawn">$0.00</div>
+                            <div class="stat__label">Total Withdrawn</div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="hero__image">
                     <div class="floating-card">
@@ -3247,7 +3259,7 @@
             try {
                 web3 = new Web3(new Web3.providers.HttpProvider(READ_ONLY_RPC));
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-                await loadContractData();
+                await loadContractData(); // Load global data on page load
             } catch (error) {
                 console.error('Error initializing read-only Web3:', error);
             }
@@ -3260,17 +3272,79 @@
             }
         }
         
+        /* PERBAIKAN: Fungsi loadContractData dikembalikan untuk mengambil data real-time */
         async function loadContractData() {
             if (!contract) return;
+
+            const DEPLOYMENT_BLOCK = 32865660; // Ganti dengan block deployment kontrak Anda
+
             try {
+                // Set loading state
+                document.getElementById('heroTotalTVL').textContent = 'Calculating...';
+                document.getElementById('heroTotalInvestors').textContent = 'Calculating...';
+                document.getElementById('heroTotalWithdrawn').textContent = 'Calculating...';
+
+                // 1. Get TVL (Panggilan cepat)
                 const balance = await contract.methods.getContractBalance().call();
-                const formattedBalance = parseFloat(web3.utils.fromWei(balance, 'mwei')).toLocaleString('en-US', {
+                const formattedBalance = parseFloat(web3.utils.fromWei(balance, 'ether')).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 });
                 document.getElementById('contractBalance').textContent = `${formattedBalance} USDT`;
+                document.getElementById('heroTotalTVL').textContent = `$${formattedBalance}`;
+
+                // 2. Kalkulasi data historis dengan chunking
+                const latestBlock = await web3.eth.getBlockNumber();
+                const CHUNK_SIZE = 5000;
+                
+                let allInvestors = new Set();
+                let totalPaidOutWei = new BigNumber(0);
+
+                for (let i = DEPLOYMENT_BLOCK; i <= latestBlock; i += CHUNK_SIZE) {
+                    const toBlock = Math.min(i + CHUNK_SIZE - 1, Number(latestBlock));
+                    try {
+                        const [chunkDeposits, chunkWithdraws] = await Promise.all([
+                            contract.getPastEvents('Deposit', { fromBlock: i, toBlock: toBlock }),
+                            contract.getPastEvents('Withdraw', { fromBlock: i, toBlock: toBlock })
+                        ]);
+
+                        chunkDeposits.forEach(event => allInvestors.add(event.returnValues.user));
+                        chunkWithdraws.forEach(event => {
+                            totalPaidOutWei = totalPaidOutWei.plus(new BigNumber(event.returnValues.amount));
+                        });
+
+                    } catch (chunkError) {
+                        console.warn(`Failed to fetch chunk ${i}-${toBlock}, will retry once.`);
+                        // Coba lagi sekali untuk chunk yang gagal
+                        try {
+                             const [chunkDeposits, chunkWithdraws] = await Promise.all([
+                                contract.getPastEvents('Deposit', { fromBlock: i, toBlock: toBlock }),
+                                contract.getPastEvents('Withdraw', { fromBlock: i, toBlock: toBlock })
+                            ]);
+                            chunkDeposits.forEach(event => allInvestors.add(event.returnValues.user));
+                            chunkWithdraws.forEach(event => {
+                                totalPaidOutWei = totalPaidOutWei.plus(new BigNumber(event.returnValues.amount));
+                            });
+                        } catch (retryError) {
+                             console.error(`Retry failed for chunk ${i}-${toBlock}. Data might be incomplete.`);
+                        }
+                    }
+                }
+
+                // 3. Finalisasi dan tampilkan data
+                document.getElementById('heroTotalInvestors').textContent = allInvestors.size;
+                
+                const formattedTotalPaidOut = parseFloat(web3.utils.fromWei(totalPaidOutWei.toFixed(), 'ether')).toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                document.getElementById('heroTotalWithdrawn').textContent = `$${formattedTotalPaidOut}`;
+
             } catch (error) {
                 console.error('Error loading contract data:', error);
+                document.getElementById('heroTotalTVL').textContent = 'Error';
+                document.getElementById('heroTotalInvestors').textContent = 'Error';
+                document.getElementById('heroTotalWithdrawn').textContent = 'Error';
             }
         }
         
@@ -3405,7 +3479,8 @@
                 const userInfo = await contract.methods.getUserInfo(userAccount).call();
                 const availableEarnings = await contract.methods.calculateAvailableEarnings(userAccount).call();
 
-                const formatUSDT = (weiValue) => parseFloat(web3.utils.fromWei(weiValue, 'mwei')).toFixed(2);
+                // PERBAIKAN: Koreksi unit desimal USDT ke 'ether'
+                const formatUSDT = (weiValue) => parseFloat(web3.utils.fromWei(weiValue, 'ether')).toFixed(2);
                 
                 document.getElementById('totalDeposits').textContent = `${formatUSDT(userInfo.totalDeposits)} USDT`;
                 document.getElementById('availableEarnings').textContent = `${formatUSDT(availableEarnings)} USDT`;
@@ -3510,10 +3585,10 @@
             confirmBtn.disabled = true;
 
             try {
-                const amountWei = web3.utils.toWei(amount.toString(), 'mwei');
+                const amountWei = web3.utils.toWei(amount.toString(), 'ether');
                 const balance = await usdtContract.methods.balanceOf(userAccount).call();
                 if (new BigNumber(balance).isLessThan(new BigNumber(amountWei))) {
-                    throw new Error(`Insufficient USDT. You have ${web3.utils.fromWei(balance, 'mwei')} USDT`);
+                    throw new Error(`Insufficient USDT. You have ${web3.utils.fromWei(balance, 'ether')} USDT`);
                 }
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (new BigNumber(allowance).isLessThan(new BigNumber(amountWei))) {
